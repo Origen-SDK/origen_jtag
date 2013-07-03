@@ -1,0 +1,65 @@
+% render "layouts/basic.html" do
+
+%# HTML tags can be embedded in mark down files if you want to do specific custom
+%# formatting like this, but in most cases that is not required.
+<h1><%= RGen.config.name %> <span style="font-size: 14px">(<%= RGen.app.version %>)</span></h1>
+
+### Purpose
+
+This application provides a JTAG driver.
+
+### How To Import
+
+Add the following to your <code>config/application.rb</code> file to import
+this library:
+
+~~~ruby
+config.imports = [
+  {
+    :vault => "<%= RGen.config.vault %>",
+    :version => "<%= RGen.app.version %>",
+  }
+]
+~~~
+
+### How To Use
+
+Include the <code>JTAG</code> module to add a JTAG driver to your class:
+
+~~~ruby
+class Pioneer
+
+  include JTAG
+
+end
+
+Pioneer.new.jtag  # => An instance of JTAG::Driver
+~~~
+
+See the [<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>) API
+for details about the available driver methods.
+
+### How To Setup a Development Environment
+
+~~~
+mkdir jtag
+cd jtag
+dssc setvault <%= RGen.app.config.vault %> .
+dssc pop -rec -get .
+~~~
+
+An instance of the JTAG driver is hooked up to a dummy DUT
+object for use in the console:
+
+~~~
+rgen i
+
+> $dut.jtag
+=> #<JTAG::Driver:0x0000001ee48e78>
+~~~
+
+Follow the instructions here if you want to make a 3rd party app
+workspace use your development copy of the JTAG library:
+[Setting up a Library Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
+
+% end
