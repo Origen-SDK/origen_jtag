@@ -1,3 +1,13 @@
+## Tag: v0.0.0.dev1
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 09-Jul-2013 05:15AM
+
+
+Removed illegal references to global objects ($soc, $tester, etc.) and added check that
+the parent implements the required pins.
+
 ## Tag: v0.0.0.dev0
 
 ##### Branch: 'Trunk'

@@ -52,7 +52,7 @@ class JTAG_Application < RGen::Application
 
   # Specifiy a specific version of rgen that must be used with this application, rgen
   # will then enforce that every user's rgen version is correct at runtime
-  config.required_rgen_version = "v2.0.1.dev87"
+  config.required_rgen_version = "v2.0.1.dev88"
 
   # An example of how to set application specific LSF parameters
   #config.lsf.project = "msg.te"

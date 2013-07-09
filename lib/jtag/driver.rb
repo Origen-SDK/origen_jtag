@@ -1,9 +1,9 @@
 module JTAG
   # JTAG driver, mainly intended for test mode entry on Pioneer based devices.
   #
-  # To use this driver the $soc model must define the following pins (an alias is fine):
+  # To use this driver the parent model must define the following pins (an alias is fine):
   #   :tclk
-  #   :tmi
+  #   :tdi
   #   :tdo     
   #   :tms     
   #   :trst    # Optional
@@ -29,11 +29,17 @@ module JTAG
   #   Update_IR
   class Driver
 
+    REQUIRED_PINS = [:tclk, :tdi, :tdo, :tms, :trst]
+
     include RGen::Registers
 
     attr_accessor :owner
 
     def initialize(owner)
+
+      @owner = owner
+
+      validate_pins
 
       if defined?(owner.class::JTAG_CONFIG)
         options = owner.class::JTAG_CONFIG
@@ -118,23 +124,23 @@ module JTAG
     
     def jtag_shift(size, tms, tdi, tdo, compare=false)
         size.times do |bit|
-           $soc.pin(:tclk).drive(0)
-           $soc.pin(:tms).drive(tms)
-           $soc.pin(:tdi).drive(tdi[bit])
+           owner.pin(:tclk).drive(0)
+           owner.pin(:tms).drive(tms)
+           owner.pin(:tdi).drive(tdi[bit])
            if(compare)
-              $soc.pin(:tdo).expect(tdo[bit])
+              owner.pin(:tdo).expect(tdo[bit])
            else
-              $soc.pin(:tdo).dont_care
+              owner.pin(:tdo).dont_care
            end
-           $tester.cycle
+           RGen.tester.cycle
         end
-        $soc.pin(:tdo).dont_care
+        owner.pin(:tdo).dont_care
     end
 
     def jtag_nonshift(size, tms)
-        $soc.pin(:tclk).drive(0)
-        $soc.pin(:tms).drive(tms)
-        $tester.cycle
+        owner.pin(:tclk).drive(0)
+        owner.pin(:tms).drive(tms)
+        RGen.tester.cycle
     end
     
         
@@ -290,6 +296,24 @@ module JTAG
         Update_DR()
         Run_Test_Idle()
         cc "jtag_abs_if: shift_IR_DR_bits complete"
+    end
+
+    # Validates that the parent object (the owner) has defined the necessary
+    # pins to implement the JTAG
+    def validate_pins
+      begin
+        # Access each pin, if any errors are raised it means the pin is
+        # not defined
+        REQUIRED_PINS.each do |name|
+          owner.pin(name)
+        end
+      rescue
+        puts "Missing JTAG pins!"
+        puts "In order to use the JTAG driver your #{owner.class} class must define"
+        puts "the following pins (an alias is fine):"
+        puts REQUIRED_PINS
+        raise "JTAG driver error!"
+      end
     end
 
   end

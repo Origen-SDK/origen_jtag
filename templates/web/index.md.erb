@@ -24,12 +24,25 @@ config.imports = [
 
 ### How To Use
 
-Include the <code>JTAG</code> module to add a JTAG driver to your class:
+Include the <code>JTAG</code> module to add a JTAG driver to your class and
+define the required pins.
+
+Normally the pins would be an alias to existing DUT pins and therefore the
+JTAG driver module cannot assume them.
 
 ~~~ruby
 class Pioneer
 
   include JTAG
+  include RGen::Pins
+
+  def initialize
+    add_pin :tclk
+    add_pin :tdi
+    add_pin :tdo
+    add_pin :tms
+    add_pin :trst
+  end
 
 end
 
