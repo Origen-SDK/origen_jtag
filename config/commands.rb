@@ -17,16 +17,55 @@ aliases ={
 # the above alias table and should not be removed.
 @command = aliases[@command] || @command
 
+def path_to_coverage_report
+  require 'pathname'
+  Pathname.new("#{RGen.root}/coverage/index.html").relative_path_from(Pathname.pwd)
+end
+
+def enable_coverage(name, merge=true)
+  if ARGV.delete("-c") || ARGV.delete("--coverage")
+    require 'simplecov'
+    SimpleCov.start do
+      command_name name
+
+      at_exit do
+        SimpleCov.result.format!
+        puts ""
+        puts "To view coverage report:"
+        puts "  firefox #{path_to_coverage_report} &"
+        puts ""
+      end
+    end
+    yield
+  else
+    yield
+  end
+end
+
 # Now branch to the specific task code
 case @command
 
-# Here is an example of how to implement a command, the logic can go straight
-# in here or you can require an external file if preferred.
-when "execute"
-  puts "Executing something..."
-  require "commands/execute"    # Would load file lib/commands/execute.rb
-  # You must always exit upon successfully capturing a command to prevent 
-  # control flowing back to RGen
+when "examples"  
+  RGen.load_application
+  enable_coverage("examples") do 
+
+    # Pattern generator tests
+    ARGV = %w(jtag_workout -t debug -r approved)
+    load "#{RGen.top}/lib/rgen/commands/generate.rb"
+    ARGV = %w(jtag_workout -t v93k -r approved)
+    load "#{RGen.top}/lib/rgen/commands/generate.rb"
+    
+    if RGen.app.stats.changed_files == 0 &&
+       RGen.app.stats.new_files == 0 &&
+       RGen.app.stats.changed_patterns == 0 &&
+       RGen.app.stats.new_patterns == 0
+
+      RGen.app.stats.report_pass
+    else
+      RGen.app.stats.report_fail
+    end
+    puts ""
+  end
   exit 0
 
 # Always leave an else clause to allow control to fall back through to the
@@ -35,8 +74,8 @@ when "execute"
 # rgen -h, you can do this be assigning the required text to @application_commands
 # before handing control back to RGen. Un-comment the example below to get started.
 else
-#  @application_commands = <<-EOT
-# execute      Execute something I guess
-#  EOT
+  @application_commands = <<-EOT
+ examples     Run the examples (tests), -c will enable coverage
+  EOT
 
 end 

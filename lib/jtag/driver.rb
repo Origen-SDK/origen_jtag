@@ -1,301 +1,248 @@
 module JTAG
-  # JTAG driver, mainly intended for test mode entry on Pioneer based devices.
+  # This driver provides methods to read and write from a JTAG instruction
+  # and data registers.
+  #
+  # Low level methods are also provided for fine control of the TAP Controller
+  # state machine via the TAPController module.
   #
   # To use this driver the parent model must define the following pins (an alias is fine):
   #   :tclk
   #   :tdi
   #   :tdo     
   #   :tms     
-  #   :trst    # Optional
-  #
-  # API methods:
-  #   jtag_shift
-  #   jtag_nonshift
-  #   Test_Logic_Reset
-  #   Run_Test_Idle
-  #   Select_DR
-  #   Capture_DR
-  #   Shift_DR_Exit1_DR
-  #   Exit1_DR
-  #   Pause_DR
-  #   Exit2_DR
-  #   Update_DR
-  #   Select_IR
-  #   Capture_IR
-  #   Shift_IR_Exit1_IR
-  #   Exit1_IR
-  #   Pause_IR
-  #   Exit2_IR
-  #   Update_IR
   class Driver
 
-    REQUIRED_PINS = [:tclk, :tdi, :tdo, :tms, :trst]
+    REQUIRED_PINS = [:tclk, :tdi, :tdo, :tms]
 
+    include TAPController
     include RGen::Registers
 
-    attr_accessor :owner
+    # Returns the object that instantiated the JTAG
+    attr_reader :owner
 
-    def initialize(owner)
+    # Set true to print out debug comments about all state transitions
+    attr_accessor :verbose
+    alias :verbose? :verbose
 
+    def initialize(owner, options={})
       @owner = owner
-
       validate_pins
 
+      # The parent can configure JTAG settings by defining this constant
       if defined?(owner.class::JTAG_CONFIG)
-        options = owner.class::JTAG_CONFIG
-      else
-        options = {}
+        options = owner.class::JTAG_CONFIG.merge(options)
       end
 
-      # Some default added by SMcG so this thing can boot without options,
-      # don't know if they make sense...
+      # Fallback defaults
       options = {
-        :ir_len => 4,
-        :tstCtrl_len => 31,
+        :verbose => false,
       }.merge(options)
 
-      if options[:ir_len]
-      
-        #this portion is include for legacy purposes, it should be removed once all pioneer projects
-        #  have been moved to new method since this way is too implementation specific.
-        @ir_len = options[:ir_len] || 5
-        @bnd_len = options[:bnd_len] || 1
-        @tstCtrl_len = options[:tstCtrl_len] || 5
-        @censorCtrl_len = options[:censorCtrl_len] || 64 
-        @dr1_len = options[:dr1_len] || 32
-        @dr2_len = options[:dr2_len] || 32
-        @verbose = options[:verbose] || false
-	
-        add_reg :instrReg,  0xFF, @ir_len, :word => { :pos => 0, :bits => @ir_len }
+      init_tap_controller(options)
 
-        #add_reg :boundReg,  0x00, @bnd_len, :word => { :pos => 0, :bits => @bnd_len }
-        add_reg :dReg0, 0x00, @bnd_len, :word => { :pos => 0, :bits => @bnd_len }
-        #add_reg :identReg,  0x01, 32, :word => { :pos => 0, :bits => 32 }
-        add_reg :dReg1, 0x01, 32, :word => { :pos => 0, :bits => 32 }
-        #add_reg :bypReg,    0x02, 1, :word => { :pos => 0, :bits => 1 }
-        add_reg :dReg2, 0x02, 1, :word => { :pos => 0, :bits => 1 }
-        #add_reg :bistReg,   0x03, 1, :word => { :pos => 0, :bits => 1 }
-        add_reg :dReg3, 0x03, 1, :word => { :pos => 0, :bits => 1 }
-        #add_reg :testReg,   0x04, @tstCtrl_len, :word => { :pos => 0, :bits => @tstCtrl_len }
-        add_reg :dReg4, 0x04, @tstCtrl_len, :word => { :pos => 0, :bits => @tstCtrl_len }
-        #add_reg :censorReg, 0x05, @censorCtrl_len, :word => { :pos => 0, :bits => @censorCtrl_len }
-        add_reg :dReg5, 0x05, @censorCtrl_len, :word => { :pos => 0, :bits => @censorCtrl_len }
-        #add_reg :data1Reg,  0x06, @dr1_len, :word => { :pos => 0, :bits => @dr1_len }
-        add_reg :dReg6, 0x06, @dr1_len, :word => { :pos => 0, :bits => @dr1_len }
-        #add_reg :data2Reg,  0x07, @dr2_len, :word => { :pos => 0, :bits => @dr1_len }
-        add_reg :dReg7, 0x07, @dr2_len, :word => { :pos => 0, :bits => @dr1_len }
-        
-        reg(:instrReg).write(1)
-        reg(:dReg0).reset
-        reg(:dReg1).reset
-        reg(:dReg2).reset
-        reg(:dReg3).reset
-        reg(:dReg4).reset
-        reg(:dReg5).reset
-        reg(:dReg6).reset
-        reg(:dReg7).reset
+      @verbose = options[:verbose]
+    end
 
+    # Shift data into the TDI pin or out of the TDO pin.
+    #
+    # There is no TAP controller state checking or handling here, it just
+    # shifts some data directly into the pattern, so it is assumed that some
+    # higher level logic is co-ordinating the TAP Controller.
+    #
+    # Most applications should not call this method directly and should instead
+    # use the pre-packaged read/write_dr/ir methods.
+    # However it is provided as a public API for the corner cases like generating
+    # an overlay subroutine pattern where it would be necessary to generate some JTAG
+    # vectors outwith the normal state controller wrapper.
+    #
+    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    #   Value to be shifted. If a reg/bit collection is supplied this can be pre-marked for
+    #   read, store or overlay and which will result in the requested action being applied to
+    #   the cycles corresponding to those bits only (don't care cycles will be generated for the others).
+    # @param [Hash] options Options to customize the operation
+    # @option options [Integer] :size The number of bits to shift. This is optional
+    #   when supplying a register or bit collection in which case the size will be derived from
+    #   the number of bits supplied. If this option is supplied then it will override
+    #   the size derived from the bits. If the size is greater than the number of bits
+    #   provided then the additional space will be padded by 0s or don't cares as appropriate.
+    # @option options [Boolean] :read When true the given value will be compared on the TDO pin
+    #   instead of being shifted into the TDI pin. Read is assumed when the supplied value contains
+    #   some bits that have been marked for read.
+    # @option options [Boolean] :cycle_last Normally the last data bit is applied to the
+    #   pins but not cycled, this is to integrate with the TAPController which usually
+    #   requires that the TMS value is also changed on the last data bit. To override this
+    #   default behavior and force a cycle for the last data bit set this to true.
+    def shift(reg_or_val, options={})
+      size = extract_size(reg_or_val, options)
+      contains_bits = contains_bits?(reg_or_val)
+      owner.pin(:tdi).drive(0) # Drive state when reading out
+      size.times do |i|
+        call_subroutine = false
+        if options[:read] || (contains_bits && reg_or_val.is_to_be_read?)
+          # If it's a register support bit-wise reads
+          if contains_bits
+            if reg_or_val[i]
+              if reg_or_val[i].is_to_be_stored?
+                RGen.tester.store_next_cycle(owner.pin(:tdo))
+                owner.pin(:tdo).dont_care if RGen.tester.j750?
+              elsif reg_or_val[i].has_overlay?
+                call_subroutine = reg_or_val[i].overlay_str
+              elsif reg_or_val[i].is_to_be_read?
+                owner.pin(:tdo).assert(reg_or_val[i])
+              else
+                owner.pin(:tdo).dont_care
+              end
+            # If the read width extends beyond the register boundary, don't care
+            # the extra bits  
+            else
+              owner.pin(:tdo).dont_care
+            end
+          # Otherwise read the whole thing
+          else
+            owner.pin(:tdo).assert(reg_or_val[i])
+          end
+        else
+          if contains_bits && reg_or_val[i] && reg_or_val[i].has_overlay?
+            call_subroutine = reg_or_val[i].overlay_str
+          else
+            owner.pin(:tdi).drive(reg_or_val[i])
+          end
+        end
+        if call_subroutine
+          RGen.tester.call_subroutine(call_subroutine)
+        else
+          # Don't latch the last bit, that will be done when
+          # leaving the state.
+          if i != size - 1 || options[:cycle_last]
+            RGen.tester.cycle
+            owner.pin(:tdo).dont_care
+          else
+            @deferred_compare = true
+          end
+        end
+      end
+      # Clear read and similar flags to reflect that the request has just
+      # been fulfilled
+      reg_or_val.clear_flags if reg_or_val.respond_to?(:clear_flags)
+    end
+
+    # Applies the given value to the TMS pin and then
+    # cycles the tester for one TCLK
+    #
+    # @param [Integer] val Value to drive on the TMS pin, 0 or 1
+    def tms!(val)
+      if @deferred_compare
+        @deferred_compare = nil
       else
-      
-        #this initialization is generic and can be configured in at the soc level for
-        # different number of jtag registers with different sizes
-        @verbose = options[:verbose] || false
+        owner.pin(:tdo).dont_care
+      end
+      owner.pin(:tclk).drive(0)  # Do we need to provide a pos/neg clk option?
+      owner.pin(:tms).drive!(val)
+    end
 
-        #instantiate main JTAG Instruction Register
-        ir_width = options[:JTAGIRWIDTH]
-        add_reg :instrReg,  0xFF, ir_width, :word => { :pos => 0, :bits => ir_width}
-        @ir_len = options[:ir_len] || 5
-        reg(:instrReg).write(options[:JTAGIRRESETVAL])
-
-        #instantiate JTAG Data Register for each instruction code (some are just virtual)
-        dReg_width = Array.new(2^ir_width)
-        (2**ir_width).times do |i|
-          dReg_width[i] = options[:"ir#{i}_len".to_sym] || 1
-        end
-
-        (2**ir_width).times do |i|
-          #add_reg :"dReg#{i}".to_sym,  0x00, dReg_width[i], :word => { :pos => 0, :bits => dReg_width[i] }
-          add_reg :"dReg#{i}".to_sym,  0x00, dReg_width[i], :word => { :pos => 0, :bits => dReg_width[i] }
-          reg("dReg#{i}".to_sym).reset
-        end
-	
+    # Write the given value, register or bit collection to the data register.
+    # This is a self contained method that will take care of the TAP controller
+    # state transitions, exiting with the TAP controller in Run-Test/Idle.
+    #
+    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    #   Value to be written. If a reg/bit collection is supplied this can be pre-marked for overlay.
+    # @param [Hash] options Options to customize the operation
+    # @option options [Integer] :size The number of bits to write. This is optional
+    #   when supplying a register or bit collection in which case the size will be derived from
+    #   the number of bits supplied. If this option is supplied then it will override
+    #   the size derived from the bits. If the size is greater than the number of bits
+    #   provided then the additional space will be padded by 0s.
+    def write_dr(reg_or_val, options={})
+      shift_dr do
+        shift(reg_or_val, options)
       end
     end
-    
-    def jtag_shift(size, tms, tdi, tdo, compare=false)
-        size.times do |bit|
-           owner.pin(:tclk).drive(0)
-           owner.pin(:tms).drive(tms)
-           owner.pin(:tdi).drive(tdi[bit])
-           if(compare)
-              owner.pin(:tdo).expect(tdo[bit])
-           else
-              owner.pin(:tdo).dont_care
-           end
-           RGen.tester.cycle
-        end
-        owner.pin(:tdo).dont_care
+
+    # Read the given value, register or bit collection from the data register.
+    # This is a self contained method that will take care of the TAP controller
+    # state transitions, exiting with the TAP controller in Run-Test/Idle.
+    #
+    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    #   Value to be read. If a reg/bit collection is supplied this can be pre-marked for read in which
+    #   case only the marked bits will be read and the vectors corresponding to the data from the non-read
+    #   bits will be set to don't care. Similarly the bits can be pre-marked for store (capture) or
+    #   overlay.
+    # @param [Hash] options Options to customize the operation
+    # @option options [Integer] :size The number of bits to read. This is optional
+    #   when supplying a register or bit collection in which case the size will be derived from
+    #   the number of bits supplied. If the size is supplied then it will override
+    #   the size derived from the bits. If the size is greater than the number of bits
+    #   provided then the additional space will be padded by don't care cycles.
+    def read_dr(reg_or_val, options)
+      options = {
+        :read => true,
+      }.merge(options)
+      shift_dr do
+        shift(reg_or_val, options)
+      end
     end
 
-    def jtag_nonshift(size, tms)
-        owner.pin(:tclk).drive(0)
-        owner.pin(:tms).drive(tms)
-        RGen.tester.cycle
-    end
-    
-        
-    def Test_Logic_Reset
-        jtag_nonshift(1, 1)
-        cc "Test_Logic_Reset" if @verbose
-    end
-    
-    def Run_Test_Idle
-        jtag_nonshift(1, 0)
-        cc "Run_Test_Idle" if @verbose
-    end
-    
-    def Select_DR
-        jtag_nonshift(1, 1)
-        cc "Select_DR" if @verbose
-    end
-    
-    def Capture_DR
-        jtag_nonshift(1, 0)
-        cc "Capture_DR" if @verbose
-    end
-    
-    def Shift_DR_Exit1_DR(size, tdi, compare=false)
-        # get current DR data (use current IR content to select DR) for compare on shift out
-        instr = reg(:instrReg).data
-        tmp_tdo = reg("dReg#{instr}".to_sym).data
-        cc "DR Shift Out: " + tmp_tdo.to_s(2) if @verbose
-	
-        jtag_nonshift(1, 0)
-        jtag_shift(size-1, 0, tdi, tmp_tdo, compare)
-        jtag_shift(1, 1, tdi[size-1], tmp_tdo[size-1], compare)
-
-        # update DR data (use current IR content to select DR) for accuracy on next shift out
-        reg("dReg#{instr}".to_sym).write(tdi)
-        cc "DR Shifted In: " + reg("dReg#{instr}".to_sym).data.to_s(2) if @verbose
-        
-        cc "Shift_DR_Exit1_IR" if @verbose    
-    end
-    
-    def Exit1_DR
-        jtag_nonshift(1, 1)
-        cc "Exit1_DR" if @verbose
-    end
-    
-    def Pause_DR(size=0)
-        jtag_nonshift(1, 0)
-        jtag_nonshift(size, 0)
-        cc "Pause_DR" if @verbose
-    end
-    
-    def Exit2_DR
-        jtag_nonshift(1, 1)
-        cc "Exit2_DR" if @verbose
-    end
-    
-    def Update_DR
-        jtag_nonshift(1, 1)
-        cc "Update_DR" if @verbose
-    end
-    
-    def Select_IR
-        jtag_nonshift(1, 1)
-        cc "Select_IR" if @verbose
-    end
-    
-    def Capture_IR
-        jtag_nonshift(1, 0)
-        cc "Capture_IR" if @verbose
-    end
-    
-    def Shift_IR_Exit1_IR(size, tdi, compare=false)
-        # get current IR data for compare on shift out
-        tmp_tdo = reg(:instrReg).data
-        cc "IR Shift Out: " + tmp_tdo.to_s(2) if @verbose
-	
-        jtag_nonshift(1, 0)
-        jtag_shift(size-1, 0, tdi, tmp_tdo, compare)
-        jtag_shift(1, 1, tdi[size-1], tmp_tdo[size-1], compare)
-
-        # update IR data for accuracy on next shift out
-        reg(:instrReg).write(tdi)
-        cc "IR Shifted In: " + reg(:instrReg).data.to_s(2) if @verbose
-        
-        cc "Shift_IR_Exit1_IR" if @verbose
-    end
-    
-    def Exit1_IR
-        jtag_nonshift(1, 1)
-        cc "Exit1_IR" if @verbose
-    end
-    
-    def Pause_IR(size=0)
-        jtag_nonshift(1, 0)
-        jtag_nonshift(size, 0)
-        cc "Pause_IR" if @verbose
-    end
-    
-    def Exit2_IR
-        jtag_nonshift(1, 1)
-        cc "Exit2_IR" if @verbose
-    end
-    
-    def Update_IR
-        jtag_nonshift(1, 1)
-        cc "Update_IR" if @verbose
+    # Write the given value, register or bit collection to the instruction register.
+    # This is a self contained method that will take care of the TAP controller
+    # state transitions, exiting with the TAP controller in Run-Test/Idle.
+    #
+    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    #   Value to be written. If a reg/bit collection is supplied this can be pre-marked for overlay.
+    # @param [Hash] options Options to customize the operation
+    # @option options [Integer] :size The number of bits to write. This is optional
+    #   when supplying a register or bit collection in which case the size will be derived from
+    #   the number of bits supplied. If this option is supplied then it will override
+    #   the size derived from the bits. If the size is greater than the number of bits
+    #   provided then the additional space will be padded by 0s.
+    def write_ir(reg_or_val, options={})
+      shift_ir do
+        shift(reg_or_val, options)
+      end
     end
 
-    def shift_DR_bits(size, tdi, tdo)
-        Select_DR()
-        Capture_DR()
-        if(size)
-          Shift_DR_Exit1_DR(size, tdi, tdo);
+    # Read the given value, register or bit collection from the instruction register.
+    # This is a self contained method that will take care of the TAP controller
+    # state transitions, exiting with the TAP controller in Run-Test/Idle.
+    #
+    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    #   Value to be read. If a reg/bit collection is supplied this can be pre-marked for read in which
+    #   case only the marked bits will be read and the vectors corresponding to the data from the non-read
+    #   bits will be set to don't care. Similarly the bits can be pre-marked for store (capture) or
+    #   overlay.
+    # @param [Hash] options Options to customize the operation
+    # @option options [Integer] :size The number of bits to read. This is optional
+    #   when supplying a register or bit collection in which case the size will be derived from
+    #   the number of bits supplied. If the size is supplied then it will override
+    #   the size derived from the bits. If the size is greater than the number of bits
+    #   provided then the additional space will be padded by don't care cycles.
+    def read_ir(reg_or_val, options)
+      options = {
+        :read => true,
+      }.merge(options)
+      shift_ir do
+        shift(reg_or_val, options)
+      end
+    end
+
+    private
+
+    def contains_bits?(reg_or_val)
+      # RGen should provide a better way of doing this...
+      [RGen::Registers::Reg,
+       RGen::Registers::BitCollection,
+       RGen::Registers::Bit].include?(reg_or_val.class)
+    end
+
+    def extract_size(reg_or_val, options={})
+      size = options[:size]
+      unless size
+        if reg_or_val.is_a?(Fixnum) || !reg_or_val.respond_to?(:size)
+          raise "When suppling a value to JTAG::Driver#shift you must supply a :size in the options!"
         else
-          Exit1_DR()
+          size = reg_or_val.size
         end
-        Update_DR()
-        Run_Test_Idle()
-        cc "jtag_abs_if: shift_DR_bits complete"
-    end
-
-    def shift_IR_bits(size, tdi, compare=false)
-        Select_DR()
-        Select_IR()
-        Capture_IR()
-        if(size)
-	      Shift_IR_Exit1_IR(size, tdi, compare);
-        else
-	      Exit1_IR()
-        end
-        Update_IR()
-        Run_Test_Idle()
-        cc "jtag_abs_if: Shift_IR_bits complete"
-    end
-
-    def shift_IR_DR_bits(ir_size, ir, dr_size, dr, dr_out)
-        Select_DR()
-        Select_IR()
-        Capture_IR()
-        if(ir_size)
-	      Shift_IR_Exit1_IR(ir_size, ir, dr_out);
-	    else
-	      Exit1_IR()
-	    end
-        Update_IR()
-        Select_DR()
-        Capture_DR()
-        if(dr_size)
-          Shift_DR_Exit1_DR(dr_size, dr, dr_out);
-	    else
-	      Exit1_DR()
-	    end
-        Update_DR()
-        Run_Test_Idle()
-        cc "jtag_abs_if: shift_IR_DR_bits complete"
+      end
+      size
     end
 
     # Validates that the parent object (the owner) has defined the necessary

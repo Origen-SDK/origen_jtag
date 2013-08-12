@@ -10,9 +10,9 @@ class JTAG_Application < RGen::Application
   # IF ENABLING THIS MAKE SURE YOU ALSO SET config.semantically_version = true
   # WITHIN config/application.rb
   MAJOR = 0
-  MINOR = 0
+  MINOR = 1
   BUGFIX = 0
-  DEV = 1
+  DEV = nil
 
   VERSION = "v" + [MAJOR, MINOR, BUGFIX].join(".") + (DEV ? ".dev#{DEV}" : '')
 

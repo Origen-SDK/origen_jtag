@@ -1,4 +1,5 @@
 require "jtag"
 module JTAG
-  autoload :Driver, "jtag/driver"
+  autoload :TAPController, "jtag/tap_controller"
+  autoload :Driver,        "jtag/driver"
 end

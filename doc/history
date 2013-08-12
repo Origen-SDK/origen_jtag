@@ -1,3 +1,14 @@
+# Tag: v0.1.0
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 12-Aug-2013 06:31AM
+
+
+Major API update and internal simplification. Removed all local tracking of IR and DR
+registers states, that should be done by higher level wrappers.
+See here for full details of the new API: http://rgen.freescale.net/jtag
+
 ## Tag: v0.0.0.dev1
 
 ##### Branch: 'Trunk'

@@ -1,5 +1,4 @@
-# Include this module to add a JTAG
-# driver to your class
+# Include this module to add a JTAG driver to your class
 module JTAG
 
   # Returns an instance of the JTAG::Driver

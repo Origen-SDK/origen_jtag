@@ -6,7 +6,11 @@
 
 ### Purpose
 
-This application provides a JTAG driver.
+This library provides an ATE driver for an IEEE 1149.1 compliant JTAG interface.
+
+It makes no assumptions about the instruction or data register attributes or higher
+level protocol concerns. For use at DUT model level this library would be normally be wrapped in
+a higher level protocol such as [JTAG2IPS](http://rgen.freescale.net/jtag2ips/).
 
 ### How To Import
 
@@ -26,9 +30,11 @@ config.imports = [
 
 Include the <code>JTAG</code> module to add a JTAG driver to your class and
 define the required pins.
-
 Normally the pins would be an alias to existing DUT pins and therefore the
 JTAG driver module cannot assume them.
+
+Including the module adds a <code>jtag</code> method which will return an instance of
+[<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>).
 
 ~~~ruby
 class Pioneer
@@ -41,7 +47,6 @@ class Pioneer
     add_pin :tdi
     add_pin :tdo
     add_pin :tms
-    add_pin :trst
   end
 
 end
@@ -49,8 +54,40 @@ end
 Pioneer.new.jtag  # => An instance of JTAG::Driver
 ~~~
 
-See the [<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>) API
-for details about the available driver methods.
+Two APIs are provided, the primary one provides canned methods to read and
+write to the IR and DR registers.
+
+These accept either an absolute data value or an RGen register/bit collection.
+
+~~~ruby
+jtag.write_dr 0x1234, :size => 16
+# The size option is not required when a register is supplied
+jtag.write_dr $dut.reg(:clkdiv)
+# Although it can still be added if the register is not the full data width
+jtag.write_dr $dut.reg(:clkdiv), :size => 32
+# A rich read method is available which supports bit-level read, store and
+# overlay operations
+$dut.reg(:clkdiv).bits(:div).read(0x55)
+jtag.read $dut.reg(:clkdiv)
+# Similar methods exist for the instruction register
+jtag.write_ir 0x1F, :size => 5
+jtag.read_ir 0x1F, :size => 5
+~~~
+
+A secondary API provides low level control of the TAP Controller state machine.
+
+~~~ruby
+jtag.pause_dr do
+  jtag.shift_dr do
+    # The shift method accepts the same arguments as the canned read/write methods
+    jtag.shift 0x55, :size => 32
+  end
+end
+~~~
+
+See the [<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>) and
+[<code>JTAG::TAPController</code>](<%= path "api/JTAG/TAPController.html" %>)
+APIs for more details about the available driver methods.
 
 ### How To Setup a Development Environment
 
@@ -74,5 +111,13 @@ rgen i
 Follow the instructions here if you want to make a 3rd party app
 workspace use your development copy of the JTAG library:
 [Setting up a Library Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
+
+This library also contains a test suite, makes sure this passes before committing
+any changes!
+
+~~~
+rgen examples
+~~~
+
 
 % end
