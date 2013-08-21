@@ -73,6 +73,11 @@ Pattern.create do
     cc "Full register with reduced size (8 bits)"
     RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :size => 8
+    cc "It should in-line overlays when running in simulation mode"
+    RGen.mode = :simulation
+    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    jtag.shift reg, :cycle_last => true
+    RGen.mode = :debug
 
   test "Shift register into TDI with single bit overlay"
     reg.overlay(nil)
@@ -126,6 +131,11 @@ Pattern.create do
     cc "Full register with reduced size (8 bits)"
     RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :size => 8, :read => true
+    cc "It should in-line overlays when running in simulation mode"
+    RGen.mode = :simulation
+    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    jtag.shift reg, :cycle_last => true, :read => true
+    RGen.mode = :debug
 
   test "Shift register out of TDO with single bit overlay"
     reg.overlay(nil)
@@ -148,4 +158,9 @@ Pattern.create do
   test "Read value out of IR"
     jtag.read_ir 0xF, :size => 4
 
+  test "The IR value is tracked and duplicate writes are inhibited"
+    jtag.write_ir 0xF, :size => 4
+
+  test "Unless forced"
+    jtag.write_ir 0xF, :size => 4, :force => true
 end

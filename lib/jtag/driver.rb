@@ -20,6 +20,9 @@ module JTAG
     # Returns the object that instantiated the JTAG
     attr_reader :owner
 
+    # Returns the current value in the instruction register
+    attr_reader :ir_value
+
     # Set true to print out debug comments about all state transitions
     attr_accessor :verbose
     alias :verbose? :verbose
@@ -41,6 +44,7 @@ module JTAG
       init_tap_controller(options)
 
       @verbose = options[:verbose]
+      @ir_value = :unknown
     end
 
     # Shift data into the TDI pin or out of the TDO pin.
@@ -86,7 +90,11 @@ module JTAG
                 RGen.tester.store_next_cycle(owner.pin(:tdo))
                 owner.pin(:tdo).dont_care if RGen.tester.j750?
               elsif reg_or_val[i].has_overlay?
-                call_subroutine = reg_or_val[i].overlay_str
+                if RGen.mode.simulation?
+                  owner.pin(:tdo).dont_care
+                else
+                  call_subroutine = reg_or_val[i].overlay_str
+                end
               elsif reg_or_val[i].is_to_be_read?
                 owner.pin(:tdo).assert(reg_or_val[i])
               else
@@ -103,7 +111,11 @@ module JTAG
           end
         else
           if contains_bits && reg_or_val[i] && reg_or_val[i].has_overlay?
-            call_subroutine = reg_or_val[i].overlay_str
+            if RGen.mode.simulation?
+              owner.pin(:tdi).drive(reg_or_val[i])
+            else
+              call_subroutine = reg_or_val[i].overlay_str
+            end
           else
             owner.pin(:tdi).drive(reg_or_val[i])
           end
@@ -194,9 +206,18 @@ module JTAG
     #   the number of bits supplied. If this option is supplied then it will override
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by 0s.
+    # @option options [Boolean] :force By default multiple calls to this method will not generate
+    #   multiple writes. This is to allow wrapper algorithms to remain efficient yet not have to
+    #   manually track the IR state (and in many cases this may be impossible due to multiple
+    #   protocols using the same JTAG). To force a write regardless of what the driver thinks the IR
+    #   contains set this to true.
     def write_ir(reg_or_val, options={})
-      shift_ir do
-        shift(reg_or_val, options)
+      val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
+      if val != ir_value || options[:force]
+        shift_ir do
+          shift(reg_or_val, options)
+        end
+        @ir_value = val
       end
     end
 

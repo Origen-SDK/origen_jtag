@@ -18,6 +18,7 @@ module RGen
         User.new("Chris Nappi", "ra5809", :admin),
         User.new("TS Chung", "rhk462", :admin),
         User.new("Ronnie Lajaunie", "b01784", :admin),
+        User.new("Daniel Hadad", "ra6854", :admin),
 
         # Users
         #User.new("Thao Huynh", "r6aanf"),

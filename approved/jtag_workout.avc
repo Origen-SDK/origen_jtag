@@ -1,17 +1,17 @@
 # ***************************************************************************
 # GENERATED:
-#   Time:    09-Aug-2013 07:24AM
+#   Time:    20-Aug-2013 11:39AM
 #   By:      Stephen McGinty
 #   Command: rgen g jtag_workout -t v93k.rb
 # ***************************************************************************
 # ENVIRONMENT:
 #   Application
 #     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen
-#     Version:   v0.0.0.dev1
+#     Version:   v0.1.0
 #     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/blocks/physical/jtag
 #   RGen
 #     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen
-#     Version:   v2.0.1.dev95
+#     Version:   v2.0.1.dev97
 #     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/core
 # ***************************************************************************
 FORMAT tclk tdi tdo tms;
@@ -247,10 +247,15 @@ R16                       nvmbist                   0 0 X 0 ;
 # Full register with reduced size (8 bits)
 R1                        nvmbist                   0 0 X 0 ; 
 SQPG JSUB write_overlay;
+# It should in-line overlays when running in simulation mode
+R1                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 1 X 0 ; 
+R7                        nvmbist                   0 0 X 0 ; 
+R8                        nvmbist                   0 1 X 0 ; 
 # ######################################################################
 # ## Test - Shift register into TDI with single bit overlay
 # ######################################################################
-R1                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 1 X 0 ; 
 SQPG JSUB write_overlay;
 R7                        nvmbist                   0 0 X 0 ; 
 R8                        nvmbist                   0 1 X 0 ; 
@@ -307,6 +312,8 @@ R16                       nvmbist                   0 0 X 0 ;
 # Full register with reduced size (8 bits)
 R1                        nvmbist                   0 0 X 0 ; 
 SQPG JSUB read_overlay;
+# It should in-line overlays when running in simulation mode
+R17                       nvmbist                   0 0 X 0 ; 
 # ######################################################################
 # ## Test - Shift register out of TDO with single bit overlay
 # ######################################################################
@@ -373,5 +380,23 @@ R1                        nvmbist                   0 0 H 1 ;
 # JTAG::TAPController - **** Data stop ****
 R1                        nvmbist                   0 0 X 1 ; 
 R1                        nvmbist                   0 0 X 0 ; 
+# JTAG::TAPController - Current state: Run-Test/Idle
+# ######################################################################
+# ## Test - The IR value is tracked and duplicate writes are inhibited
+# ######################################################################
+# ######################################################################
+# ## Test - Unless forced
+# ######################################################################
+# JTAG::TAPController - Transition to Shift-IR...
+R2                        nvmbist                   0 0 X 1 ; 
+R2                        nvmbist                   0 0 X 0 ; 
+# JTAG::TAPController - Current state: Shift-IR
+# JTAG::TAPController - **** Data start ****
+R3                        nvmbist                   0 1 X 0 ; 
+# JTAG::TAPController - Transition to Run-Test/Idle...
+R1                        nvmbist                   0 1 X 1 ; 
+# JTAG::TAPController - **** Data stop ****
+R1                        nvmbist                   0 1 X 1 ; 
+R1                        nvmbist                   0 1 X 0 ; 
 # JTAG::TAPController - Current state: Run-Test/Idle
 SQPG STOP;

@@ -1,3 +1,25 @@
+# Tag: v0.2.0
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 21-Aug-2013 09:24AM
+
+
+Overlay bits will now be generated in-line rather than generating sub-routine calls
+whenever RGen.mode.simulation? is true.
+
+Added tracking of the IR register value and vectors from repeated calls to the write\_ir
+method with the same value will now be inhibited.
+Originally it was envisaged that higher level wrappers would take care of this but on
+reflection this is probably not viable since there may be multiple protocols using the
+same physical JTAG and therefore it is better tracked at the lowest level.
+
+This change means that higher level libraries can pre-fix all of their operations
+with a write to the IR with the value they need and the JTAG driver will take care of
+keeping the vectors optimal.
+
+This version depends on RGen >= v2.0.1.dev98.
+
 # Tag: v0.1.0
 
 ##### Branch: 'Trunk'
