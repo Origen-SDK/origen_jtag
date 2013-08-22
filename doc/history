@@ -1,3 +1,13 @@
+# Tag: v0.3.0
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 22-Aug-2013 06:16AM
+
+
+Added min/max RGen versions in place of fixed version. This should not have to change for
+a long time unless a dependency on a future RGen is added.
+
 # Tag: v0.2.0
 
 ##### Branch: 'Trunk'

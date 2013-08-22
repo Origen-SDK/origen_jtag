@@ -20,9 +20,9 @@ class JTAG_Application < RGen::Application
 
   config.semantically_version = true
 
-  # Specifiy a specific version of rgen that must be used with this application, rgen
-  # will then enforce that every user's rgen version is correct at runtime
-  config.required_rgen_version = "v2.0.1.dev98"
+  config.min_required_rgen_version = "v2.0.1.dev99"
+
+  config.max_required_rgen_version = "v2.99.99"
 
   # Run code coverage when deploying the web site
   def before_deploy_site
