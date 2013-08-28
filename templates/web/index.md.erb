@@ -6,16 +6,16 @@
 
 ### Purpose
 
-This library provides an ATE driver for an IEEE 1149.1 compliant JTAG interface.
+This plugin provides an ATE driver for an IEEE 1149.1 compliant JTAG interface.
 
 It makes no assumptions about the instruction or data register attributes or higher
-level protocol concerns. For use at DUT model level this library would be normally be wrapped in
+level protocol concerns. For use at DUT model level this plugin would be normally be wrapped in
 a higher level protocol such as [JTAG2IPS](http://rgen.freescale.net/jtag2ips/).
 
 ### How To Import
 
 Add the following to your <code>config/application.rb</code> file to import
-this library:
+this plugin:
 
 ~~~ruby
 config.imports = [
@@ -109,10 +109,10 @@ rgen i
 ~~~
 
 Follow the instructions here if you want to make a 3rd party app
-workspace use your development copy of the JTAG library:
-[Setting up a Library Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
+workspace use your development copy of the JTAG plugin:
+[Setting up a Plugin Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
 
-This library also contains a test suite, makes sure this passes before committing
+This plugin also contains a test suite, makes sure this passes before committing
 any changes!
 
 ~~~

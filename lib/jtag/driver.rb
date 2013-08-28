@@ -70,8 +70,8 @@ module JTAG
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by 0s or don't cares as appropriate.
     # @option options [Boolean] :read When true the given value will be compared on the TDO pin
-    #   instead of being shifted into the TDI pin. Read is assumed when the supplied value contains
-    #   some bits that have been marked for read.
+    #   instead of being shifted into the TDI pin. In the case of a register object being provided
+    #   only those bits that are actually marked for read will be compared.
     # @option options [Boolean] :cycle_last Normally the last data bit is applied to the
     #   pins but not cycled, this is to integrate with the TAPController which usually
     #   requires that the TMS value is also changed on the last data bit. To override this
@@ -82,7 +82,7 @@ module JTAG
       owner.pin(:tdi).drive(0) # Drive state when reading out
       size.times do |i|
         call_subroutine = false
-        if options[:read] || (contains_bits && reg_or_val.is_to_be_read?)
+        if options[:read]
           # If it's a register support bit-wise reads
           if contains_bits
             if reg_or_val[i]
@@ -250,7 +250,7 @@ module JTAG
     def contains_bits?(reg_or_val)
       # RGen should provide a better way of doing this...
       [RGen::Registers::Reg,
-       RGen::Registers::BitCollection,
+       RGen::Registers::BitCollection, RGen::Registers::Container,
        RGen::Registers::Bit].include?(reg_or_val.class)
     end
 

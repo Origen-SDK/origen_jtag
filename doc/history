@@ -1,3 +1,13 @@
+# Tag: v0.4.0
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 28-Aug-2013 06:28AM
+
+
+Can now accept RGen::Registers::Container instances in place of regular register
+objects.
+
 # Tag: v0.3.0
 
 ##### Branch: 'Trunk'

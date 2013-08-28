@@ -15,11 +15,7 @@
           <li class="<%= options[:tab] == :release ? 'active' : '' %>"><a href="<%= path "/release_notes" %>">Release Notes</a></li>
           <li class="<%= options[:tab] == :contact ? 'active' : '' %>"><a href="<%= path "/contact" %>">Contact</a></li>
         </ul>
-        <div class="pull-right">
-          <a href="http://www.freescale.com">
-            <img src="http://swo.freescale.net/shared/images/freescale_logo.gif" style="height:40px">
-          </a>
-        </div>
+        <%= render "rgen/web/logo.html" %>
       </div><!--/.nav-collapse -->
     </div>
   </div>
