@@ -147,20 +147,23 @@ Pattern.create do
   # Finally integration tests of the TAPController + shift
 
   test "Write value into DR"
-    jtag.write_dr 0xFFFF, :size => 16
+    jtag.write_dr 0xFFFF, :size => 16, :msg => "Write value into DR" 
 
   test "Read value out of DR"
-    jtag.read_dr 0xFFFF, :size => 16
+    jtag.read_dr 0xFFFF, :size => 16, :msg => "Read value out of DR" 
 
   test "Write value into IR"
-    jtag.write_ir 0xF, :size => 4
+    jtag.write_ir 0xF, :size => 4, :msg => "Write value into IR"
 
   test "Read value out of IR"
-    jtag.read_ir 0xF, :size => 4
+    jtag.read_ir 0xF, :size => 4, :msg => "Read value out of IR"
 
   test "The IR value is tracked and duplicate writes are inhibited"
     jtag.write_ir 0xF, :size => 4
 
   test "Unless forced"
     jtag.write_ir 0xF, :size => 4, :force => true
+
+  test "Reset"
+    jtag.reset
 end

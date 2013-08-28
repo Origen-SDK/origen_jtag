@@ -256,6 +256,14 @@ module JTAG
       update_state :idle
     end
 
+    # Force state to Test-Logic-Reset regardless of the current
+    # state
+    def reset
+      log "Force transition to Test-Logic-Reset..."
+      # JTAG reset
+      6.times { tms!(1) }
+    end
+
     private
 
     def init_tap_controller(options={})

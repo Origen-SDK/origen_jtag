@@ -1,3 +1,13 @@
+# Tag: v0.5.0
+
+##### Branch: 'Trunk'
+
+##### by Daniel Hadad on 28-Aug-2013 17:16PM
+
+
+Added reset method to tap controller.
+Can pass message as option to read/write\_ir/dr methods that gets put as comment in pattern.
+
 # Tag: v0.4.0
 
 ##### Branch: 'Trunk'

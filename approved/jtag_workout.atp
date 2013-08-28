@@ -1,18 +1,18 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    20-Aug-2013 11:39AM
-//   By:      Stephen McGinty
+//   Time:    28-Aug-2013 17:05PM
+//   By:      Daniel Hadad
 //   Command: rgen g jtag_workout -t debug.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
 //     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen
-//     Version:   v0.1.0
-//     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/blocks/physical/jtag
+//     Version:   v0.4.0
+//     Workspace: /proj/pet3/C55FMC/jtag_v0.4.0
 //   RGen
 //     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen
-//     Version:   v2.0.1.dev97
-//     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/core
+//     Version:   v2.0.1.dev101
+//     Workspace: /proj/pet3/C55FMC/rgen_top_v2.0.1.dev101
 // ***************************************************************************
 import tset nvmbist;                                                                            
 import svm_subr write_overlay;                                                                  
@@ -358,6 +358,7 @@ repeat 8                                                         > nvmbist      
 // ######################################################################
 // ## Test - Write value into DR
 // ######################################################################
+// Write value into DR
 // JTAG::TAPController - Transition to Shift-DR...
                                                                  > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -373,6 +374,7 @@ repeat 15                                                        > nvmbist      
 // ######################################################################
 // ## Test - Read value out of DR
 // ######################################################################
+// Read value out of DR
 // JTAG::TAPController - Transition to Shift-DR...
                                                                  > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -388,6 +390,7 @@ repeat 15                                                        > nvmbist      
 // ######################################################################
 // ## Test - Write value into IR
 // ######################################################################
+// Write value into IR
 // JTAG::TAPController - Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -403,6 +406,7 @@ repeat 3                                                         > nvmbist      
 // ######################################################################
 // ## Test - Read value out of IR
 // ######################################################################
+// Read value out of IR
 // JTAG::TAPController - Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -433,5 +437,10 @@ repeat 3                                                         > nvmbist      
                                                                  > nvmbist                      0 1 X 1 ;
                                                                  > nvmbist                      0 1 X 0 ;
 // JTAG::TAPController - Current state: Run-Test/Idle
-end_module                                                       > nvmbist                      0 1 X 0 ;
+// ######################################################################
+// ## Test - Reset
+// ######################################################################
+// JTAG::TAPController - Force transition to Test-Logic-Reset...
+repeat 6                                                         > nvmbist                      0 1 X 1 ;
+end_module                                                       > nvmbist                      0 1 X 1 ;
 }                                                                                               

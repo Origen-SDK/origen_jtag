@@ -164,7 +164,12 @@ module JTAG
     #   the number of bits supplied. If this option is supplied then it will override
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by 0s.
+    # @option options [String] :msg  By default will not make any comments directly here.  Can pass
+    #   a msg to be written out prior to shifting data. 
     def write_dr(reg_or_val, options={})
+      if options[:msg]
+        cc "#{options[:msg]}\n"
+      end
       shift_dr do
         shift(reg_or_val, options)
       end
@@ -185,10 +190,15 @@ module JTAG
     #   the number of bits supplied. If the size is supplied then it will override
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by don't care cycles.
+    # @option options [String] :msg  By default will not make any comments directly here.  Can pass
+    #   a msg to be written out prior to shifting data. 
     def read_dr(reg_or_val, options)
       options = {
         :read => true,
       }.merge(options)
+      if options[:msg]
+        cc "#{options[:msg]}\n"
+      end
       shift_dr do
         shift(reg_or_val, options)
       end
@@ -211,9 +221,15 @@ module JTAG
     #   manually track the IR state (and in many cases this may be impossible due to multiple
     #   protocols using the same JTAG). To force a write regardless of what the driver thinks the IR
     #   contains set this to true.
+    # @option options [String] :msg  By default will not make any comments directly here.  Can pass
+    #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
+    #   occurs.  
     def write_ir(reg_or_val, options={})
       val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
       if val != ir_value || options[:force]
+        if options[:msg]
+          cc "#{options[:msg]}\n"
+        end
         shift_ir do
           shift(reg_or_val, options)
         end
@@ -236,10 +252,15 @@ module JTAG
     #   the number of bits supplied. If the size is supplied then it will override
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by don't care cycles.
+    # @option options [String] :msg  By default will not make any comments directly here.  Can pass
+    #   a msg to be written out prior to shifting data. 
     def read_ir(reg_or_val, options)
       options = {
         :read => true,
       }.merge(options)
+      if options[:msg]
+        cc "#{options[:msg]}\n"
+      end
       shift_ir do
         shift(reg_or_val, options)
       end
