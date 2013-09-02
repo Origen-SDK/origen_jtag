@@ -20,7 +20,7 @@ class JTAG_Application < RGen::Application
 
   config.semantically_version = true
 
-  config.min_required_rgen_version = "v2.0.1.dev101"
+  config.min_required_rgen_version = "v2.0.1.dev103"
 
   config.max_required_rgen_version = "v2.99.99"
 

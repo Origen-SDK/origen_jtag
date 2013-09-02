@@ -1,3 +1,13 @@
+# Tag: v0.5.1
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 02-Sep-2013 09:44AM
+
+
+Bug fix to remove extra vector in a shift sequence when a full-width register is
+overlaid.
+
 # Tag: v0.5.0
 
 ##### Branch: 'Trunk'

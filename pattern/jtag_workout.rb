@@ -60,7 +60,7 @@ Pattern.create do
     cc "Full register with additional size (32 bits)"
     jtag.shift reg, :cycle_last => true, :size => 32
     cc "Full register with reduced size (8 bits)"
-    jtag.shift reg, :cycle_last => true, :size => 8
+    jtag.shift reg, :cycle_last => true, :size => 8, :includes_last_bit => false
 
   test "Shift register into TDI with overlay"
     reg.overlay("write_overlay")
@@ -72,7 +72,7 @@ Pattern.create do
     jtag.shift reg, :cycle_last => true, :size => 32
     cc "Full register with reduced size (8 bits)"
     RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
-    jtag.shift reg, :cycle_last => true, :size => 8
+    jtag.shift reg, :cycle_last => true, :size => 8, :includes_last_bit => false
     cc "It should in-line overlays when running in simulation mode"
     RGen.mode = :simulation
     RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
@@ -95,7 +95,7 @@ Pattern.create do
     jtag.shift reg, :cycle_last => true, :size => 32, :read => true
     cc "Full register with reduced size (8 bits)"
     reg.read
-    jtag.shift reg, :cycle_last => true, :size => 8, :read => true
+    jtag.shift reg, :cycle_last => true, :size => 8, :read => true, :includes_last_bit => false
 
   test "Read single bit out of TDO"
     reg.bit(:bit).read
@@ -110,7 +110,7 @@ Pattern.create do
     jtag.shift reg, :cycle_last => true, :size => 32, :read => true
     cc "Full register with reduced size (8 bits)"
     reg.store
-    jtag.shift reg, :cycle_last => true, :size => 8, :read => true
+    jtag.shift reg, :cycle_last => true, :size => 8, :read => true, :includes_last_bit => false
 
   test "Store single bit out of TDO"
     reg.bit(:bit).store
@@ -130,7 +130,7 @@ Pattern.create do
     jtag.shift reg, :cycle_last => true, :size => 32, :read => true
     cc "Full register with reduced size (8 bits)"
     RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
-    jtag.shift reg, :cycle_last => true, :size => 8, :read => true
+    jtag.shift reg, :cycle_last => true, :size => 8, :read => true, :includes_last_bit => false
     cc "It should in-line overlays when running in simulation mode"
     RGen.mode = :simulation
     RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
@@ -148,6 +148,10 @@ Pattern.create do
 
   test "Write value into DR"
     jtag.write_dr 0xFFFF, :size => 16, :msg => "Write value into DR" 
+
+  test "Write register into DR with full-width overlay"
+    r = $dut.reg(:test32).overlay("write_overlay")
+    jtag.write_dr r
 
   test "Read value out of DR"
     jtag.read_dr 0xFFFF, :size => 16, :msg => "Read value out of DR" 

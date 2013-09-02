@@ -1,18 +1,18 @@
 # ***************************************************************************
 # GENERATED:
-#   Time:    28-Aug-2013 17:05PM
-#   By:      Daniel Hadad
+#   Time:    02-Sep-2013 05:19AM
+#   By:      Stephen McGinty
 #   Command: rgen g jtag_workout -t v93k.rb
 # ***************************************************************************
 # ENVIRONMENT:
 #   Application
 #     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen
-#     Version:   v0.4.0
-#     Workspace: /proj/pet3/C55FMC/jtag_v0.4.0
+#     Version:   v0.5.0
+#     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/blocks/physical/jtag
 #   RGen
 #     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen
-#     Version:   v2.0.1.dev101
-#     Workspace: /proj/pet3/C55FMC/rgen_top_v2.0.1.dev101
+#     Version:   v2.0.1.dev102
+#     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/core
 # ***************************************************************************
 FORMAT tclk tdi tdo tms;
 #                                                   t t t t
@@ -206,7 +206,8 @@ R3                        nvmbist                   0 0 X 0 ;
 R1                        nvmbist                   0 1 X 0 ; 
 R2                        nvmbist                   0 0 X 0 ; 
 R1                        nvmbist                   0 1 X 0 ; 
-R3                        nvmbist                   0 0 X 0 ; 
+R2                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # ######################################################################
 # ## Test - Shifting an explicit value out of TDO
 # ######################################################################
@@ -218,19 +219,22 @@ R3                        nvmbist                   0 0 L 0 ;
 R1                        nvmbist                   0 0 H 0 ; 
 R2                        nvmbist                   0 0 L 0 ; 
 R1                        nvmbist                   0 0 H 0 ; 
-R3                        nvmbist                   0 0 L 0 ; 
+R2                        nvmbist                   0 0 L 0 ; 
+R1                        nvmbist                   0 0 L 1 ; 
 # ######################################################################
 # ## Test - Shift register into TDI
 # ######################################################################
 # Full register (16 bits)
 R1                        nvmbist                   0 1 X 0 ; 
 R7                        nvmbist                   0 0 X 0 ; 
-R8                        nvmbist                   0 1 X 0 ; 
+R7                        nvmbist                   0 1 X 0 ; 
+R1                        nvmbist                   0 1 X 1 ; 
 # Full register with additional size (32 bits)
 R1                        nvmbist                   0 1 X 0 ; 
 R7                        nvmbist                   0 0 X 0 ; 
 R8                        nvmbist                   0 1 X 0 ; 
-R16                       nvmbist                   0 0 X 0 ; 
+R15                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # Full register with reduced size (8 bits)
 R1                        nvmbist                   0 1 X 0 ; 
 R7                        nvmbist                   0 0 X 0 ; 
@@ -243,34 +247,39 @@ SQPG JSUB write_overlay;
 # Full register with additional size (32 bits)
 R1                        nvmbist                   0 0 X 0 ; 
 SQPG JSUB write_overlay;
-R16                       nvmbist                   0 0 X 0 ; 
+R15                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # Full register with reduced size (8 bits)
-R1                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 SQPG JSUB write_overlay;
 # It should in-line overlays when running in simulation mode
 R1                        nvmbist                   0 0 X 0 ; 
 R1                        nvmbist                   0 1 X 0 ; 
 R7                        nvmbist                   0 0 X 0 ; 
-R8                        nvmbist                   0 1 X 0 ; 
+R7                        nvmbist                   0 1 X 0 ; 
+R1                        nvmbist                   0 1 X 1 ; 
 # ######################################################################
 # ## Test - Shift register into TDI with single bit overlay
 # ######################################################################
-R1                        nvmbist                   0 1 X 0 ; 
+R1                        nvmbist                   0 1 X 1 ; 
 SQPG JSUB write_overlay;
 R7                        nvmbist                   0 0 X 0 ; 
-R8                        nvmbist                   0 1 X 0 ; 
+R7                        nvmbist                   0 1 X 0 ; 
+R1                        nvmbist                   0 1 X 1 ; 
 # ######################################################################
 # ## Test - Read register out of TDO
 # ######################################################################
 # Full register (16 bits)
 R1                        nvmbist                   0 0 H 0 ; 
 R7                        nvmbist                   0 0 L 0 ; 
-R8                        nvmbist                   0 0 H 0 ; 
+R7                        nvmbist                   0 0 H 0 ; 
+R1                        nvmbist                   0 0 H 1 ; 
 # Full register with additional size (32 bits)
 R1                        nvmbist                   0 0 H 0 ; 
 R7                        nvmbist                   0 0 L 0 ; 
 R8                        nvmbist                   0 0 H 0 ; 
-R16                       nvmbist                   0 0 X 0 ; 
+R15                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # Full register with reduced size (8 bits)
 R1                        nvmbist                   0 0 H 0 ; 
 R7                        nvmbist                   0 0 L 0 ; 
@@ -278,49 +287,57 @@ R7                        nvmbist                   0 0 L 0 ;
 # ## Test - Read single bit out of TDO
 # ######################################################################
 R1                        nvmbist                   0 0 H 0 ; 
-R15                       nvmbist                   0 0 X 0 ; 
+R14                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # ######################################################################
 # ## Test - Store register out of TDO
 # ######################################################################
 # Full register (16 bits)
-R16                       nvmbist                   0 0 C 0 ; 
+R15                       nvmbist                   0 0 C 0 ; 
+R1                        nvmbist                   0 0 C 1 ; 
 # Full register with additional size (32 bits)
 R16                       nvmbist                   0 0 C 0 ; 
-R16                       nvmbist                   0 0 X 0 ; 
+R15                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # Full register with reduced size (8 bits)
 R8                        nvmbist                   0 0 C 0 ; 
 # ######################################################################
 # ## Test - Store single bit out of TDO
 # ######################################################################
 R1                        nvmbist                   0 0 C 0 ; 
-R15                       nvmbist                   0 0 X 0 ; 
+R14                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # ######################################################################
 # ## Test - Test flag clear, bit 0 should be read, but not stored
 # ######################################################################
 R1                        nvmbist                   0 0 H 0 ; 
-R15                       nvmbist                   0 0 X 0 ; 
+R14                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # ######################################################################
 # ## Test - Shift register out of TDO with overlay
 # ######################################################################
 # Full register (16 bits)
-R1                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 SQPG JSUB read_overlay;
 # Full register with additional size (32 bits)
 R1                        nvmbist                   0 0 X 0 ; 
 SQPG JSUB read_overlay;
-R16                       nvmbist                   0 0 X 0 ; 
+R15                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # Full register with reduced size (8 bits)
-R1                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 SQPG JSUB read_overlay;
 # It should in-line overlays when running in simulation mode
-R17                       nvmbist                   0 0 X 0 ; 
+R16                       nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 # ######################################################################
 # ## Test - Shift register out of TDO with single bit overlay
 # ######################################################################
-R1                        nvmbist                   0 0 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
 SQPG JSUB read_overlay;
 R7                        nvmbist                   0 0 X 0 ; 
-R8                        nvmbist                   0 1 X 0 ; 
+R7                        nvmbist                   0 1 X 0 ; 
+R1                        nvmbist                   0 1 X 1 ; 
 # ######################################################################
 # ## Test - Write value into DR
 # ######################################################################
@@ -338,12 +355,26 @@ R1                        nvmbist                   0 1 X 1 ;
 R1                        nvmbist                   0 1 X 0 ; 
 # JTAG::TAPController - Current state: Run-Test/Idle
 # ######################################################################
+# ## Test - Write register into DR with full-width overlay
+# ######################################################################
+# JTAG::TAPController - Transition to Shift-DR...
+R1                        nvmbist                   0 1 X 1 ; 
+R2                        nvmbist                   0 1 X 0 ; 
+# JTAG::TAPController - Current state: Shift-DR
+# JTAG::TAPController - **** Data start ****
+SQPG JSUB write_overlay;
+# JTAG::TAPController - Transition to Run-Test/Idle...
+# JTAG::TAPController - **** Data stop ****
+R1                        nvmbist                   0 0 X 1 ; 
+R1                        nvmbist                   0 0 X 0 ; 
+# JTAG::TAPController - Current state: Run-Test/Idle
+# ######################################################################
 # ## Test - Read value out of DR
 # ######################################################################
 # Read value out of DR
 # JTAG::TAPController - Transition to Shift-DR...
-R1                        nvmbist                   0 1 X 1 ; 
-R2                        nvmbist                   0 1 X 0 ; 
+R1                        nvmbist                   0 0 X 1 ; 
+R2                        nvmbist                   0 0 X 0 ; 
 # JTAG::TAPController - Current state: Shift-DR
 # JTAG::TAPController - **** Data start ****
 R15                       nvmbist                   0 0 H 0 ; 

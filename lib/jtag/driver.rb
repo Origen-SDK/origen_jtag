@@ -69,17 +69,28 @@ module JTAG
     #   the number of bits supplied. If this option is supplied then it will override
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by 0s or don't cares as appropriate.
-    # @option options [Boolean] :read When true the given value will be compared on the TDO pin
+    # @option options [Boolean] :read (false) When true the given value will be compared on the TDO pin
     #   instead of being shifted into the TDI pin. In the case of a register object being provided
     #   only those bits that are actually marked for read will be compared.
-    # @option options [Boolean] :cycle_last Normally the last data bit is applied to the
+    # @option options [Boolean] :cycle_last (false) Normally the last data bit is applied to the
     #   pins but not cycled, this is to integrate with the TAPController which usually
     #   requires that the TMS value is also changed on the last data bit. To override this
     #   default behavior and force a cycle for the last data bit set this to true.
+    # @option options [Boolean] :includes_last_bit (true) When true the TMS pin will be driven
+    #   to 1 on the last cycle of the shift if :cycle_last has been specified. To override this
+    #   and keep TMS low on the last cycle set this to false. One reason for doing this would be
+    #   if generating some subroutine vectors which only represented a partial section of a shift
+    #   operation.
     def shift(reg_or_val, options={})
+      options = {
+        :read => false,
+        :cycle_last => false,
+        :includes_last_bit => true,
+      }.merge(options)
       size = extract_size(reg_or_val, options)
-      contains_bits = contains_bits?(reg_or_val)
+      contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
       owner.pin(:tdi).drive(0) # Drive state when reading out
+      owner.pin(:tms).drive(0)
       size.times do |i|
         call_subroutine = false
         if options[:read]
@@ -122,10 +133,15 @@ module JTAG
         end
         if call_subroutine
           RGen.tester.call_subroutine(call_subroutine)
+          @last_data_vector_shifted = true
         else
+          @last_data_vector_shifted = false
           # Don't latch the last bit, that will be done when
           # leaving the state.
           if i != size - 1 || options[:cycle_last]
+            if i == size - 1 && options[:includes_last_bit]
+              owner.pin(:tms).drive(1)
+            end
             RGen.tester.cycle
             owner.pin(:tdo).dont_care
           else
@@ -267,13 +283,6 @@ module JTAG
     end
 
     private
-
-    def contains_bits?(reg_or_val)
-      # RGen should provide a better way of doing this...
-      [RGen::Registers::Reg,
-       RGen::Registers::BitCollection, RGen::Registers::Container,
-       RGen::Registers::Bit].include?(reg_or_val.class)
-    end
 
     def extract_size(reg_or_val, options={})
       size = options[:size]

@@ -19,6 +19,9 @@ module JTAG
       add_reg :test16, 0x0012, 16, :bus => {pos: 8, bits: 8},
                                    :bit => {pos: 0 }
 
+      add_reg :test32, 0x0014, 32, :bus => {pos: 16, bits: 16},
+                                   :bit => {pos: 0 }
+
       $tester.set_timeset("nvmbist", 40) 
       add_pin :tclk
       add_pin :tdi

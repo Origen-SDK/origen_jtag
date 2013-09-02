@@ -61,7 +61,11 @@ module JTAG
         log "**** Data start ****", :always => true
         yield
         log "Transition to Run-Test/Idle..."
-        tms!(1)  # => Exit1-DR
+        if @last_data_vector_shifted
+          @last_data_vector_shifted = false
+        else
+          tms!(1)  # => Exit1-DR
+        end
         log "**** Data stop ****", :always => true
         tms!(1)  # => Update-DR
         tms!(0)  # => Run-Test/Idle
@@ -163,7 +167,11 @@ module JTAG
         log "**** Data start ****", :always => true
         yield
         log "Transition to Run-Test/Idle..."
-        tms!(1)  # => Exit1-IR
+        if @last_data_vector_shifted
+          @last_data_vector_shifted = false
+        else
+          tms!(1)  # => Exit1-DR
+        end
         log "**** Data stop ****", :always => true
         tms!(1)  # => Update-IR
         tms!(0)  # => Run-Test/Idle
@@ -239,12 +247,6 @@ module JTAG
 
     # Forces the state to Run-Test/Idle regardless of the current
     # state.
-    #
-    # This currently assumes some behavior from the JTAG2IPS implementation
-    # which is probably bad, and should probably support a more
-    # generic approach using TRST.
-    #
-    # @private
     def idle
       log "Force transition to Run-Test/Idle..."
       # From the JTAG2IPS block guide holding TMS high for 5 cycles
