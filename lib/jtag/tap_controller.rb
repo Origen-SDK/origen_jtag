@@ -272,7 +272,7 @@ module JTAG
       options = {
       }.merge(options)
       # Assume we can't always trust the entry state
-      @state = :unkown
+      @state = :unknown
     end
 
     def update_state(state)
@@ -286,7 +286,7 @@ module JTAG
     # Additionally if the current state is unknown and idle is acceptable
     # then the state will be transitioned to idle.
     def validate_state(*acceptable_states)
-      if current_state == :unkown && acceptable_states.include?(:idle)
+      if current_state == :unknown && acceptable_states.include?(:idle)
         idle
       elsif acceptable_states.include?(current_state)
         return

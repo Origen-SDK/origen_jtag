@@ -183,11 +183,15 @@ module JTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data. 
     def write_dr(reg_or_val, options={})
-      if options[:msg]
-        cc "#{options[:msg]}\n"
-      end
-      shift_dr do
-        shift(reg_or_val, options)
+      if RGen.tester.respond_to?(:write_dr)
+        RGen.tester.write_dr(reg_or_val, options)
+      else
+        if options[:msg]
+          cc "#{options[:msg]}\n"
+        end
+        shift_dr do
+          shift(reg_or_val, options)
+        end
       end
     end
 
@@ -209,14 +213,18 @@ module JTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data. 
     def read_dr(reg_or_val, options)
-      options = {
-        :read => true,
-      }.merge(options)
-      if options[:msg]
-        cc "#{options[:msg]}\n"
-      end
-      shift_dr do
-        shift(reg_or_val, options)
+      if RGen.tester.respond_to?(:read_dr)
+        RGen.tester.read_dr(reg_or_val, options)
+      else
+        options = {
+          :read => true,
+        }.merge(options)
+        if options[:msg]
+          cc "#{options[:msg]}\n"
+        end
+        shift_dr do
+          shift(reg_or_val, options)
+        end
       end
     end
 
@@ -241,15 +249,19 @@ module JTAG
     #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
     #   occurs.  
     def write_ir(reg_or_val, options={})
-      val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
-      if val != ir_value || options[:force]
-        if options[:msg]
-          cc "#{options[:msg]}\n"
+      if RGen.tester.respond_to?(:write_ir)
+        RGen.tester.write_ir(reg_or_val, options)
+      else
+        val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
+        if val != ir_value || options[:force]
+          if options[:msg]
+            cc "#{options[:msg]}\n"
+          end
+          shift_ir do
+            shift(reg_or_val, options)
+          end
+          @ir_value = val
         end
-        shift_ir do
-          shift(reg_or_val, options)
-        end
-        @ir_value = val
       end
     end
 
@@ -271,14 +283,18 @@ module JTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data. 
     def read_ir(reg_or_val, options)
-      options = {
-        :read => true,
-      }.merge(options)
-      if options[:msg]
-        cc "#{options[:msg]}\n"
-      end
-      shift_ir do
-        shift(reg_or_val, options)
+      if RGen.tester.respond_to?(:read_ir)
+        RGen.tester.read_ir(reg_or_val, options)
+      else
+        options = {
+          :read => true,
+        }.merge(options)
+        if options[:msg]
+          cc "#{options[:msg]}\n"
+        end
+        shift_ir do
+          shift(reg_or_val, options)
+        end
       end
     end
 

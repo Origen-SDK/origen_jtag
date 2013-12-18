@@ -1,3 +1,18 @@
+<a class="anchor release_tag" name="v0_6_0"></a>
+<h1><a href="#v0_6_0">Tag: v0.6.0</a></h2>
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 18-Dec-2013 08:31AM
+
+
+Added integration with a tester supporting JTAG. If the tester model provides
+read/write\_dr/ir methods then these will be deferred to to handle the requested
+actions.
+
+In short this means that any apps using a JTAG-based protocol can generate protocol
+aware or bench patterns by simply using a tester model that implements these methods.
+
 # Tag: v0.5.1
 
 ##### Branch: 'Trunk'
