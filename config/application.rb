@@ -24,6 +24,16 @@ class JTAG_Application < RGen::Application
 
   config.max_required_rgen_version = "v2.99.99"
 
+  # Ensure that all tests pass before allowing a release to continue
+  def validate_release
+    if !system("rgen examples") #|| !system("rgen specs")
+      puts "Sorry but you can't release with failing tests, please fix them and try again."
+      exit 1
+    else
+      puts "All tests passing, proceeding with release process!"
+    end
+  end
+
   # Run code coverage when deploying the web site
   def before_deploy_site
     Dir.chdir RGen.root do

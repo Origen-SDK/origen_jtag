@@ -107,7 +107,7 @@ module JTAG
                   call_subroutine = reg_or_val[i].overlay_str
                 end
               elsif reg_or_val[i].is_to_be_read?
-                owner.pin(:tdo).assert(reg_or_val[i])
+                owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
               else
                 owner.pin(:tdo).dont_care
               end
@@ -118,17 +118,17 @@ module JTAG
             end
           # Otherwise read the whole thing
           else
-            owner.pin(:tdo).assert(reg_or_val[i])
+            owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
           end
         else
           if contains_bits && reg_or_val[i] && reg_or_val[i].has_overlay?
             if RGen.mode.simulation?
-              owner.pin(:tdi).drive(reg_or_val[i])
+              owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             else
               call_subroutine = reg_or_val[i].overlay_str
             end
           else
-            owner.pin(:tdi).drive(reg_or_val[i])
+            owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
           end
         end
         if call_subroutine

@@ -1,5 +1,17 @@
+<a class="anchor release_tag" name="v0_6_1"></a>
+<h1><a href="#v0_6_1">Tag: v0.6.1</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 19-Feb-2014 02:55AM
+
+
+Fixed cases of driving/asserting nil values on a pin which latest RGen doesn't like.
+
+Added release validation (ensure tests pass).
+
 <a class="anchor release_tag" name="v0_6_0"></a>
-<h1><a href="#v0_6_0">Tag: v0.6.0</a></h2>
+<h1><a href="#v0_6_0">Tag: v0.6.0</a></h1>
 
 ##### Branch: 'Trunk'
 
