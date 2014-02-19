@@ -50,9 +50,15 @@ when "examples"
   enable_coverage("examples") do 
 
     # Pattern generator tests
-    ARGV = %w(jtag_workout -t debug -r approved)
+    ARGV = %w(jtag_workout -t debug_RH1 -r approved)
     load "#{RGen.top}/lib/rgen/commands/generate.rb"
-    ARGV = %w(jtag_workout -t v93k -r approved)
+    ARGV = %w(jtag_workout -t debug_RL1 -r approved)
+    load "#{RGen.top}/lib/rgen/commands/generate.rb"
+    ARGV = %w(jtag_workout -t debug_RH4 -r approved)
+    load "#{RGen.top}/lib/rgen/commands/generate.rb"
+    ARGV = %w(jtag_workout -t debug_RL4 -r approved)
+    load "#{RGen.top}/lib/rgen/commands/generate.rb"
+    ARGV = %w(jtag_workout -t v93k.rb -r approved)
     load "#{RGen.top}/lib/rgen/commands/generate.rb"
     
     if RGen.app.stats.changed_files == 0 &&

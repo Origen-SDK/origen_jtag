@@ -13,7 +13,22 @@ module JTAG
 
     JTAG_CONFIG = {
       :verbose => true,
+      :tclk_format => :rh,
+      :tclk_multiple => 1
     }
+
+    def initialize(options={})
+      JTAG_CONFIG[:tclk_format] = options[:tclk_format] if options[:tclk_format]
+      JTAG_CONFIG[:tclk_multiple] = options[:tclk_multiple] if options[:tclk_multiple]
+    end
+
+    def tclk_format
+      JTAG_CONFIG[:tclk_format]
+    end
+
+    def tclk_multiple
+      JTAG_CONFIG[:tclk_multiple]
+    end
 
     def on_create
       add_reg :test16, 0x0012, 16, :bus => {pos: 8, bits: 8},

@@ -1,3 +1,27 @@
+<a class="anchor release_tag" name="v0_7_0"></a>
+<h1><a href="#v0_7_0">Tag: v0.7.0</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Daniel Hadad on 19-Feb-2014 11:53AM
+
+
+Added ability to modify TCLK timing format and the # of cycles TCLK spans for
+cases where TCLK needs to run at a fraction of another clock pin.
+
+Assumes 50% duty cycle.
+
+To use update JTAG\_CONFIG in DUT model, e.g.
+
+~~~ruby
+  JTAG\_CONFIG = {
+    :tclk\_format => :rl,
+    :tclk\_multiple => 4
+  }
+~~~
+
+Default is tclk\_format = :rh and tclk\_multiple = 1
+
 <a class="anchor release_tag" name="v0_6_1"></a>
 <h1><a href="#v0_6_1">Tag: v0.6.1</a></h1>
 

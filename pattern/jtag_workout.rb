@@ -1,4 +1,4 @@
-Pattern.create do
+Pattern.create(options={:name => "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.tclk_multiple}"}) do
   def test(msg)
     ss "Test - #{msg}"
   end

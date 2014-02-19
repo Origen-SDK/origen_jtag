@@ -36,11 +36,25 @@ JTAG driver module cannot assume them.
 Including the module adds a <code>jtag</code> method which will return an instance of
 [<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>).
 
+The following attributes can be customized by defining a <code>JTAG_CONFIG</code>
+hash:
+
+* **tclk_format** - TCLK timing format,  Return High (:rh) or Return Low (:rl). Default is :rh.
+* **tclk_multiple** - Number of cycles for a single TCLK pulse to cover, to support cases where TCLK needs to be a fraction of another clock period. Assumes 50% duty cycle, specify only even numbers if > 1. Default is :r1.
+
+Here is an example integration:
+
 ~~~ruby
 class Pioneer
 
   include JTAG
   include RGen::Pins
+
+  # TCK covers 4 tester cycles, 2 high then 2 low for each effective TCK pulse
+  JTAG_CONFIG = {
+    :tclk_format => :rl,
+    :tclk_multiple => 4
+  }
 
   def initialize
     add_pin :tclk
