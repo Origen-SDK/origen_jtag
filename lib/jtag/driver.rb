@@ -148,7 +148,9 @@ module JTAG
             if i == size - 1 && options[:includes_last_bit]
               owner.pin(:tms).drive(1)
             end
-            RGen.tester.cycle
+            tclk_cycle do
+              RGen.tester.cycle
+            end
             owner.pin(:tdo).dont_care
           else
             @deferred_compare = true
@@ -158,6 +160,31 @@ module JTAG
       # Clear read and similar flags to reflect that the request has just
       # been fulfilled
       reg_or_val.clear_flags if reg_or_val.respond_to?(:clear_flags)
+    end
+
+    # Cycles the tester through one TCLK cycle
+    # Adjusts for the TCLK format and cycle span
+    # Assumes caller will drive pattern to tester
+    # via .drive or similar
+    def tclk_cycle
+      case @tclk_format
+        when :rh
+          tclk_val = 0
+        when :rl
+          tclk_val = 1
+        else
+          raise "ERROR: Invalid Tclk timing format!"
+      end
+
+      @tclk_multiple.times do |i|
+        # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
+        if i < (@tclk_multiple + 1) / 2
+          owner.pin(:tclk).drive(tclk_val)
+        else
+          owner.pin(:tclk).drive(1-tclk_val)
+        end
+        yield
+      end
     end
 
     # Applies the given value to the TMS pin and then
@@ -171,23 +198,10 @@ module JTAG
         owner.pin(:tdo).dont_care
       end
 
-      case @tclk_format
-        when :rh
-          tclk_val = 0
-        when :rl
-          tclk_val = 1
-        else
-          raise "ERROR: Invalid Tclk timing format!"
+      tclk_cycle do
+        owner.pin(:tms).drive!(val)
       end
-      @tclk_multiple.times do |i|
-        # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
-        if i < (@tclk_multiple + 1) / 2
-          owner.pin(:tclk).drive(tclk_val)
-        else
-          owner.pin(:tclk).drive(1-tclk_val)
-        end
-      owner.pin(:tms).drive!(val)
-      end
+
     end
 
     # Write the given value, register or bit collection to the data register.
