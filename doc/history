@@ -1,3 +1,15 @@
+<a class="anchor release_tag" name="v0_8_0"></a>
+<h1><a href="#v0_8_0">Tag: v0.8.0</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Daniel Hadad on 24-Feb-2014 17:01PM
+
+
+Added tdo\_strobe JTAG\_CONFIG option to permit only strobing TDO when TCK is high for
+when TCK is greater than 1 tester cycle.  Options also include when TCK is low and
+for all cycles of TCK.
+
 <a class="anchor release_tag" name="v0_7_1"></a>
 <h1><a href="#v0_7_1">Tag: v0.7.1</a></h1>
 

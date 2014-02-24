@@ -43,6 +43,7 @@ module JTAG
         :tclk_multiple => 1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
                                               #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
                                               #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
+        :tdo_strobe => :tclk_high,            # when using multiple cycles for TCK, which state of TCK to strobe for TDO, :tclk_high or :tclk_low or :tclk_all
       }.merge(options)
 
       init_tap_controller(options)
@@ -51,6 +52,7 @@ module JTAG
       @ir_value = :unknown
       @tclk_format = options[:tclk_format]
       @tclk_multiple = options[:tclk_multiple]
+      @tdo_strobe = options[:tdo_strobe]
     end
 
     # Shift data into the TDI pin or out of the TDO pin.
@@ -176,15 +178,32 @@ module JTAG
           raise "ERROR: Invalid Tclk timing format!"
       end
 
+      # determine whether to mask TDO on first half cycle
+      mask_tdo_half0 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1)) ||
+                        ((@tclk_format == :rh) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1))
+
+
+      # determine whether to mask TDO on second half cycle
+      mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
+                        ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
+
       @tclk_multiple.times do |i|
         # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
+
         if i < (@tclk_multiple + 1) / 2
-          owner.pin(:tclk).drive(tclk_val)
+          # first half of cycle
+          owner.pin(:tclk).drive(tclk_val)   
+          owner.pin(:tdo).suspend if mask_tdo_half0
+          owner.pin(:tdo).resume if !mask_tdo_half0
         else
+          # second half of cycle
           owner.pin(:tclk).drive(1-tclk_val)
+          owner.pin(:tdo).suspend if mask_tdo_half1
+          owner.pin(:tdo).resume if !mask_tdo_half1
         end
         yield
       end
+
     end
 
     # Applies the given value to the TMS pin and then
