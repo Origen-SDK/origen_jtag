@@ -14,12 +14,16 @@ module JTAG
     JTAG_CONFIG = {
       :verbose => true,
       :tclk_format => :rh,
-      :tclk_multiple => 1
+      :tclk_multiple => 1,
+      :tdo_strobe => :tclk_high,
+      :tdo_store_cycle => 0,
     }
 
     def initialize(options={})
       JTAG_CONFIG[:tclk_format] = options[:tclk_format] if options[:tclk_format]
       JTAG_CONFIG[:tclk_multiple] = options[:tclk_multiple] if options[:tclk_multiple]
+      JTAG_CONFIG[:tdo_strobe] = options[:tdo_strobe] if options[:tdo_strobe]
+      JTAG_CONFIG[:tdo_store_cycle] = options[:tdo_store_cycle] if options[:tdo_store_cycle]
     end
 
     def tclk_format
@@ -28,6 +32,14 @@ module JTAG
 
     def tclk_multiple
       JTAG_CONFIG[:tclk_multiple]
+    end
+
+    def tdo_strobe
+      JTAG_CONFIG[:tdo_strobe]
+    end
+
+    def tdo_store_cycle
+      JTAG_CONFIG[:tdo_store_cycle]
     end
 
     def on_create

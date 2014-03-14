@@ -11,5 +11,5 @@
 
 # You can also perform global configuration here, e.g. 
 # $dut.do_something_before_every_job
-$dut = JTAG::DUT.new(:tclk_format => :rh, :tclk_multiple => 4)
+$dut = JTAG::DUT.new(:tclk_format => :rh, :tclk_multiple => 4, :tdo_store_cycle => 3)
 $tester = RGen::Tester::J750.new

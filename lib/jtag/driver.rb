@@ -43,7 +43,12 @@ module JTAG
         :tclk_multiple => 1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
                                               #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
                                               #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
-        :tdo_strobe => :tclk_high,            # when using multiple cycles for TCK, which state of TCK to strobe for TDO, :tclk_high or :tclk_low or :tclk_all
+        :tdo_strobe => :tclk_high,            # when using multiple cycles for TCK, when to strobe for TDO, options include:
+                                              #     :tclk_high   - strobe TDO only when TCK is high
+                                              #     :tclk_low    - strobe TDO only when TCK is low
+                                              #     :tclk_all    - strobe TDO throughout TCK cycle
+        :tdo_store_cycle => 0,                # store vector cycle within TCK (i.e. when to indicate to tester to store vector within TCK cycle.  0 is first vector, 1 is second, etc.)
+                                              # NOTE: only when user indicates to store TDO, which will mean we don't care the 1 or 0 value on TDO (overriding effectively :tdo_strobe option above)
       }.merge(options)
 
       init_tap_controller(options)
@@ -53,6 +58,7 @@ module JTAG
       @tclk_format = options[:tclk_format]
       @tclk_multiple = options[:tclk_multiple]
       @tdo_strobe = options[:tdo_strobe]
+      @tdo_store_cycle = options[:tdo_store_cycle]
     end
 
     # Shift data into the TDI pin or out of the TDO pin.
@@ -187,19 +193,31 @@ module JTAG
       mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
                         ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
 
+
+      # determine whether TDO is set to capture for this TCK cycle
+      tdo_to_be_captured = owner.pin(:tdo).to_be_captured?
+
       @tclk_multiple.times do |i|
         # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
+
+        if tdo_to_be_captured
+          owner.pin(:tdo).state = @tdo_store_cycle == i ? :capture : :dont_care
+        end
 
         if i < (@tclk_multiple + 1) / 2
           # first half of cycle
           owner.pin(:tclk).drive(tclk_val)   
-          owner.pin(:tdo).suspend if mask_tdo_half0
-          owner.pin(:tdo).resume if !mask_tdo_half0
+          if !tdo_to_be_captured
+            owner.pin(:tdo).suspend if mask_tdo_half0
+            owner.pin(:tdo).resume if !mask_tdo_half0
+          end
         else
           # second half of cycle
           owner.pin(:tclk).drive(1-tclk_val)
-          owner.pin(:tdo).suspend if mask_tdo_half1
-          owner.pin(:tdo).resume if !mask_tdo_half1
+          if !tdo_to_be_captured
+            owner.pin(:tdo).suspend if mask_tdo_half1
+            owner.pin(:tdo).resume if !mask_tdo_half1
+          end
         end
         yield
       end

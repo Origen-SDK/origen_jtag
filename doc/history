@@ -1,3 +1,15 @@
+<a class="anchor release_tag" name="v0_9_0"></a>
+<h1><a href="#v0_9_0">Tag: v0.9.0</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Daniel Hadad on 14-Mar-2014 17:07PM
+
+
+
+Added tdo\_store\_cycle JTAG\_CONFIG option to permit specifying which vector to
+store in multi-cycle TCK format.
+
 <a class="anchor release_tag" name="v0_8_0"></a>
 <h1><a href="#v0_8_0">Tag: v0.8.0</a></h1>
 

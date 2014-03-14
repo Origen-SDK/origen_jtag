@@ -42,6 +42,7 @@ hash:
 * **tclk_format** - TCLK timing format,  Return High (:rh) or Return Low (:rl). Default is :rh.
 * **tclk_multiple** - Number of cycles for a single TCLK pulse to cover, to support cases where TCLK needs to be a fraction of another clock period. Assumes 50% duty cycle, specify only even numbers if > 1. Default is :r1.
 * **tdo_strobe** - When using multiple cycles for TCK, which state of TCK to strobe for TDO, :tclk_high or :tclk_low or :tclk_all. Default :tclk_high.
+* **tdo_store_cycle** - When using multiple cycles for TCK, which cycle of TCK to store for TDO if store requested (0 to number of tclk_multiple-1). Default 0
 
 Here is an example integration:
 
@@ -52,9 +53,12 @@ class Pioneer
   include RGen::Pins
 
   # TCK covers 4 tester cycles, 2 high then 2 low for each effective TCK pulse
+  # Strobe TDO only when TCK high.  Only store TDO on last cycle (3)
   JTAG_CONFIG = {
     :tclk_format => :rl,
-    :tclk_multiple => 4
+    :tclk_multiple => 4,
+    :tdo_strobe => :tclk_high,
+    :tdo_store_cycle => 3,
   }
 
   def initialize
