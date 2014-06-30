@@ -12,7 +12,7 @@ class JTAG_Application < RGen::Application
   MAJOR = 0
   MINOR = 9
   BUGFIX = 0
-  DEV = nil
+  DEV = 0
 
   VERSION = "v" + [MAJOR, MINOR, BUGFIX].join(".") + (DEV ? ".dev#{DEV}" : '')
 

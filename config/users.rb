@@ -19,7 +19,7 @@ module RGen
         User.new("TS Chung", "rhk462", :admin),
         User.new("Ronnie Lajaunie", "b01784", :admin),
         User.new("Daniel Hadad", "ra6854", :admin),
-
+        User.new("Robert Kang", "b02441", :admin),
         # Users
         #User.new("Thao Huynh", "r6aanf"),
         # The r-number attribute can be anything that can be prefixed to an 

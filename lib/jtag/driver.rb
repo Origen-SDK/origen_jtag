@@ -23,6 +23,7 @@ module JTAG
     # Returns the current value in the instruction register
     attr_reader :ir_value
 
+    attr_accessor :tclk_format
     # Set true to print out debug comments about all state transitions
     attr_accessor :verbose
     alias :verbose? :verbose
