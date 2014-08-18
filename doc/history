@@ -1,3 +1,18 @@
+<a class="anchor release_tag" name="v0_9_1"></a>
+<h1><a href="#v0_9_1">Tag: v0.9.1</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 18-Aug-2014 08:38AM
+
+
+Made the options argument to Driver#read\_dr and Driver#read\_ir optional as is the case with
+the equivalent write methods.
+
+Bumped the min RGen version to pick up a fix for an error caused by bit index references
+to bits that are not present. i.e. on some RGen versions reg[10] where 10 does not exist
+will raise an error whereas this driver is coded to expect it to return nil.
+
 <a class="anchor release_tag" name="v0_9_0_dev0"></a>
 <h2><a href="#v0_9_0_dev0">Tag: v0.9.0.dev0</a></h2>
 

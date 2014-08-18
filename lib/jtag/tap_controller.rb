@@ -271,8 +271,7 @@ module JTAG
     def init_tap_controller(options={})
       options = {
       }.merge(options)
-      # Assume we can't always trust the entry state
-      @state = :unknown
+ 
     end
 
     def update_state(state)

@@ -50,6 +50,7 @@ module JTAG
                                               #     :tclk_all    - strobe TDO throughout TCK cycle
         :tdo_store_cycle => 0,                # store vector cycle within TCK (i.e. when to indicate to tester to store vector within TCK cycle.  0 is first vector, 1 is second, etc.)
                                               # NOTE: only when user indicates to store TDO, which will mean we don't care the 1 or 0 value on TDO (overriding effectively :tdo_strobe option above)
+        :init_state => :unknown,
       }.merge(options)
 
       init_tap_controller(options)
@@ -60,6 +61,7 @@ module JTAG
       @tclk_multiple = options[:tclk_multiple]
       @tdo_strobe = options[:tdo_strobe]
       @tdo_store_cycle = options[:tdo_store_cycle]
+      @state = options[:init_state]
     end
 
     # Shift data into the TDI pin or out of the TDO pin.
@@ -286,7 +288,7 @@ module JTAG
     #   provided then the additional space will be padded by don't care cycles.
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data. 
-    def read_dr(reg_or_val, options)
+    def read_dr(reg_or_val, options={})
       if RGen.tester.respond_to?(:read_dr)
         RGen.tester.read_dr(reg_or_val, options)
       else
@@ -356,7 +358,7 @@ module JTAG
     #   provided then the additional space will be padded by don't care cycles.
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data. 
-    def read_ir(reg_or_val, options)
+    def read_ir(reg_or_val, options={})
       if RGen.tester.respond_to?(:read_ir)
         RGen.tester.read_ir(reg_or_val, options)
       else
