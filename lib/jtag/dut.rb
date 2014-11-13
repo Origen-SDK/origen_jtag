@@ -5,22 +5,21 @@ module JTAG
   #
   # It is not included when this library is imported.
   class DUT
-
     include JTAG
     include RGen::Callbacks
     include RGen::Registers
     include RGen::Pins
 
     JTAG_CONFIG = {
-      :verbose => true,
-      :tclk_format => :rh,
-      :tclk_multiple => 1,
-      :tdo_strobe => :tclk_high,
-      :tdo_store_cycle => 0,
-      :init_state => :unknown,
+      verbose: true,
+      tclk_format: :rh,
+      tclk_multiple: 1,
+      tdo_strobe: :tclk_high,
+      tdo_store_cycle: 0,
+      init_state: :unknown,
     }
 
-    def initialize(options={})
+    def initialize(options = {})
       JTAG_CONFIG[:tclk_format] = options[:tclk_format] if options[:tclk_format]
       JTAG_CONFIG[:tclk_multiple] = options[:tclk_multiple] if options[:tclk_multiple]
       JTAG_CONFIG[:tdo_strobe] = options[:tdo_strobe] if options[:tdo_strobe]
@@ -39,7 +38,7 @@ module JTAG
     def tdo_strobe
       JTAG_CONFIG[:tdo_strobe]
     end
-   
+
     def tdo_store_cycle
       JTAG_CONFIG[:tdo_store_cycle]
     end
@@ -49,18 +48,17 @@ module JTAG
     end
 
     def on_create
-      add_reg :test16, 0x0012, 16, :bus => {pos: 8, bits: 8},
-                                   :bit => {pos: 0 }
+      add_reg :test16, 0x0012, 16, bus: { pos: 8, bits: 8 },
+                                   bit: { pos: 0 }
 
-      add_reg :test32, 0x0014, 32, :bus => {pos: 16, bits: 16},
-                                   :bit => {pos: 0 }
+      add_reg :test32, 0x0014, 32, bus: { pos: 16, bits: 16 },
+                                   bit: { pos: 0 }
 
-      $tester.set_timeset("nvmbist", 40) 
+      $tester.set_timeset('nvmbist', 40)
       add_pin :tclk
       add_pin :tdi
       add_pin :tdo
       add_pin :tms
     end
-  
   end
 end

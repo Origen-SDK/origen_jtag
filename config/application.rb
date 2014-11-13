@@ -20,9 +20,20 @@ class JTAG_Application < RGen::Application
 
   config.semantically_version = true
 
-  config.min_required_rgen_version = "v2.3.0.dev101"
+  config.min_required_rgen_version = "v2.3.0.dev144"
 
   config.max_required_rgen_version = "v2.99.99"
+
+  config.lint_test = {
+    # Require the lint tests to pass before allowing a release to proceed
+    run_on_tag: true,
+    # Auto correct violations where possible whenever 'rgen lint' is run
+    auto_correct: true, 
+    # Limit the testing for large legacy applications
+    #level: :easy,
+    # Run on these directories/files by default
+    #files: ["lib", "config/application.rb"],
+  }
 
   # Ensure that all tests pass before allowing a release to continue
   def validate_release

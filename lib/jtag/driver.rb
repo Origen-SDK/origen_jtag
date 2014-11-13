@@ -8,10 +8,9 @@ module JTAG
   # To use this driver the parent model must define the following pins (an alias is fine):
   #   :tclk
   #   :tdi
-  #   :tdo     
-  #   :tms     
+  #   :tdo
+  #   :tms
   class Driver
-
     REQUIRED_PINS = [:tclk, :tdi, :tdo, :tms]
 
     include TAPController
@@ -26,9 +25,9 @@ module JTAG
     attr_accessor :tclk_format
     # Set true to print out debug comments about all state transitions
     attr_accessor :verbose
-    alias :verbose? :verbose
+    alias_method :verbose?, :verbose
 
-    def initialize(owner, options={})
+    def initialize(owner, options = {})
       @owner = owner
       validate_pins
 
@@ -39,18 +38,18 @@ module JTAG
 
       # Fallback defaults
       options = {
-        :verbose => false,
-        :tclk_format => :rh,                  # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
-        :tclk_multiple => 1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
-                                              #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
-                                              #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
-        :tdo_strobe => :tclk_high,            # when using multiple cycles for TCK, when to strobe for TDO, options include:
-                                              #     :tclk_high   - strobe TDO only when TCK is high
-                                              #     :tclk_low    - strobe TDO only when TCK is low
-                                              #     :tclk_all    - strobe TDO throughout TCK cycle
-        :tdo_store_cycle => 0,                # store vector cycle within TCK (i.e. when to indicate to tester to store vector within TCK cycle.  0 is first vector, 1 is second, etc.)
+        verbose: false,
+        tclk_format: :rh,                  # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
+        tclk_multiple: 1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
+                                           #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
+                                           #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
+        tdo_strobe: :tclk_high,            # when using multiple cycles for TCK, when to strobe for TDO, options include:
+                                           #     :tclk_high   - strobe TDO only when TCK is high
+                                           #     :tclk_low    - strobe TDO only when TCK is low
+                                           #     :tclk_all    - strobe TDO throughout TCK cycle
+        tdo_store_cycle: 0,                # store vector cycle within TCK (i.e. when to indicate to tester to store vector within TCK cycle.  0 is first vector, 1 is second, etc.)
                                               # NOTE: only when user indicates to store TDO, which will mean we don't care the 1 or 0 value on TDO (overriding effectively :tdo_strobe option above)
-        :init_state => :unknown,
+        init_state: :unknown,
       }.merge(options)
 
       init_tap_controller(options)
@@ -98,11 +97,11 @@ module JTAG
     #   and keep TMS low on the last cycle set this to false. One reason for doing this would be
     #   if generating some subroutine vectors which only represented a partial section of a shift
     #   operation.
-    def shift(reg_or_val, options={})
+    def shift(reg_or_val, options = {})
       options = {
-        :read => false,
-        :cycle_last => false,
-        :includes_last_bit => true,
+        read: false,
+        cycle_last: false,
+        includes_last_bit: true,
       }.merge(options)
       size = extract_size(reg_or_val, options)
       contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
@@ -129,7 +128,7 @@ module JTAG
                 owner.pin(:tdo).dont_care
               end
             # If the read width extends beyond the register boundary, don't care
-            # the extra bits  
+            # the extra bits
             else
               owner.pin(:tdo).dont_care
             end
@@ -184,21 +183,23 @@ module JTAG
         when :rl
           tclk_val = 1
         else
-          raise "ERROR: Invalid Tclk timing format!"
+          fail 'ERROR: Invalid Tclk timing format!'
       end
 
       # determine whether to mask TDO on first half cycle
       mask_tdo_half0 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1)) ||
                         ((@tclk_format == :rh) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1))
 
-
       # determine whether to mask TDO on second half cycle
       mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
                         ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
 
-
       # determine whether TDO is set to capture for this TCK cycle
       tdo_to_be_captured = owner.pin(:tdo).to_be_captured?
+
+      # If TDO is already suspended (by an application) then don't do the
+      # suspends below since the resume will clear the application's suspend
+      tdo_already_suspended = owner.pin(:tdo).suspended? && !@tdo_suspended_by_driver
 
       @tclk_multiple.times do |i|
         # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
@@ -209,22 +210,39 @@ module JTAG
 
         if i < (@tclk_multiple + 1) / 2
           # first half of cycle
-          owner.pin(:tclk).drive(tclk_val)   
-          if !tdo_to_be_captured
-            owner.pin(:tdo).suspend if mask_tdo_half0
-            owner.pin(:tdo).resume if !mask_tdo_half0
+          owner.pin(:tclk).drive(tclk_val)
+          unless tdo_already_suspended
+            unless tdo_to_be_captured
+              if mask_tdo_half0
+                @tdo_suspended_by_driver = true
+                owner.pin(:tdo).suspend
+              else
+                @tdo_suspended_by_driver = false
+                owner.pin(:tdo).resume
+              end
+            end
           end
         else
           # second half of cycle
-          owner.pin(:tclk).drive(1-tclk_val)
-          if !tdo_to_be_captured
-            owner.pin(:tdo).suspend if mask_tdo_half1
-            owner.pin(:tdo).resume if !mask_tdo_half1
+          owner.pin(:tclk).drive(1 - tclk_val)
+          unless tdo_already_suspended
+            unless tdo_to_be_captured
+              if mask_tdo_half1
+                @tdo_suspended_by_driver = true
+                owner.pin(:tdo).suspend
+              else
+                @tdo_suspended_by_driver = false
+                owner.pin(:tdo).resume
+              end
+            end
           end
         end
         yield
       end
-
+      if @tdo_suspended_by_driver
+        owner.pin(:tdo).resume
+        @tdo_suspended_by_driver = false
+      end
     end
 
     # Applies the given value to the TMS pin and then
@@ -241,7 +259,6 @@ module JTAG
       tclk_cycle do
         owner.pin(:tms).drive!(val)
       end
-
     end
 
     # Write the given value, register or bit collection to the data register.
@@ -257,8 +274,8 @@ module JTAG
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by 0s.
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
-    #   a msg to be written out prior to shifting data. 
-    def write_dr(reg_or_val, options={})
+    #   a msg to be written out prior to shifting data.
+    def write_dr(reg_or_val, options = {})
       if RGen.tester.respond_to?(:write_dr)
         RGen.tester.write_dr(reg_or_val, options)
       else
@@ -287,13 +304,13 @@ module JTAG
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by don't care cycles.
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
-    #   a msg to be written out prior to shifting data. 
-    def read_dr(reg_or_val, options={})
+    #   a msg to be written out prior to shifting data.
+    def read_dr(reg_or_val, options = {})
       if RGen.tester.respond_to?(:read_dr)
         RGen.tester.read_dr(reg_or_val, options)
       else
         options = {
-          :read => true,
+          read: true,
         }.merge(options)
         if options[:msg]
           cc "#{options[:msg]}\n"
@@ -323,8 +340,8 @@ module JTAG
     #   contains set this to true.
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
-    #   occurs.  
-    def write_ir(reg_or_val, options={})
+    #   occurs.
+    def write_ir(reg_or_val, options = {})
       if RGen.tester.respond_to?(:write_ir)
         RGen.tester.write_ir(reg_or_val, options)
       else
@@ -357,13 +374,13 @@ module JTAG
     #   the size derived from the bits. If the size is greater than the number of bits
     #   provided then the additional space will be padded by don't care cycles.
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
-    #   a msg to be written out prior to shifting data. 
-    def read_ir(reg_or_val, options={})
+    #   a msg to be written out prior to shifting data.
+    def read_ir(reg_or_val, options = {})
       if RGen.tester.respond_to?(:read_ir)
         RGen.tester.read_ir(reg_or_val, options)
       else
         options = {
-          :read => true,
+          read: true,
         }.merge(options)
         if options[:msg]
           cc "#{options[:msg]}\n"
@@ -376,11 +393,11 @@ module JTAG
 
     private
 
-    def extract_size(reg_or_val, options={})
+    def extract_size(reg_or_val, options = {})
       size = options[:size]
       unless size
         if reg_or_val.is_a?(Fixnum) || !reg_or_val.respond_to?(:size)
-          raise "When suppling a value to JTAG::Driver#shift you must supply a :size in the options!"
+          fail 'When suppling a value to JTAG::Driver#shift you must supply a :size in the options!'
         else
           size = reg_or_val.size
         end
@@ -398,13 +415,12 @@ module JTAG
           owner.pin(name)
         end
       rescue
-        puts "Missing JTAG pins!"
+        puts 'Missing JTAG pins!'
         puts "In order to use the JTAG driver your #{owner.class} class must define"
-        puts "the following pins (an alias is fine):"
+        puts 'the following pins (an alias is fine):'
         puts REQUIRED_PINS
-        raise "JTAG driver error!"
+        raise 'JTAG driver error!'
       end
     end
-
   end
 end

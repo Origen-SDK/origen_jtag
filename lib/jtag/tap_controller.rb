@@ -2,30 +2,29 @@ module JTAG
   # Provides methods specifically for controlling the state of the
   # TAP Controller
   module TAPController
-
     # Map of internal state symbols to human readable names
     STATES = {
-      reset:      "Test-Logic-Reset",
-      idle:       "Run-Test/Idle",
-      select_dr:  "Select-DR",
-      capture_dr: "Capture-DR",
-      shift_dr:   "Shift-DR",
-      exit1_dr:   "Exit1-DR",
-      pause_dr:   "Pause-DR",
-      exit2_dr:   "Exit2-DR",
-      update_dr:  "Update-DR",
-      select_ir:  "Select-IR",
-      capture_ir: "Capture-IR",
-      shift_ir:   "Shift-IR",
-      exit1_ir:   "Exit1-IR",
-      pause_ir:   "Pause-IR",
-      exit2_ir:   "Exit2-IR",
-      update_ir:  "Update-IR",
+      reset:      'Test-Logic-Reset',
+      idle:       'Run-Test/Idle',
+      select_dr:  'Select-DR',
+      capture_dr: 'Capture-DR',
+      shift_dr:   'Shift-DR',
+      exit1_dr:   'Exit1-DR',
+      pause_dr:   'Pause-DR',
+      exit2_dr:   'Exit2-DR',
+      update_dr:  'Update-DR',
+      select_ir:  'Select-IR',
+      capture_ir: 'Capture-IR',
+      shift_ir:   'Shift-IR',
+      exit1_ir:   'Exit1-IR',
+      pause_ir:   'Pause-IR',
+      exit2_ir:   'Exit2-IR',
+      update_ir:  'Update-IR',
     }
 
     # Returns the current state of the JTAG TAP Controller
     attr_reader :state
-    alias :current_state :state
+    alias_method :current_state, :state
 
     # Goto Shift-DR state then exit back to Run-Test/Idle
     #
@@ -52,21 +51,21 @@ module JTAG
     #   # State is Run-Test/Idle
     def shift_dr
       validate_state(:idle, :pause_dr)
-      log "Transition to Shift-DR..."
+      log 'Transition to Shift-DR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
         tms!(0)  # => Capture-DR
         tms!(0)  # => Shift-DR
         update_state :shift_dr
-        log "**** Data start ****", :always => true
+        log '**** Data start ****', always: true
         yield
-        log "Transition to Run-Test/Idle..."
+        log 'Transition to Run-Test/Idle...'
         if @last_data_vector_shifted
           @last_data_vector_shifted = false
         else
           tms!(1)  # => Exit1-DR
         end
-        log "**** Data stop ****", :always => true
+        log '**** Data stop ****', always: true
         tms!(1)  # => Update-DR
         tms!(0)  # => Run-Test/Idle
         update_state :idle
@@ -75,7 +74,7 @@ module JTAG
         tms!(0)  # => Shift-DR
         update_state :shift_dr
         yield
-        log "Transition to Pause-DR..."
+        log 'Transition to Pause-DR...'
         tms!(1)  # => Exit1-DR
         tms!(0)  # => Pause-DR
         update_state :pause_dr
@@ -107,7 +106,7 @@ module JTAG
     #   # State is Run-Test/Idle
     def pause_dr
       validate_state(:idle, :shift_dr)
-      log "Transition to Pause-DR..."
+      log 'Transition to Pause-DR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
         tms!(0)  # => Capture-DR
@@ -115,7 +114,7 @@ module JTAG
         tms!(0)  # => Pause-DR
         update_state :pause_dr
         yield
-        log "Transition to Run-Test/Idle..."
+        log 'Transition to Run-Test/Idle...'
         tms!(1)  # => Exit2-DR
         tms!(1)  # => Update-DR
         tms!(0)  # => Run-Test/Idle
@@ -125,7 +124,7 @@ module JTAG
         tms!(0)  # => Pause-DR
         update_state :pause_dr
         yield
-        log "Transition to Shift-DR..."
+        log 'Transition to Shift-DR...'
         tms!(1)  # => Exit2-DR
         tms!(0)  # => Shift-DR
         update_state :shift_dr
@@ -157,22 +156,22 @@ module JTAG
     #   # State is Run-Test/Idle
     def shift_ir
       validate_state(:idle, :pause_ir)
-      log "Transition to Shift-IR..."
+      log 'Transition to Shift-IR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
         tms!(1)  # => Select-IR-Scan
         tms!(0)  # => Capture-IR
         tms!(0)  # => Shift-IR
         update_state :shift_ir
-        log "**** Data start ****", :always => true
+        log '**** Data start ****', always: true
         yield
-        log "Transition to Run-Test/Idle..."
+        log 'Transition to Run-Test/Idle...'
         if @last_data_vector_shifted
           @last_data_vector_shifted = false
         else
           tms!(1)  # => Exit1-DR
         end
-        log "**** Data stop ****", :always => true
+        log '**** Data stop ****', always: true
         tms!(1)  # => Update-IR
         tms!(0)  # => Run-Test/Idle
         update_state :idle
@@ -181,7 +180,7 @@ module JTAG
         tms!(0)  # => Shift-IR
         update_state :shift_ir
         yield
-        log "Transition to Pause-IR..."
+        log 'Transition to Pause-IR...'
         tms!(1)  # => Exit1-IR
         tms!(0)  # => Pause-IR
         update_state :pause_ir
@@ -213,7 +212,7 @@ module JTAG
     #   # State is Run-Test/Idle
     def pause_ir
       validate_state(:idle, :shift_ir)
-      log "Transition to Pause-IR..."
+      log 'Transition to Pause-IR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
         tms!(1)  # => Select-IR-Scan
@@ -222,7 +221,7 @@ module JTAG
         tms!(0)  # => Pause-IR
         update_state :pause_ir
         yield
-        log "Transition to Run-Test/Idle..."
+        log 'Transition to Run-Test/Idle...'
         tms!(1)  # => Exit2-IR
         tms!(1)  # => Update-IR
         tms!(0)  # => Run-Test/Idle
@@ -232,7 +231,7 @@ module JTAG
         tms!(0)  # => Pause-IR
         update_state :pause_ir
         yield
-        log "Transition to Shift-IR..."
+        log 'Transition to Shift-IR...'
         tms!(1)  # => Exit2-IR
         tms!(0)  # => Shift-IR
         update_state :shift_ir
@@ -243,12 +242,12 @@ module JTAG
     def state_str
       STATES[state]
     end
-    alias :current_state_str :state_str
+    alias_method :current_state_str, :state_str
 
     # Forces the state to Run-Test/Idle regardless of the current
     # state.
     def idle
-      log "Force transition to Run-Test/Idle..."
+      log 'Force transition to Run-Test/Idle...'
       # From the JTAG2IPS block guide holding TMS high for 5 cycles
       # will force it to reset regardless of the state, let's give
       # it 6 for luck:
@@ -261,17 +260,16 @@ module JTAG
     # Force state to Test-Logic-Reset regardless of the current
     # state
     def reset
-      log "Force transition to Test-Logic-Reset..."
+      log 'Force transition to Test-Logic-Reset...'
       # JTAG reset
       6.times { tms!(1) }
     end
 
     private
 
-    def init_tap_controller(options={})
+    def init_tap_controller(options = {})
       options = {
       }.merge(options)
- 
     end
 
     def update_state(state)
@@ -290,13 +288,12 @@ module JTAG
       elsif acceptable_states.include?(current_state)
         return
       else
-        raise "JTAG TAP Controller - An invalid state sequence has occurred!"
+        fail 'JTAG TAP Controller - An invalid state sequence has occurred!'
       end
     end
 
-    def log(msg, options={})
+    def log(msg, options = {})
       cc "JTAG::TAPController - #{msg}" if verbose? || options[:always]
-    end  
-
+    end
   end
 end

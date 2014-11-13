@@ -170,4 +170,15 @@ Pattern.create(options={:name => "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.
 
   test "Reset"
     jtag.reset
+
+  test "Suspend of compare on TDO works"
+    cc "TDO should be H"
+    jtag.read_dr 0xFFFF, :size => 16, :msg => "Read value out of DR" 
+    $tester.ignore_fails($dut.pin(:tdo)) do
+      cc "TDO should be X"
+      jtag.read_dr 0xFFFF, :size => 16, :msg => "Read value out of DR" 
+    end
+    cc "TDO should be H"
+    jtag.read_dr 0xFFFF, :size => 16, :msg => "Read value out of DR" 
+    
 end

@@ -1,3 +1,18 @@
+<a class="anchor release_tag" name="v0_9_2"></a>
+<h1><a href="#v0_9_2">Tag: v0.9.2</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Stephen McGinty on 13-Nov-2014 06:37AM
+
+
+Bug fix:
+If an application disabled compares on TDO ($tester.ignore\_fails($dut.pin(:tdo) do..)
+then this was not implemented by the JTAG driver and in fact it would actually remove the
+suspend on that pin that had been set by the application.
+
+Added test case for this and the necessary patch to fix it.
+
 <a class="anchor release_tag" name="v0_9_1"></a>
 <h1><a href="#v0_9_1">Tag: v0.9.1</a></h1>
 
