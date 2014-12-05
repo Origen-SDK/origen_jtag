@@ -14,17 +14,18 @@ a higher level protocol such as [JTAG2IPS](http://rgen.freescale.net/jtag2ips/).
 
 ### How To Import
 
-Add the following to your <code>config/application.rb</code> file to import
-this plugin:
+In your Gemfile add:
 
 ~~~ruby
-config.imports = [
-  {
-    :vault => "<%= RGen.config.vault %>",
-    :version => "<%= RGen.app.version %>",
-  }
-]
+gem "jtag", ">= <%= RGen.app.version %>"
 ~~~
+
+or if your application is a plugin add this to your <code>.gemspec</code>
+
+~~~ruby
+spec.add_development_dependency "jtag", ">= <%= RGen.app.version %>"
+~~~
+
 
 ### How To Use
 

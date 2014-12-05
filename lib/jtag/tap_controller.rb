@@ -19,7 +19,7 @@ module JTAG
       exit1_ir:   'Exit1-IR',
       pause_ir:   'Pause-IR',
       exit2_ir:   'Exit2-IR',
-      update_ir:  'Update-IR',
+      update_ir:  'Update-IR'
     }
 
     # Returns the current state of the JTAG TAP Controller

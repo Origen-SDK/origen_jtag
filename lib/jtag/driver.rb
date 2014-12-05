@@ -38,18 +38,18 @@ module JTAG
 
       # Fallback defaults
       options = {
-        verbose: false,
-        tclk_format: :rh,                  # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
-        tclk_multiple: 1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
-                                           #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
-                                           #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
-        tdo_strobe: :tclk_high,            # when using multiple cycles for TCK, when to strobe for TDO, options include:
-                                           #     :tclk_high   - strobe TDO only when TCK is high
-                                           #     :tclk_low    - strobe TDO only when TCK is low
-                                           #     :tclk_all    - strobe TDO throughout TCK cycle
+        verbose:         false,
+        tclk_format:     :rh,                  # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
+        tclk_multiple:   1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
+        #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
+        #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
+        tdo_strobe:      :tclk_high,            # when using multiple cycles for TCK, when to strobe for TDO, options include:
+        #     :tclk_high   - strobe TDO only when TCK is high
+        #     :tclk_low    - strobe TDO only when TCK is low
+        #     :tclk_all    - strobe TDO throughout TCK cycle
         tdo_store_cycle: 0,                # store vector cycle within TCK (i.e. when to indicate to tester to store vector within TCK cycle.  0 is first vector, 1 is second, etc.)
-                                              # NOTE: only when user indicates to store TDO, which will mean we don't care the 1 or 0 value on TDO (overriding effectively :tdo_strobe option above)
-        init_state: :unknown,
+        # NOTE: only when user indicates to store TDO, which will mean we don't care the 1 or 0 value on TDO (overriding effectively :tdo_strobe option above)
+        init_state:      :unknown
       }.merge(options)
 
       init_tap_controller(options)
@@ -99,9 +99,9 @@ module JTAG
     #   operation.
     def shift(reg_or_val, options = {})
       options = {
-        read: false,
-        cycle_last: false,
-        includes_last_bit: true,
+        read:              false,
+        cycle_last:        false,
+        includes_last_bit: true
       }.merge(options)
       size = extract_size(reg_or_val, options)
       contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
@@ -310,7 +310,7 @@ module JTAG
         RGen.tester.read_dr(reg_or_val, options)
       else
         options = {
-          read: true,
+          read: true
         }.merge(options)
         if options[:msg]
           cc "#{options[:msg]}\n"
@@ -380,7 +380,7 @@ module JTAG
         RGen.tester.read_ir(reg_or_val, options)
       else
         options = {
-          read: true,
+          read: true
         }.merge(options)
         if options[:msg]
           cc "#{options[:msg]}\n"
@@ -408,19 +408,15 @@ module JTAG
     # Validates that the parent object (the owner) has defined the necessary
     # pins to implement the JTAG
     def validate_pins
-      begin
-        # Access each pin, if any errors are raised it means the pin is
-        # not defined
-        REQUIRED_PINS.each do |name|
-          owner.pin(name)
-        end
-      rescue
-        puts 'Missing JTAG pins!'
-        puts "In order to use the JTAG driver your #{owner.class} class must define"
-        puts 'the following pins (an alias is fine):'
-        puts REQUIRED_PINS
-        raise 'JTAG driver error!'
+      REQUIRED_PINS.each do |name|
+        owner.pin(name)
       end
+    rescue
+      puts 'Missing JTAG pins!'
+      puts "In order to use the JTAG driver your #{owner.class} class must define"
+      puts 'the following pins (an alias is fine):'
+      puts REQUIRED_PINS
+      raise 'JTAG driver error!'
     end
   end
 end

@@ -11,12 +11,12 @@ module JTAG
     include RGen::Pins
 
     JTAG_CONFIG = {
-      verbose: true,
-      tclk_format: :rh,
-      tclk_multiple: 1,
-      tdo_strobe: :tclk_high,
+      verbose:         true,
+      tclk_format:     :rh,
+      tclk_multiple:   1,
+      tdo_strobe:      :tclk_high,
       tdo_store_cycle: 0,
-      init_state: :unknown,
+      init_state:      :unknown
     }
 
     def initialize(options = {})

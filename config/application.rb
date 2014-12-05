@@ -10,6 +10,10 @@ class JTAG_Application < RGen::Application
   config.initials = "JTAG"
   config.vault    = "sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen" 
 
+  # Force naming for gem
+  self.name = "jtag"
+  self.namespace = "JTAG"
+
   # To enable deployment of your documentation to a web server (via the 'rgen web'
   # command) fill in these attributes. The example here is configured to deploy to
   # the rgen.freescale.net domain, which is an easy option if you don't have another
@@ -19,10 +23,6 @@ class JTAG_Application < RGen::Application
   config.web_domain = "http://rgen.freescale.net/jtag"
 
   config.semantically_version = true
-
-  config.min_required_rgen_version = "v2.3.0.dev144"
-
-  config.max_required_rgen_version = "v2.99.99"
 
   config.lint_test = {
     # Require the lint tests to pass before allowing a release to proceed
