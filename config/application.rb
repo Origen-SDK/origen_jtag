@@ -11,7 +11,7 @@ class JTAG_Application < RGen::Application
   config.vault    = "sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen" 
 
   # Force naming for gem
-  self.name = "jtag"
+  self.name = "rgen_jtag"
   self.namespace = "JTAG"
 
   # To enable deployment of your documentation to a web server (via the 'rgen web'

@@ -1,3 +1,17 @@
+<a class="anchor release_tag" name="v0_10_1"></a>
+<h1><a href="#v0_10_1">Tag: v0.10.1</a></h1>
+
+##### Branch: 'Trunk'
+
+##### by Daniel Hadad on 11-Dec-2014 14:02PM
+
+
+Rename gem to 'rgen\_jtag' as there were conflicts with public gem named
+'jtag'.
+Added code (commented out) to permit using local/unreleased gem.
+Updated to support rgen\_core v2.5.0.pre18.
+
+
 <a class="anchor release_tag" name="v0_10_0"></a>
 <h1><a href="#v0_10_0">Tag: v0.10.0</a></h1>
 

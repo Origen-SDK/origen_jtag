@@ -3,11 +3,11 @@ config = File.expand_path('../config', __FILE__)
 require "#{config}/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "jtag"
+  spec.name          = "rgen_jtag"
   spec.version       = JTAG::VERSION
   spec.authors       = ["Daniel Hadad"]
   spec.email         = ["ra6854@freescale.com"]
-  spec.summary       = "This plugin provides an ATE driver for an IEEE 1149.1 compliant JTAG interface."
+  spec.summary       = "testing"
   spec.homepage      = "http://rgen.freescale.net/jtag"
 
   spec.required_ruby_version     = '>= 1.9.3'
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Add any gems that your plugin needs to run within a host application
-  spec.add_runtime_dependency "rgen_core", ">= 2.5.0.pre14"
+  spec.add_runtime_dependency "rgen_core", ">= 2.5.0.pre18"
 
   # Add any gems that your plugin needs for its development environment only
   #spec.add_development_dependency "doc_helpers", ">= 1.7.0"

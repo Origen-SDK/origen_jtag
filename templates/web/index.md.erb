@@ -17,15 +17,16 @@ a higher level protocol such as [JTAG2IPS](http://rgen.freescale.net/jtag2ips/).
 In your Gemfile add:
 
 ~~~ruby
-gem "jtag", ">= <%= RGen.app.version %>"
+gem "rgen_jtag", ">= <%= RGen.app.version %>"
 ~~~
 
 or if your application is a plugin add this to your <code>.gemspec</code>
 
 ~~~ruby
-spec.add_development_dependency "jtag", ">= <%= RGen.app.version %>"
+spec.add_development_dependency "rgen_jtag", ">= <%= RGen.app.version %>"
 ~~~
 
+__NOTE:__ You will also need to include <code>require 'jtag'</code> somewhere in your environment.  This can be done in <code>config/environment.rb</code> for example.
 
 ### How To Use
 
