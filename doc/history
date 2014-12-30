@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_11_0_pre0"></a>
+<h2><a href="#v0_11_0_pre0">Tag: v0.11.0.pre0</a></h2>
+
+##### Branch: 'Trunk'
+
+##### by Corey Engelken on 30-Dec-2014 11:41AM
+
+
+Added options to enable arm-debug (which tears apart the registers) to correctly use
+overlays and asserts (from reads).
+
 <a class="anchor release_tag" name="v0_10_1"></a>
 <h1><a href="#v0_10_1">Tag: v0.10.1</a></h1>
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rgen_jtag (0.10.1)
+    rgen_jtag (0.11.0.pre0)
       rgen_core (>= 2.5.0.pre18)
 
 GEM
@@ -47,14 +47,14 @@ GEM
     kramdown (1.5.0)
     method_source (0.8.2)
     mini_portile (0.6.1)
-    minitest (5.4.3)
+    minitest (5.5.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nanoc (3.7.4)
       cri (~> 2.3)
     nesty (1.0.2)
-    net-ldap (0.10.0)
+    net-ldap (0.10.1)
     nokogiri (1.6.4.1)
       mini_portile (~> 0.6.0)
     parser (2.2.0.pre.8)

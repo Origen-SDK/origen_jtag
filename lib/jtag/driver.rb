@@ -103,6 +103,9 @@ module JTAG
         cycle_last:        false,
         includes_last_bit: true
       }.merge(options)
+      if options.key?(:overlay)
+        $tester.label(options[:overlay])
+      end
       size = extract_size(reg_or_val, options)
       contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
       owner.pin(:tdi).drive(0) # Drive state when reading out
@@ -124,6 +127,13 @@ module JTAG
                 end
               elsif reg_or_val[i].is_to_be_read?
                 owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
+              elsif options.key?(:compare_data)
+                if i.eql?(0) || i.eql?(1) || i.eql?(2)
+                  # Skip comparing first three status bits
+                  owner.pin(:tdo).dont_care
+                else
+                  owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
+                end
               else
                 owner.pin(:tdo).dont_care
               end
@@ -142,6 +152,13 @@ module JTAG
               owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             else
               call_subroutine = reg_or_val[i].overlay_str
+            end
+          elsif options.key?(:overlay)
+            if RGen.mode.simulation?
+              owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
+            else
+              $tester.label('// JTAG DATA Pin: ' + i.to_s)
+              owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             end
           else
             owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
