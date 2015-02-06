@@ -1,3 +1,17 @@
+<a class="anchor release_tag" name="v0_11_0_pre2"></a>
+<h2><a href="#v0_11_0_pre2">Tag: v0.11.0.pre2</a></h2>
+
+##### Branch: 'Trunk'
+
+##### by Jiang Liu on 06-Feb-2015 16:43PM
+
+
+Based on discussion with Corey, updated previously known as options[:overlay] to
+options[:arm\_debug\_overlay], this
+is causing a naming conflict between arm\_debug and nexus. This is just a temporary
+workaround for everyone, in the future
+this will be reworked.
+
 <a class="anchor release_tag" name="v0_11_0_pre1"></a>
 <h2><a href="#v0_11_0_pre1">Tag: v0.11.0.pre1</a></h2>
 
