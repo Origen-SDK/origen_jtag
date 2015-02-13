@@ -336,6 +336,9 @@ module JTAG
           cc "#{options[:msg]}\n"
         end
         shift_dr do
+          if options[:overlay] == true
+            $tester.label(options[:overlay_label], true) # apply global label
+          end
           shift(reg_or_val, options)
         end
       end
