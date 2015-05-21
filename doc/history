@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_11_0_pre4"></a>
+<h2><a href="#v0_11_0_pre4">Tag: v0.11.0.pre4</a></h2>
+
+##### Branch: 'Trunk'
+
+##### by Corey Engelken on 21-May-2015 09:13AM
+
+
+Added an additional check-for-not-fixnum during arm-debug overlays. Updated gemspec to use
+newer version of RGen (was pre48).
+
 <a class="anchor release_tag" name="v0_11_0_pre3"></a>
 <h2><a href="#v0_11_0_pre3">Tag: v0.11.0.pre3</a></h2>
 
