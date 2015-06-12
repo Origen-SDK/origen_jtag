@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_11_0_pre5"></a>
+<h2><a href="#v0_11_0_pre5">Tag: v0.11.0.pre5</a></h2>
+
+##### Branch: 'Trunk'
+
+##### by Corey Engelken on 12-Jun-2015 16:17PM
+
+
+Added an 'arm\_debug\_comment' option that will be printed in the pattern just before the
+data is shifted in. Small bugfix for arm\_debug\_overlays.
+
 <a class="anchor release_tag" name="v0_11_0_pre4"></a>
 <h2><a href="#v0_11_0_pre4">Tag: v0.11.0.pre4</a></h2>
 

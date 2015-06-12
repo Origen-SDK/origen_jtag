@@ -103,8 +103,12 @@ module JTAG
         cycle_last:        false,
         includes_last_bit: true
       }.merge(options)
-      if options.key?(:arm_debug_overlay) && !reg_or_val.is_a?(Fixnum)
-        $tester.label(reg_or_val.name, options[:arm_debug_overlay])
+      size = extract_size(reg_or_val, options)
+      if options.key?(:arm_debug_comment)
+        cc options[:arm_debug_comment]
+      end
+      if options.key?(:arm_debug_overlay)
+        $tester.label(options[:arm_debug_overlay])
       end
       size = extract_size(reg_or_val, options)
       contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
