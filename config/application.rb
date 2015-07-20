@@ -16,12 +16,9 @@ class JTAG_Application < RGen::Application
   self.namespace = "JTAG"
 
   # To enable deployment of your documentation to a web server (via the 'rgen web'
-  # command) fill in these attributes. The example here is configured to deploy to
-  # the rgen.freescale.net domain, which is an easy option if you don't have another
-  # server already in mind. To do this you will need an account on CDE and be a member
-  # of the 'rgen' group.
-  config.web_directory = "/proj/.web_rgen/html/jtag"
-  config.web_domain = "http://rgen.freescale.net/jtag"
+  # command) fill in these attributes.
+  config.web_directory = "/proj/.web_origen/html/origen_jtag"
+  config.web_domain = "http://origen-sdk.org/origen_jtag"
 
   config.semantically_version = true
 
@@ -58,16 +55,10 @@ class JTAG_Application < RGen::Application
  
   # Deploy the website automatically after a production tag
   def after_release_email(tag, note, type, selector, options)
-    deployer = RGen.app.deployer
-    if deployer.running_on_cde? && deployer.user_belongs_to_rgen?
-      command = "rgen web compile --remote --api"
-      if RGen.app.version.production?
-        command += " --archive #{RGen.app.version}"
-      end
-      Dir.chdir RGen.root do
-        system command
-      end
-    end 
+    command = "rgen web compile --remote --api"
+    Dir.chdir RGen.root do
+      system command
+    end
   end
 
 end
