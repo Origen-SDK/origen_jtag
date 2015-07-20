@@ -5,7 +5,7 @@ module OrigenJTAG
   #
   # It is not included when this library is imported.
   class DUT
-    include JTAG
+    include OrigenJTAG
     include Origen::Callbacks
     include Origen::Registers
     include Origen::Pins
