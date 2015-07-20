@@ -2,7 +2,7 @@
 
 %# HTML tags can be embedded in mark down files if you want to do specific custom
 %# formatting like this, but in most cases that is not required.
-<h1><%= RGen.config.name %> <span style="font-size: 14px">(<%= RGen.app.version %>)</span></h1>
+<h1><%= Origen.app.namespace %> <span style="font-size: 14px">(<%= Origen.app.version %>)</span></h1>
 
 ### Purpose
 
@@ -10,33 +10,33 @@ This plugin provides an ATE driver for an IEEE 1149.1 compliant JTAG interface.
 
 It makes no assumptions about the instruction or data register attributes or higher
 level protocol concerns. For use at DUT model level this plugin would be normally be wrapped in
-a higher level protocol such as [JTAG2IPS](http://rgen.freescale.net/jtag2ips/).
+a higher level protocol such as [Nexus](http://origen-sdk.org/nexus/).
 
 ### How To Import
 
 In your Gemfile add:
 
 ~~~ruby
-gem "rgen_jtag", ">= <%= RGen.app.version %>"
+gem "origen_jtag", ">= <%= Origen.app.version %>"
 ~~~
 
 or if your application is a plugin add this to your <code>.gemspec</code>
 
 ~~~ruby
-spec.add_development_dependency "rgen_jtag", ">= <%= RGen.app.version %>"
+spec.add_development_dependency "origen_jtag", ">= <%= Origen.app.version %>"
 ~~~
 
-__NOTE:__ You will also need to include <code>require 'jtag'</code> somewhere in your environment.  This can be done in <code>config/environment.rb</code> for example.
+__NOTE:__ You will also need to include <code>require 'origen_jtag'</code> somewhere in your environment.  This can be done in <code>config/environment.rb</code> for example.
 
 ### How To Use
 
-Include the <code>JTAG</code> module to add a JTAG driver to your class and
+Include the <code>OrigenJTAG</code> module to add a JTAG driver to your class and
 define the required pins.
 Normally the pins would be an alias to existing DUT pins and therefore the
 JTAG driver module cannot assume them.
 
 Including the module adds a <code>jtag</code> method which will return an instance of
-[<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>).
+[<code>OrigenJTAG::Driver</code>](<%= path "api/OrigenJTAG/Driver.html" %>).
 
 The following attributes can be customized by defining a <code>JTAG_CONFIG</code>
 hash:
@@ -51,8 +51,8 @@ Here is an example integration:
 ~~~ruby
 class Pioneer
 
-  include JTAG
-  include RGen::Pins
+  include OrigenJTAG
+  include Origen::Pins
 
   # TCK covers 4 tester cycles, 2 high then 2 low for each effective TCK pulse
   # Strobe TDO only when TCK high.  Only store TDO on last cycle (3)
@@ -72,13 +72,13 @@ class Pioneer
 
 end
 
-Pioneer.new.jtag  # => An instance of JTAG::Driver
+Pioneer.new.jtag  # => An instance of OrigenJTAG::Driver
 ~~~
 
 Two APIs are provided, the primary one provides canned methods to read and
 write to the IR and DR registers.
 
-These accept either an absolute data value or an RGen register/bit collection.
+These accept either an absolute data value or an Origen register/bit collection.
 
 ~~~ruby
 jtag.write_dr 0x1234, :size => 16
@@ -106,38 +106,33 @@ jtag.pause_dr do
 end
 ~~~
 
-See the [<code>JTAG::Driver</code>](<%= path "api/JTAG/Driver.html" %>) and
-[<code>JTAG::TAPController</code>](<%= path "api/JTAG/TAPController.html" %>)
+See the [<code>OrigenJTAG::Driver</code>](<%= path "api/OrigenJTAG/Driver.html" %>) and
+[<code>OrigenJTAG::TAPController</code>](<%= path "api/OrigenJTAG/TAPController.html" %>)
 APIs for more details about the available driver methods.
 
 ### How To Setup a Development Environment
 
-~~~
-mkdir jtag
-cd jtag
-dssc setvault <%= RGen.app.config.vault %> .
-dssc pop -rec -get .
-~~~
+[Clone the repository from Github](https://github.com/Origen-SDK/origen_jtag).
 
-An instance of the JTAG driver is hooked up to a dummy DUT
+An instance of the OrigenJTAG driver is hooked up to a dummy DUT
 object for use in the console:
 
 ~~~
-rgen i
+origen i
 
 > $dut.jtag
-=> #<JTAG::Driver:0x0000001ee48e78>
+=> #<OrigenJTAG::Driver:0x0000001ee48e78>
 ~~~
 
 Follow the instructions here if you want to make a 3rd party app
-workspace use your development copy of the JTAG plugin:
-[Setting up a Plugin Development Environment](http://rgen.freescale.net/rgen/latest/guides/libraries/environment)
+workspace use your development copy of the OrigenJTAG plugin:
+[Setting up a Plugin Development Environment](http://origen-sdk.org/origen/latest/guides/plugins)
 
 This plugin also contains a test suite, makes sure this passes before committing
 any changes!
 
 ~~~
-rgen examples
+origen examples
 ~~~
 
 
