@@ -8,7 +8,8 @@ class JTAG_Application < RGen::Application
   # to your application
   config.name     = "JTAG"
   config.initials = "JTAG"
-  config.vault    = "sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen" 
+  config.rc_url   = "git@github.com:Origen-SDK/origen_jtag.git"
+  config.release_externally = true
 
   # Force naming for gem
   self.name = "rgen_jtag"
