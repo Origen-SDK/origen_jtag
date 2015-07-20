@@ -17,8 +17,8 @@ class JTAG_Application < Origen::Application
 
   # To enable deployment of your documentation to a web server (via the 'origen web'
   # command) fill in these attributes.
-  config.web_directory = "/proj/.web_origen/html/origen_jtag"
-  config.web_domain = "http://origen-sdk.org/origen_jtag"
+  config.web_directory = "/proj/.web_origen/html/jtag"
+  config.web_domain = "http://origen-sdk.org/jtag"
 
   config.semantically_version = true
 

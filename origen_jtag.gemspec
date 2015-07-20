@@ -3,12 +3,12 @@ config = File.expand_path('../config', __FILE__)
 require "#{config}/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "rgen_jtag"
-  spec.version       = JTAG::VERSION
-  spec.authors       = ["Daniel Hadad"]
-  spec.email         = ["ra6854@freescale.com"]
-  spec.summary       = "testing"
-  spec.homepage      = "http://rgen.freescale.net/jtag"
+  spec.name          = "origen_jtag"
+  spec.version       = OrigenJTAG::VERSION
+  spec.authors       = ["Stephen McGinty"]
+  spec.email         = ["stephen.f.mcginty@gmail.com"]
+  spec.summary       = "JTAG driver for the Origen SDK"
+  spec.homepage      = "http://origen-sdk.org/jtag"
 
   spec.required_ruby_version     = '>= 1.9.3'
   spec.required_rubygems_version = '>= 1.8.11'
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Add any gems that your plugin needs to run within a host application
-  spec.add_runtime_dependency "rgen_core", ">= 2.5.0.pre107"
+  spec.add_runtime_dependency "origen", ">= 0.1.3"
 
   # Add any gems that your plugin needs for its development environment only
   #spec.add_development_dependency "doc_helpers", ">= 1.7.0"
