@@ -1,4 +1,4 @@
-class JTAG_Application < Origen::Application
+class OrigenJTAGApplication < Origen::Application
 
   # This file contains examples of some of the most common configuration options,
   # to see a real production example from a large application have a look at:
@@ -6,14 +6,14 @@ class JTAG_Application < Origen::Application
 
   # This information is used in headers and email templates, set it specific
   # to your application
-  config.name     = "JTAG"
-  config.initials = "JTAG"
+  config.name     = "Origen JTAG"
+  config.initials = "OrigenJTAG"
+  # Force naming for gem, done here because JTAG will not automatically convert to
+  # 'jtag' when OrigenJTAG is snakecased
+  self.name = "origen_jtag"
+  self.namespace = "OrigenJTAG"
   config.rc_url   = "git@github.com:Origen-SDK/origen_jtag.git"
   config.release_externally = true
-
-  # Force naming for gem
-  self.name = "origen_jtag"
-  self.namespace = "JTAG"
 
   # To enable deployment of your documentation to a web server (via the 'origen web'
   # command) fill in these attributes.
