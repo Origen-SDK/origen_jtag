@@ -65,24 +65,24 @@ Pattern.create(options={:name => "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.
   test "Shift register into TDI with overlay"
     reg.overlay("write_overlay")
     cc "Full register (16 bits)"
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
     cc "Full register with additional size (32 bits)"
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :size => 32
     cc "Full register with reduced size (8 bits)"
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :size => 8, :includes_last_bit => false
     cc "It should in-line overlays when running in simulation mode"
-    RGen.mode = :simulation
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.mode = :simulation
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
-    RGen.mode = :debug
+    Origen.mode = :debug
 
   test "Shift register into TDI with single bit overlay"
     reg.overlay(nil)
     reg.bit(:bit).overlay("write_overlay")
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
     reg.overlay(nil)
 
@@ -123,24 +123,24 @@ Pattern.create(options={:name => "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.
   test "Shift register out of TDO with overlay"
     reg.overlay("read_overlay")
     cc "Full register (16 bits)"
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :read => true
     cc "Full register with additional size (32 bits)"
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :size => 32, :read => true
     cc "Full register with reduced size (8 bits)"
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :size => 8, :read => true, :includes_last_bit => false
     cc "It should in-line overlays when running in simulation mode"
-    RGen.mode = :simulation
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.mode = :simulation
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :read => true
-    RGen.mode = :debug
+    Origen.mode = :debug
 
   test "Shift register out of TDO with single bit overlay"
     reg.overlay(nil)
     reg.bit(:bit).overlay("read_overlay")
-    RGen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
+    Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
     reg.overlay(nil)
 

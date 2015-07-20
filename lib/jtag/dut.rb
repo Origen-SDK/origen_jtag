@@ -6,9 +6,9 @@ module JTAG
   # It is not included when this library is imported.
   class DUT
     include JTAG
-    include RGen::Callbacks
-    include RGen::Registers
-    include RGen::Pins
+    include Origen::Callbacks
+    include Origen::Registers
+    include Origen::Pins
 
     JTAG_CONFIG = {
       verbose:         true,

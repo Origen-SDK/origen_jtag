@@ -14,7 +14,7 @@ module JTAG
     REQUIRED_PINS = [:tclk, :tdi, :tdo, :tms]
 
     include TAPController
-    include RGen::Registers
+    include Origen::Registers
 
     # Returns the object that instantiated the JTAG
     attr_reader :owner
@@ -75,7 +75,7 @@ module JTAG
     # an overlay subroutine pattern where it would be necessary to generate some JTAG
     # vectors outwith the normal state controller wrapper.
     #
-    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    # @param [Integer, Origen::Register::Reg, Origen::Register::BitCollection, Origen::Register::Bit] reg_or_val
     #   Value to be shifted. If a reg/bit collection is supplied this can be pre-marked for
     #   read, store or overlay and which will result in the requested action being applied to
     #   the cycles corresponding to those bits only (don't care cycles will be generated for the others).
@@ -121,10 +121,10 @@ module JTAG
           if contains_bits
             if reg_or_val[i]
               if reg_or_val[i].is_to_be_stored?
-                RGen.tester.store_next_cycle(owner.pin(:tdo))
-                owner.pin(:tdo).dont_care if RGen.tester.j750?
+                Origen.tester.store_next_cycle(owner.pin(:tdo))
+                owner.pin(:tdo).dont_care if Origen.tester.j750?
               elsif reg_or_val[i].has_overlay?
-                if RGen.mode.simulation?
+                if Origen.mode.simulation?
                   owner.pin(:tdo).dont_care
                 else
                   call_subroutine = reg_or_val[i].overlay_str
@@ -152,13 +152,13 @@ module JTAG
           end
         else
           if contains_bits && reg_or_val[i] && reg_or_val[i].has_overlay?
-            if RGen.mode.simulation?
+            if Origen.mode.simulation?
               owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             else
               call_subroutine = reg_or_val[i].overlay_str
             end
           elsif options.key?(:arm_debug_overlay)
-            if RGen.mode.simulation?
+            if Origen.mode.simulation?
               owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             else
               $tester.label('// JTAG DATA Pin: ' + i.to_s)
@@ -169,7 +169,7 @@ module JTAG
           end
         end
         if call_subroutine
-          RGen.tester.call_subroutine(call_subroutine)
+          Origen.tester.call_subroutine(call_subroutine)
           @last_data_vector_shifted = true
         else
           @last_data_vector_shifted = false
@@ -180,7 +180,7 @@ module JTAG
               owner.pin(:tms).drive(1)
             end
             tclk_cycle do
-              RGen.tester.cycle
+              Origen.tester.cycle
             end
             owner.pin(:tdo).dont_care
           else
@@ -286,7 +286,7 @@ module JTAG
     # This is a self contained method that will take care of the TAP controller
     # state transitions, exiting with the TAP controller in Run-Test/Idle.
     #
-    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    # @param [Integer, Origen::Register::Reg, Origen::Register::BitCollection, Origen::Register::Bit] reg_or_val
     #   Value to be written. If a reg/bit collection is supplied this can be pre-marked for overlay.
     # @param [Hash] options Options to customize the operation
     # @option options [Integer] :size The number of bits to write. This is optional
@@ -297,8 +297,8 @@ module JTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def write_dr(reg_or_val, options = {})
-      if RGen.tester.respond_to?(:write_dr)
-        RGen.tester.write_dr(reg_or_val, options)
+      if Origen.tester.respond_to?(:write_dr)
+        Origen.tester.write_dr(reg_or_val, options)
       else
         if options[:msg]
           cc "#{options[:msg]}\n"
@@ -316,7 +316,7 @@ module JTAG
     # This is a self contained method that will take care of the TAP controller
     # state transitions, exiting with the TAP controller in Run-Test/Idle.
     #
-    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    # @param [Integer, Origen::Register::Reg, Origen::Register::BitCollection, Origen::Register::Bit] reg_or_val
     #   Value to be read. If a reg/bit collection is supplied this can be pre-marked for read in which
     #   case only the marked bits will be read and the vectors corresponding to the data from the non-read
     #   bits will be set to don't care. Similarly the bits can be pre-marked for store (capture) or
@@ -330,8 +330,8 @@ module JTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def read_dr(reg_or_val, options = {})
-      if RGen.tester.respond_to?(:read_dr)
-        RGen.tester.read_dr(reg_or_val, options)
+      if Origen.tester.respond_to?(:read_dr)
+        Origen.tester.read_dr(reg_or_val, options)
       else
         options = {
           read: true
@@ -352,7 +352,7 @@ module JTAG
     # This is a self contained method that will take care of the TAP controller
     # state transitions, exiting with the TAP controller in Run-Test/Idle.
     #
-    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    # @param [Integer, Origen::Register::Reg, Origen::Register::BitCollection, Origen::Register::Bit] reg_or_val
     #   Value to be written. If a reg/bit collection is supplied this can be pre-marked for overlay.
     # @param [Hash] options Options to customize the operation
     # @option options [Integer] :size The number of bits to write. This is optional
@@ -369,8 +369,8 @@ module JTAG
     #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
     #   occurs.
     def write_ir(reg_or_val, options = {})
-      if RGen.tester.respond_to?(:write_ir)
-        RGen.tester.write_ir(reg_or_val, options)
+      if Origen.tester.respond_to?(:write_ir)
+        Origen.tester.write_ir(reg_or_val, options)
       else
         val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
         if val != ir_value || options[:force]
@@ -389,7 +389,7 @@ module JTAG
     # This is a self contained method that will take care of the TAP controller
     # state transitions, exiting with the TAP controller in Run-Test/Idle.
     #
-    # @param [Integer, RGen::Register::Reg, RGen::Register::BitCollection, RGen::Register::Bit] reg_or_val
+    # @param [Integer, Origen::Register::Reg, Origen::Register::BitCollection, Origen::Register::Bit] reg_or_val
     #   Value to be read. If a reg/bit collection is supplied this can be pre-marked for read in which
     #   case only the marked bits will be read and the vectors corresponding to the data from the non-read
     #   bits will be set to don't care. Similarly the bits can be pre-marked for store (capture) or
@@ -403,8 +403,8 @@ module JTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def read_ir(reg_or_val, options = {})
-      if RGen.tester.respond_to?(:read_ir)
-        RGen.tester.read_ir(reg_or_val, options)
+      if Origen.tester.respond_to?(:read_ir)
+        Origen.tester.read_ir(reg_or_val, options)
       else
         options = {
           read: true
