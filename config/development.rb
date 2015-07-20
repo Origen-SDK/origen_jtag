@@ -10,6 +10,6 @@
 # this would be used to define some dummy classes to instantiate
 # your objects so that they can be tested and/or interacted with
 # in the console.
-module JTAG
-  autoload :DUT, "jtag/dut"
+module OrigenJTAG
+  autoload :DUT, "origen_jtag/dut"
 end
