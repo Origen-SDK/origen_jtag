@@ -1,4 +1,4 @@
-module JTAG
+module OrigenJTAG
   # Provides methods specifically for controlling the state of the
   # TAP Controller
   module TAPController

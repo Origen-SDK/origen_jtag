@@ -1,4 +1,4 @@
-module JTAG
+module OrigenJTAG
   MAJOR = 0
   MINOR = 11
   BUGFIX = 0

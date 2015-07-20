@@ -1,4 +1,4 @@
-module JTAG
+module OrigenJTAG
   # This driver provides methods to read and write from a JTAG instruction
   # and data registers.
   #
