@@ -13,24 +13,6 @@ module Origen
     def users
       @users ||= [
 
-        # Admins
-        User.new("Stephen McGinty", "r49409", :admin),
-        User.new("Chris Nappi", "ra5809", :admin),
-        User.new("TS Chung", "rhk462", :admin),
-        User.new("Ronnie Lajaunie", "b01784", :admin),
-        User.new("Daniel Hadad", "ra6854", :admin),
-        User.new("Robert Kang", "b02441", :admin),
-        User.new("Stephen Traynor", "r28728", :admin),
-        User.new("Elissavet Papadima", "b50264", :admin),
-        User.new("Corey Engelken", "b50956", :admin),
-        User.new("Jiang Liu", "b20251", :admin),
-        # Users
-        #User.new("Thao Huynh", "r6aanf"),
-        # The r-number attribute can be anything that can be prefixed to an 
-        # @freescale.com email address, so you can add mailing list references
-        # as well like this:
-        #User.new("Origen Users", "origen"),  # The Origen mailing list
-        
       ]
     end
   end
