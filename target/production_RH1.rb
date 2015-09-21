@@ -12,4 +12,4 @@
 # You can also perform global configuration here, e.g. 
 # $dut.do_something_before_every_job
 $dut = OrigenJTAG::DUT.new(:tclk_format => :rh, :tclk_multiple => 1)
-$tester = Origen::Tester::J750.new
+$tester = OrigenTesters::J750.new

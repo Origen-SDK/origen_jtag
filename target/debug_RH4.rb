@@ -5,4 +5,4 @@
 # mode as shown below.
 load "#{Origen.root}/target/production_RH4.rb"
 
-Origen.config.mode = :debug
+Origen.mode = :debug

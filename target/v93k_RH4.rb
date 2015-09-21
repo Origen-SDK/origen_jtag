@@ -5,6 +5,6 @@
 # mode as shown below.
 load "#{Origen.root}/target/production_RH4.rb"
 
-$tester = Origen::Tester::V93K.new
+$tester = OrigenTesters::V93K.new
 
-Origen.config.mode = :debug
+Origen.mode = :debug
