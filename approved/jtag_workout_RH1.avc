@@ -1,6 +1,6 @@
 # ***************************************************************************
 # GENERATED:
-#   Time:    13-Sep-2016 16:06PM
+#   Time:    07-Oct-2016 04:13AM
 #   By:      Stephen McGinty
 #   Command: origen g jtag_workout -t v93k.rb
 # ***************************************************************************
@@ -8,10 +8,10 @@
 #   Application
 #     Source:    git@github.com:Origen-SDK/origen_jtag.git
 #     Version:   0.12.0
-#     Branch:    master(40d1a06e5d3)
+#     Branch:    master(24010df76c7) (+local edits)
 #   Origen
 #     Source:    https://github.com/Origen-SDK/origen
-#     Version:   0.7.31
+#     Version:   0.7.35
 #   Plugins
 #     atp:                      0.4.2
 #     origen_doc_helpers:       0.4.3
@@ -25,202 +25,202 @@ FORMAT TCLK TDI TDO TMS;
 # ######################################################################
 # ## Test - Transition TAP controller in and out of Shift-DR
 # ######################################################################
-# JTAG::TAPController - Force transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### JTAG::TAPController - Force transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### JTAG::TAPController - Force transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### JTAG::TAPController - Force transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### JTAG::TAPController - Force transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### JTAG::TAPController - Force transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### JTAG::TAPController - Force transition to Run-Test/Idle... ;
+# [JTAG] Force transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### [JTAG] Force transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### [JTAG] Force transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### [JTAG] Force transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### [JTAG] Force transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### [JTAG] Force transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # ####################################################################### ## Test - Transition TAP controller in and out of Shift-DR# ####################################################################### [JTAG] Force transition to Run-Test/Idle... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Current state: Run-Test/Idle
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start ****# JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] DR Data
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-DR# [JTAG] DR Data# [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /DR Data
+R1                       nvmbist                    0 X X 1  # [JTAG] /DR Data ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition TAP controller in and out of Pause-DR
 # ######################################################################
-# JTAG::TAPController - Transition to Pause-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Pause-DR# ####################################################################### JTAG::TAPController - Transition to Pause-DR... ;
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Pause-DR# ####################################################################### [JTAG] Transition to Pause-DR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 1   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-DR
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Run-Test/Idle... ;
+# [JTAG] Current state: Pause-DR
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Run-Test/Idle... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition TAP controller in and out of Shift-IR
 # ######################################################################
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Shift-IR# ####################################################################### JTAG::TAPController - Transition to Shift-IR... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Shift-IR# ####################################################################### JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Shift-IR# ####################################################################### [JTAG] Transition to Shift-IR... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Shift-IR# ####################################################################### [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - **** Data start ****
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start ****# JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] IR Data
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-IR# [JTAG] IR Data# [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /IR Data
+R1                       nvmbist                    0 X X 1  # [JTAG] /IR Data ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition TAP controller in and out of Pause-IR
 # ######################################################################
-# JTAG::TAPController - Transition to Pause-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Pause-IR# ####################################################################### JTAG::TAPController - Transition to Pause-IR... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Pause-IR# ####################################################################### JTAG::TAPController - Transition to Pause-IR... ;
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Pause-IR# ####################################################################### [JTAG] Transition to Pause-IR... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition TAP controller in and out of Pause-IR# ####################################################################### [JTAG] Transition to Pause-IR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 1   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-IR
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Run-Test/Idle... ;
+# [JTAG] Current state: Pause-IR
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Run-Test/Idle... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition into Shift-DR, then back and forth into Pause-DR
 # ######################################################################
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Shift-DR, then back and forth into Pause-DR# ####################################################################### JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Shift-DR, then back and forth into Pause-DR# ####################################################################### [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-# JTAG::TAPController - Transition to Pause-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start ****# JTAG::TAPController - Transition to Pause-DR... ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] DR Data
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-DR# [JTAG] DR Data# [JTAG] Transition to Pause-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Current state: Pause-DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - Transition to Pause-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - Transition to Pause-DR... ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-DR# [JTAG] Transition to Pause-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Current state: Pause-DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-DR# [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /DR Data
+R1                       nvmbist                    0 X X 1  # [JTAG] /DR Data ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition into Pause-DR, then back and forth into Shift-DR
 # ######################################################################
-# JTAG::TAPController - Transition to Pause-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Pause-DR, then back and forth into Shift-DR# ####################################################################### JTAG::TAPController - Transition to Pause-DR... ;
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Pause-DR, then back and forth into Shift-DR# ####################################################################### [JTAG] Transition to Pause-DR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 1   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Current state: Pause-DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - Transition to Pause-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - Transition to Pause-DR... ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-DR# [JTAG] Transition to Pause-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Current state: Pause-DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - Transition to Pause-DR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - Transition to Pause-DR... ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-DR# [JTAG] Transition to Pause-DR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-DR
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-DR# JTAG::TAPController - Transition to Run-Test/Idle... ;
+# [JTAG] Current state: Pause-DR
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-DR# [JTAG] Transition to Run-Test/Idle... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition into Shift-IR, then back and forth into Pause-IR
 # ######################################################################
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Shift-IR, then back and forth into Pause-IR# ####################################################################### JTAG::TAPController - Transition to Shift-IR... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Shift-IR, then back and forth into Pause-IR# ####################################################################### JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Shift-IR, then back and forth into Pause-IR# ####################################################################### [JTAG] Transition to Shift-IR... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Shift-IR, then back and forth into Pause-IR# ####################################################################### [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - **** Data start ****
-# JTAG::TAPController - Transition to Pause-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start ****# JTAG::TAPController - Transition to Pause-IR... ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] IR Data
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-IR# [JTAG] IR Data# [JTAG] Transition to Pause-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-IR
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Current state: Pause-IR
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - Transition to Pause-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - Transition to Pause-IR... ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-IR# [JTAG] Transition to Pause-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-IR
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Current state: Pause-IR
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-IR# [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /IR Data
+R1                       nvmbist                    0 X X 1  # [JTAG] /IR Data ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Transition into Pause-IR, then back and forth into Shift-IR
 # ######################################################################
-# JTAG::TAPController - Transition to Pause-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Pause-IR, then back and forth into Shift-IR# ####################################################################### JTAG::TAPController - Transition to Pause-IR... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Pause-IR, then back and forth into Shift-IR# ####################################################################### JTAG::TAPController - Transition to Pause-IR... ;
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Pause-IR, then back and forth into Shift-IR# ####################################################################### [JTAG] Transition to Pause-IR... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Transition into Pause-IR, then back and forth into Shift-IR# ####################################################################### [JTAG] Transition to Pause-IR... ;
 R1                       nvmbist                    0 X X 0   ;
 R1                       nvmbist                    0 X X 1   ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-IR
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Current state: Pause-IR
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - Transition to Pause-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - Transition to Pause-IR... ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-IR# [JTAG] Transition to Pause-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-IR
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Current state: Pause-IR
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - Transition to Pause-IR...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - Transition to Pause-IR... ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Shift-IR# [JTAG] Transition to Pause-IR... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Pause-IR
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Run-Test/Idle... ;
-R1                       nvmbist                    0 X X 1  # JTAG::TAPController - Current state: Pause-IR# JTAG::TAPController - Transition to Run-Test/Idle... ;
+# [JTAG] Current state: Pause-IR
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Run-Test/Idle... ;
+R1                       nvmbist                    0 X X 1  # [JTAG] Current state: Pause-IR# [JTAG] Transition to Run-Test/Idle... ;
 R1                       nvmbist                    0 X X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Shifting an explicit value into TDI
 # ######################################################################
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Shifting an explicit value into TDI# ###################################################################### ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Shifting an explicit value into TDI# ###################################################################### ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Shifting an explicit value into TDI# ###################################################################### ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Shifting an explicit value into TDI# ###################################################################### ;
 R1                       nvmbist                    0 1 X 0   ;
 R1                       nvmbist                    0 0 X 0   ;
 R1                       nvmbist                    0 1 X 0   ;
@@ -633,250 +633,250 @@ R1                       nvmbist                    0 1 X 1   ;
 # ## Test - Write value into DR
 # ######################################################################
 # Write value into DR
-# JTAG::TAPController - Transition to Shift-DR...
+# [JTAG] Transition to Shift-DR...
 R1                       nvmbist                    0 1 X 1  # ####################################################################### ## Test - Write value into DR# ####################################################################### Write value into DR
-# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 1 X 0   ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Write DR: 0xFFFF
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0xFFFF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Write DR: 0xFFFF
+R1                       nvmbist                    0 1 X 1  # [JTAG] /Write DR: 0xFFFF ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Write register into DR with full-width overlay
 # ######################################################################
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Write register into DR with full-width overlay# ####################################################################### JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Write register into DR with full-width overlay# ####################################################################### [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 1 X 0   ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
+# [JTAG] Current state: Shift-DR
+# [JTAG] Write DR: 0x0
 SQPG JSUB write_overlay;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start ****SQPG JSUB write_overlay;# JTAG::TAPController - Transition to Run-Test/Idle...# JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Transition to Run-Test/Idle...
+# [JTAG] /Write DR: 0x0
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Shift-DR# [JTAG] Write DR: 0x0SQPG JSUB write_overlay;# [JTAG] Transition to Run-Test/Idle...# [JTAG] /Write DR: 0x0 ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Read value out of DR
 # ######################################################################
 # Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Read value out of DR# ####################################################################### Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Read value out of DR# ####################################################################### Read value out of DR
+# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 0 X 0   ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 0 H 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 0 H 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    0 0 X 1  # [JTAG] /Read DR: 0xFFFF ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Write value into IR
 # ######################################################################
 # Write value into IR
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Write value into IR# ####################################################################### Write value into IR
-# JTAG::TAPController - Transition to Shift-IR... ;
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Write value into IR# ####################################################################### Write value into IR
-# JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Write value into IR# ####################################################################### Write value into IR
+# [JTAG] Transition to Shift-IR... ;
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Write value into IR# ####################################################################### Write value into IR
+# [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 0 X 0   ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Write IR: 0xF
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-IR# [JTAG] Write IR: 0xF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-IR# [JTAG] Write IR: 0xF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-IR# [JTAG] Write IR: 0xF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Write IR: 0xF
+R1                       nvmbist                    0 1 X 1  # [JTAG] /Write IR: 0xF ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Read value out of IR
 # ######################################################################
 # Read value out of IR
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Read value out of IR# ####################################################################### Read value out of IR
-# JTAG::TAPController - Transition to Shift-IR... ;
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Read value out of IR# ####################################################################### Read value out of IR
-# JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Read value out of IR# ####################################################################### Read value out of IR
+# [JTAG] Transition to Shift-IR... ;
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Read value out of IR# ####################################################################### Read value out of IR
+# [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 1 X 0   ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 0 H 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Read IR: 0xF
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-IR# [JTAG] Read IR: 0xF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-IR# [JTAG] Read IR: 0xF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-IR# [JTAG] Read IR: 0xF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 0 H 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Read IR: 0xF
+R1                       nvmbist                    0 0 X 1  # [JTAG] /Read IR: 0xF ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - The IR value is tracked and duplicate writes are inhibited
 # ######################################################################
 # ######################################################################
 # ## Test - Unless forced
 # ######################################################################
-# JTAG::TAPController - Transition to Shift-IR...
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - The IR value is tracked and duplicate writes are inhibited# ####################################################################### ####################################################################### ## Test - Unless forced# ####################################################################### JTAG::TAPController - Transition to Shift-IR... ;
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - The IR value is tracked and duplicate writes are inhibited# ####################################################################### ####################################################################### ## Test - Unless forced# ####################################################################### JTAG::TAPController - Transition to Shift-IR... ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - The IR value is tracked and duplicate writes are inhibited# ####################################################################### ####################################################################### ## Test - Unless forced# ####################################################################### [JTAG] Transition to Shift-IR... ;
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - The IR value is tracked and duplicate writes are inhibited# ####################################################################### ####################################################################### ## Test - Unless forced# ####################################################################### [JTAG] Transition to Shift-IR... ;
 R1                       nvmbist                    0 0 X 0   ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Shift-IR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 1 X 0  # JTAG::TAPController - Current state: Shift-IR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-IR
+# [JTAG] Write IR: 0xF
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-IR# [JTAG] Write IR: 0xF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-IR# [JTAG] Write IR: 0xF ;
+R1                       nvmbist                    0 1 X 0  # [JTAG] Current state: Shift-IR# [JTAG] Write IR: 0xF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Write IR: 0xF
+R1                       nvmbist                    0 1 X 1  # [JTAG] /Write IR: 0xF ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Test - Reset
 # ######################################################################
-# JTAG::TAPController - Force transition to Test-Logic-Reset...
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### JTAG::TAPController - Force transition to Test-Logic-Reset... ;
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### JTAG::TAPController - Force transition to Test-Logic-Reset... ;
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### JTAG::TAPController - Force transition to Test-Logic-Reset... ;
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### JTAG::TAPController - Force transition to Test-Logic-Reset... ;
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### JTAG::TAPController - Force transition to Test-Logic-Reset... ;
-R1                       nvmbist                    0 1 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### JTAG::TAPController - Force transition to Test-Logic-Reset... ;
+# [JTAG] Force transition to Test-Logic-Reset...
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### [JTAG] Force transition to Test-Logic-Reset... ;
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### [JTAG] Force transition to Test-Logic-Reset... ;
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### [JTAG] Force transition to Test-Logic-Reset... ;
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### [JTAG] Force transition to Test-Logic-Reset... ;
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### [JTAG] Force transition to Test-Logic-Reset... ;
+R1                       nvmbist                    0 1 X 1  # [JTAG] Current state: Run-Test/Idle# ####################################################################### ## Test - Reset# ####################################################################### [JTAG] Force transition to Test-Logic-Reset... ;
 # ######################################################################
 # ## Test - Suspend of compare on TDO works
 # ######################################################################
 # TDO should be H
 # Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR...
+# [JTAG] Transition to Shift-DR...
 R1                       nvmbist                    0 1 X 1  # ####################################################################### ## Test - Suspend of compare on TDO works# ####################################################################### TDO should be H# Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 1 X 0   ;
 R1                       nvmbist                    0 1 X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 0 H 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 0 H 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    0 0 X 1  # [JTAG] /Read DR: 0xFFFF ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # TDO should be X
 # Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# TDO should be X# Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# TDO should be X# Read value out of DR
+# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 0 X 0   ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 X 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 X 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 0 X 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    0 0 X 1  # [JTAG] /Read DR: 0xFFFF ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # TDO should be H
 # Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR...
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - Current state: Run-Test/Idle# TDO should be H# Read value out of DR
-# JTAG::TAPController - Transition to Shift-DR... ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 0 X 1  # [JTAG] Current state: Run-Test/Idle# TDO should be H# Read value out of DR
+# [JTAG] Transition to Shift-DR... ;
 R1                       nvmbist                    0 0 X 0   ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Shift-DR
-# JTAG::TAPController - **** Data start ****
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-R1                       nvmbist                    0 0 H 0  # JTAG::TAPController - Current state: Shift-DR# JTAG::TAPController - **** Data start **** ;
-# JTAG::TAPController - Transition to Run-Test/Idle...
-R1                       nvmbist                    0 0 H 1  # JTAG::TAPController - Transition to Run-Test/Idle... ;
-# JTAG::TAPController - **** Data stop ****
-R1                       nvmbist                    0 0 X 1  # JTAG::TAPController - **** Data stop **** ;
+# [JTAG] Current state: Shift-DR
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+R1                       nvmbist                    0 0 H 0  # [JTAG] Current state: Shift-DR# [JTAG] Read DR: 0xFFFF ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 0 H 1  # [JTAG] Transition to Run-Test/Idle... ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    0 0 X 1  # [JTAG] /Read DR: 0xFFFF ;
 R1                       nvmbist                    0 0 X 0   ;
-# JTAG::TAPController - Current state: Run-Test/Idle
+# [JTAG] Current state: Run-Test/Idle
 # ######################################################################
 # ## Pattern complete
 # ######################################################################

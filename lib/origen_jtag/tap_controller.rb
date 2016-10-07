@@ -49,7 +49,7 @@ module OrigenJTAG
     #     # State is Pause-DR
     #   end
     #   # State is Run-Test/Idle
-    def shift_dr
+    def shift_dr(options = {})
       validate_state(:idle, :pause_dr)
       log 'Transition to Shift-DR...'
       if state == :idle
@@ -57,15 +57,22 @@ module OrigenJTAG
         tms!(0)  # => Capture-DR
         tms!(0)  # => Shift-DR
         update_state :shift_dr
-        log '**** Data start ****', always: true
-        yield
-        log 'Transition to Run-Test/Idle...'
-        if @last_data_vector_shifted
-          @last_data_vector_shifted = false
+        if options[:write]
+          msg = "Write DR: #{options[:write]}"
+        elsif options[:read]
+          msg = "Read DR: #{options[:read]}"
         else
-          tms!(1)  # => Exit1-DR
+          msg = 'DR Data'
         end
-        log '**** Data stop ****', always: true
+        log msg, always: true do
+          yield
+          log 'Transition to Run-Test/Idle...'
+          if @last_data_vector_shifted
+            @last_data_vector_shifted = false
+          else
+            tms!(1)  # => Exit1-DR
+          end
+        end
         tms!(1)  # => Update-DR
         tms!(0)  # => Run-Test/Idle
         update_state :idle
@@ -154,7 +161,7 @@ module OrigenJTAG
     #     # State is Pause-IR
     #   end
     #   # State is Run-Test/Idle
-    def shift_ir
+    def shift_ir(options = {})
       validate_state(:idle, :pause_ir)
       log 'Transition to Shift-IR...'
       if state == :idle
@@ -163,15 +170,22 @@ module OrigenJTAG
         tms!(0)  # => Capture-IR
         tms!(0)  # => Shift-IR
         update_state :shift_ir
-        log '**** Data start ****', always: true
-        yield
-        log 'Transition to Run-Test/Idle...'
-        if @last_data_vector_shifted
-          @last_data_vector_shifted = false
+        if options[:write]
+          msg = "Write IR: #{options[:write]}"
+        elsif options[:read]
+          msg = "Read IR: #{options[:read]}"
         else
-          tms!(1)  # => Exit1-DR
+          msg = 'IR Data'
         end
-        log '**** Data stop ****', always: true
+        log msg, always: true do
+          yield
+          log 'Transition to Run-Test/Idle...'
+          if @last_data_vector_shifted
+            @last_data_vector_shifted = false
+          else
+            tms!(1)  # => Exit1-DR
+          end
+        end
         tms!(1)  # => Update-IR
         tms!(0)  # => Run-Test/Idle
         update_state :idle
@@ -265,16 +279,16 @@ module OrigenJTAG
       6.times { tms!(1) }
     end
 
+    def update_state(state)
+      @state = state
+      log "Current state: #{state_str}"
+    end
+
     private
 
     def init_tap_controller(options = {})
       options = {
       }.merge(options)
-    end
-
-    def update_state(state)
-      @state = state
-      log "Current state: #{state_str}"
     end
 
     # Ensures that the current state matches one of the given acceptable
@@ -293,7 +307,11 @@ module OrigenJTAG
     end
 
     def log(msg, options = {})
-      cc "JTAG::TAPController - #{msg}" if verbose? || options[:always]
+      cc "[JTAG] #{msg}" if verbose? || options[:always]
+      if block_given?
+        yield
+        cc "[JTAG] /#{msg}" if verbose? || options[:always]
+      end
     end
   end
 end

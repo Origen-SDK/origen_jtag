@@ -303,7 +303,8 @@ module OrigenJTAG
         if options[:msg]
           cc "#{options[:msg]}\n"
         end
-        shift_dr do
+        val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
+        shift_dr(write: val.to_hex) do
           if options[:overlay] == true
             $tester.label(options[:overlay_label], true) # apply global label
           end
@@ -339,7 +340,7 @@ module OrigenJTAG
         if options[:msg]
           cc "#{options[:msg]}\n"
         end
-        shift_dr do
+        shift_dr(read: Origen::Utility.read_hex(reg_or_val)) do
           if options[:overlay] == true
             $tester.label(options[:overlay_label], true) # apply global label
           end
@@ -377,7 +378,7 @@ module OrigenJTAG
           if options[:msg]
             cc "#{options[:msg]}\n"
           end
-          shift_ir do
+          shift_ir(write: val.to_hex) do
             shift(reg_or_val, options)
           end
           @ir_value = val
@@ -412,7 +413,7 @@ module OrigenJTAG
         if options[:msg]
           cc "#{options[:msg]}\n"
         end
-        shift_ir do
+        shift_ir(read: Origen::Utility.read_hex(reg_or_val)) do
           shift(reg_or_val, options)
         end
       end
