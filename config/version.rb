@@ -1,8 +1,8 @@
 module OrigenJTAG
   MAJOR = 0
-  MINOR = 12
-  BUGFIX = 1
-  DEV = nil
+  MINOR = 13
+  BUGFIX = 0
+  DEV = 0
 
   VERSION = [MAJOR, MINOR, BUGFIX].join(".") + (DEV ? ".pre#{DEV}" : '')
 end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    origen_jtag (0.12.1)
+    origen_jtag (0.13.0.pre0)
       origen (>= 0.7.35)
 
 GEM
@@ -162,3 +162,6 @@ DEPENDENCIES
   origen_doc_helpers
   origen_jtag!
   origen_testers
+
+BUNDLED WITH
+   1.13.4
