@@ -78,10 +78,14 @@ Pattern.create(options={:name => "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.
     Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
     Origen.mode = :debug
+    if $tester.respond_to?('label')
+      cc "Full register overlay without using subroutine"
+      jtag.shift reg, :cycle_last => true, :no_subr => true
+    end
 
   test "Shift register into TDI with single bit overlay"
     reg.overlay(nil)
-    reg.bit(:bit).overlay("write_overlay")
+    reg.bit(:bit).overlay("write_overlay2")
     Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
     reg.overlay(nil)
@@ -136,10 +140,14 @@ Pattern.create(options={:name => "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.
     Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true, :read => true
     Origen.mode = :debug
+    if $tester.respond_to?('label')
+      cc "Full register overlay without using subroutine"
+      jtag.shift reg, :cycle_last => true, :read => true, :no_subr => true
+    end
 
   test "Shift register out of TDO with single bit overlay"
     reg.overlay(nil)
-    reg.bit(:bit).overlay("read_overlay")
+    reg.bit(:bit).overlay("read_overlay2")
     Origen.tester.cycle  # Give a padding cycle as a place for the subroutine call to go
     jtag.shift reg, :cycle_last => true
     reg.overlay(nil)

@@ -1,22 +1,27 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    13-Nov-2014 05:39AM
-//   By:      Stephen McGinty
-//   Command: rgen g jtag_workout -t debug_RH4.rb
+//   Time:    18-Oct-2016 13:18PM
+//   By:      Daniel Hadad
+//   Command: origen g jtag_workout -t debug_RH4.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
-//     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen_blocks/physical/JTAG/tool_data/rgen
-//     Version:   v0.9.1
-//     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/blocks/physical/jtag
-//   RGen
-//     Vault:     sync://sync-15088:15088/Projects/common_tester_blocks/rgen
-//     Version:   v2.3.0.dev143
-//     Workspace: /proj/.mem_c90tfs_testeng/r49409/rgen/core
+//     Source:    git@github.com:Origen-SDK/origen_jtag.git
+//     Version:   0.12.1
+//     Branch:    master(7a845f18ebb) (+local edits)
+//   Origen
+//     Source:    https://github.com/Origen-SDK/origen
+//     Version:   0.7.35
+//   Plugins
+//     atp:                      0.4.2
+//     origen_doc_helpers:       0.4.3
+//     origen_testers:           0.8.1
 // ***************************************************************************
 import tset nvmbist;                                                                            
 import svm_subr write_overlay;                                                                  
+import svm_subr write_overlay2;                                                                 
 import svm_subr read_overlay;                                                                   
+import svm_subr read_overlay2;                                                                  
 svm_only_file = no;                                                                             
 opcode_mode = extended;                                                                         
 compressed = yes;                                                                               
@@ -24,10 +29,14 @@ compressed = yes;
 vector ($tset, tclk, tdi, tdo, tms)                                                             
 {                                                                                               
 start_label pattern_st:                                                                         
+//                                                                                              t t t t
+//                                                                                              c d d m
+//                                                                                              l i o s
+//                                                                                              k      
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Shift-DR
 // ######################################################################
-// JTAG::TAPController - Force transition to Run-Test/Idle...
+// [JTAG] Force transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -44,29 +53,29 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Current state: Run-Test/Idle
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Shift-DR
+// [JTAG] DR Data
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /DR Data
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Pause-DR
 // ######################################################################
-// JTAG::TAPController - Transition to Pause-DR...
+// [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
@@ -75,19 +84,19 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-DR
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Pause-DR
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Shift-IR
 // ######################################################################
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -96,21 +105,21 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - **** Data start ****
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Shift-IR
+// [JTAG] IR Data
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /IR Data
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Pause-IR
 // ######################################################################
-// JTAG::TAPController - Transition to Pause-IR...
+// [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -121,64 +130,64 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-IR
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Pause-IR
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Shift-DR, then back and forth into Pause-DR
 // ######################################################################
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
-// JTAG::TAPController - Transition to Pause-DR...
+// [JTAG] Current state: Shift-DR
+// [JTAG] DR Data
+// [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Current state: Pause-DR
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - Transition to Pause-DR...
+// [JTAG] Current state: Shift-DR
+// [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Current state: Pause-DR
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Shift-DR
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /DR Data
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Pause-DR, then back and forth into Shift-DR
 // ######################################################################
-// JTAG::TAPController - Transition to Pause-DR...
+// [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
@@ -187,43 +196,43 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Current state: Pause-DR
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - Transition to Pause-DR...
+// [JTAG] Current state: Shift-DR
+// [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Current state: Pause-DR
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - Transition to Pause-DR...
+// [JTAG] Current state: Shift-DR
+// [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-DR
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Pause-DR
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Shift-IR, then back and forth into Pause-IR
 // ######################################################################
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -232,45 +241,45 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - **** Data start ****
-// JTAG::TAPController - Transition to Pause-IR...
+// [JTAG] Current state: Shift-IR
+// [JTAG] IR Data
+// [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-IR
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Current state: Pause-IR
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - Transition to Pause-IR...
+// [JTAG] Current state: Shift-IR
+// [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-IR
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Current state: Pause-IR
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Shift-IR
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /IR Data
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Pause-IR, then back and forth into Shift-IR
 // ######################################################################
-// JTAG::TAPController - Transition to Pause-IR...
+// [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -281,39 +290,39 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-IR
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Current state: Pause-IR
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - Transition to Pause-IR...
+// [JTAG] Current state: Shift-IR
+// [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-IR
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Current state: Pause-IR
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - Transition to Pause-IR...
+// [JTAG] Current state: Shift-IR
+// [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Pause-IR
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Current state: Pause-IR
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Shifting an explicit value into TDI
 // ######################################################################
@@ -577,10 +586,76 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
+// Full register overlay without using subroutine
+write_overlay:                                                                                  
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
 // ######################################################################
 // ## Test - Shift register into TDI with single bit overlay
 // ######################################################################
-call write_overlay                                               > nvmbist                      1 1 X 1 ;
+call write_overlay2                                              > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1068,10 +1143,76 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
+// Full register overlay without using subroutine
+read_overlay:                                                                                   
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
 // ######################################################################
 // ## Test - Shift register out of TDO with single bit overlay
 // ######################################################################
-call read_overlay                                                > nvmbist                      1 0 X 1 ;
+call read_overlay2                                               > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1106,15 +1247,15 @@ repeat 2                                                         > nvmbist      
 // ## Test - Write value into DR
 // ######################################################################
 // Write value into DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-DR
+// [JTAG] Write DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -1145,19 +1286,19 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Write DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Write register into DR with full-width overlay
 // ######################################################################
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -1165,28 +1306,28 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
                                                                  > nvmbist                      1 1 X 0 ;
 call write_overlay                                               > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
-// JTAG::TAPController - Transition to Run-Test/Idle...
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] Current state: Shift-DR
+// [JTAG] Write DR: 0x0
+// [JTAG] Transition to Run-Test/Idle...
+// [JTAG] /Write DR: 0x0
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Read value out of DR
 // ######################################################################
 // Read value out of DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-DR
+// [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1217,20 +1358,20 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 H 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Write value into IR
 // ######################################################################
 // Write value into IR
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
@@ -1239,28 +1380,28 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-IR
+// [JTAG] Write IR: 0xF
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Write IR: 0xF
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Read value out of IR
 // ######################################################################
 // Read value out of IR
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
@@ -1269,30 +1410,30 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-IR
+// [JTAG] Read IR: 0xF
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 H 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Read IR: 0xF
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - The IR value is tracked and duplicate writes are inhibited
 // ######################################################################
 // ######################################################################
 // ## Test - Unless forced
 // ######################################################################
-// JTAG::TAPController - Transition to Shift-IR...
+// [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
@@ -1301,27 +1442,27 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Shift-IR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-IR
+// [JTAG] Write IR: 0xF
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Write IR: 0xF
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Reset
 // ######################################################################
-// JTAG::TAPController - Force transition to Test-Logic-Reset...
+// [JTAG] Force transition to Test-Logic-Reset...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
@@ -1339,15 +1480,15 @@ repeat 2                                                         > nvmbist      
 // ######################################################################
 // TDO should be H
 // Read value out of DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 1 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-DR
+// [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1378,26 +1519,26 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 H 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // TDO should be X
 // Read value out of DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-DR
+// [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1428,26 +1569,26 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
 // TDO should be H
 // Read value out of DR
-// JTAG::TAPController - Transition to Shift-DR...
+// [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Shift-DR
-// JTAG::TAPController - **** Data start ****
+// [JTAG] Current state: Shift-DR
+// [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1478,14 +1619,17 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
-// JTAG::TAPController - Transition to Run-Test/Idle...
+// [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 H 1 ;
-// JTAG::TAPController - **** Data stop ****
+// [JTAG] /Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
-// JTAG::TAPController - Current state: Run-Test/Idle
+// [JTAG] Current state: Run-Test/Idle
+// ######################################################################
+// ## Pattern complete
+// ######################################################################
 end_module                                                       > nvmbist                      1 0 X 0 ;
 }                                                                                               

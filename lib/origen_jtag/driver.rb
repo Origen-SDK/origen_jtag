@@ -101,9 +101,16 @@ module OrigenJTAG
       options = {
         read:              false,
         cycle_last:        false,
-        includes_last_bit: true
+        includes_last_bit: true,
+        no_subr:           false      # do not use subroutine for any overlay
       }.merge(options)
       size = extract_size(reg_or_val, options)
+      if options[:no_subr] && !$tester.respond_to?('label')
+        # tester does not support direct labels, so can't do
+        cc 'This tester does not support use of labels, cannot do no_subr option as requested'
+        cc '  going with subroutine overlay instead'
+        options[:no_subr] = false
+      end
       if options.key?(:arm_debug_comment)
         cc options[:arm_debug_comment]
       end
@@ -114,8 +121,10 @@ module OrigenJTAG
       contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
       owner.pin(:tdi).drive(0) # Drive state when reading out
       owner.pin(:tms).drive(0)
+      last_overlay_label = ''
       size.times do |i|
         call_subroutine = false
+        direct_overlay = false
         if options[:read]
           # If it's a register support bit-wise reads
           if contains_bits
@@ -127,7 +136,16 @@ module OrigenJTAG
                 if Origen.mode.simulation?
                   owner.pin(:tdo).dont_care
                 else
-                  call_subroutine = reg_or_val[i].overlay_str
+                  if options[:no_subr]
+                    Origen.tester.dont_compress = true
+                    if reg_or_val[i].overlay_str != last_overlay_label
+                      $tester.label(reg_or_val[i].overlay_str)
+                      last_overlay_label = reg_or_val[i].overlay_str
+                    end
+                    owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
+                  else
+                    call_subroutine = reg_or_val[i].overlay_str
+                  end
                 end
               elsif reg_or_val[i].is_to_be_read?
                 owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
@@ -148,6 +166,7 @@ module OrigenJTAG
             end
           # Otherwise read the whole thing
           else
+            Origen.tester.dont_compress = false
             owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
           end
         else
@@ -155,7 +174,16 @@ module OrigenJTAG
             if Origen.mode.simulation?
               owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             else
-              call_subroutine = reg_or_val[i].overlay_str
+              if options[:no_subr]
+                Origen.tester.dont_compress = true
+                if reg_or_val[i].overlay_str != last_overlay_label
+                  $tester.label(reg_or_val[i].overlay_str)
+                  last_overlay_label = reg_or_val[i].overlay_str
+                end
+                owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
+              else
+                call_subroutine = reg_or_val[i].overlay_str
+              end
             end
           elsif options.key?(:arm_debug_overlay)
             if Origen.mode.simulation?
@@ -191,6 +219,8 @@ module OrigenJTAG
       # Clear read and similar flags to reflect that the request has just
       # been fulfilled
       reg_or_val.clear_flags if reg_or_val.respond_to?(:clear_flags)
+      # put back compression if turned on above
+      Origen.tester.dont_compress = false
     end
 
     # Cycles the tester through one TCLK cycle
