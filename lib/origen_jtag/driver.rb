@@ -193,7 +193,7 @@ module OrigenJTAG
               owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
             end
           else
-            RGen.tester.dont_compress = false
+            Origen.tester.dont_compress = false
             owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
           end
         end
