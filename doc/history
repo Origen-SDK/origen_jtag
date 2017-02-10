@@ -1,3 +1,18 @@
+<a class="anchor release_tag" name="v0_13_0"></a>
+<h1><a href="#v0_13_0">Tag: v0.13.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Stephen McGinty on 10-Feb-2017 09:06AM
+
+
+* Added on\_jtag\_state\_change callback, see homepage for example
+* Removed low level state change comments by default, noticed that these were causing
+  fewer repeats to be generated on Teradyne. They can be enabled by setting log\_state\_changes
+  to true on the driver directly or in the JTAG\_CONFIG hash
+* Disabled inline\_comments in the development environment V93K setup, these don't diff well
+  with tkdiff
+
 <a class="anchor release_tag" name="v0_13_0_pre1"></a>
 <h2><a href="#v0_13_0_pre1">Tag: v0.13.0.pre1</a></h2>
 

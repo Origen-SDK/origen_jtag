@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    origen_jtag (0.13.0.pre1)
+    origen_jtag (0.13.0)
       origen (>= 0.7.35)
 
 GEM
