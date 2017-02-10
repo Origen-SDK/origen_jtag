@@ -54,7 +54,9 @@ module OrigenJTAG
       log 'Transition to Shift-DR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
+        update_state :select_dr_scan
         tms!(0)  # => Capture-DR
+        update_state :capture_dr
         tms!(0)  # => Shift-DR
         update_state :shift_dr
         if options[:write]
@@ -71,18 +73,22 @@ module OrigenJTAG
             @last_data_vector_shifted = false
           else
             tms!(1)  # => Exit1-DR
+            update_state :exit1_dr
           end
         end
         tms!(1)  # => Update-DR
+        update_state :update_dr
         tms!(0)  # => Run-Test/Idle
         update_state :idle
       else # :pause_dr
         tms!(1)  # => Exit2-DR
+        update_state :exit2_dr
         tms!(0)  # => Shift-DR
         update_state :shift_dr
         yield
         log 'Transition to Pause-DR...'
         tms!(1)  # => Exit1-DR
+        update_state :exit1_dr
         tms!(0)  # => Pause-DR
         update_state :pause_dr
       end
@@ -116,23 +122,30 @@ module OrigenJTAG
       log 'Transition to Pause-DR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
+        update_state :select_dr_scan
         tms!(0)  # => Capture-DR
+        update_state :capture_dr
         tms!(1)  # => Exit1-DR
+        update_state :exit1_dr
         tms!(0)  # => Pause-DR
         update_state :pause_dr
         yield
         log 'Transition to Run-Test/Idle...'
         tms!(1)  # => Exit2-DR
+        update_state :exit2_dr
         tms!(1)  # => Update-DR
+        update_state :update_dr
         tms!(0)  # => Run-Test/Idle
         update_state :idle
       else  # shift_dr
         tms!(1)  # => Exit1-DR
+        update_state :exit1_dr
         tms!(0)  # => Pause-DR
         update_state :pause_dr
         yield
         log 'Transition to Shift-DR...'
         tms!(1)  # => Exit2-DR
+        update_state :exit2_dr
         tms!(0)  # => Shift-DR
         update_state :shift_dr
       end
@@ -166,8 +179,11 @@ module OrigenJTAG
       log 'Transition to Shift-IR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
+        update_state :select_dr_scan
         tms!(1)  # => Select-IR-Scan
+        update_state :select_ir_scan
         tms!(0)  # => Capture-IR
+        update_state :capture_ir
         tms!(0)  # => Shift-IR
         update_state :shift_ir
         if options[:write]
@@ -183,19 +199,23 @@ module OrigenJTAG
           if @last_data_vector_shifted
             @last_data_vector_shifted = false
           else
-            tms!(1)  # => Exit1-DR
+            tms!(1)  # => Exit1-IR
+            update_state :exit1_ir
           end
         end
         tms!(1)  # => Update-IR
+        update_state :update_ir
         tms!(0)  # => Run-Test/Idle
         update_state :idle
       else # :pause_ir
         tms!(1)  # => Exit2-IR
+        update_state :exit2_ir
         tms!(0)  # => Shift-IR
         update_state :shift_ir
         yield
         log 'Transition to Pause-IR...'
         tms!(1)  # => Exit1-IR
+        update_state :exit1_ir
         tms!(0)  # => Pause-IR
         update_state :pause_ir
       end
@@ -229,24 +249,32 @@ module OrigenJTAG
       log 'Transition to Pause-IR...'
       if state == :idle
         tms!(1)  # => Select-DR-Scan
+        update_state :select_dr_scan
         tms!(1)  # => Select-IR-Scan
+        update_state :select_ir_scan
         tms!(0)  # => Capture-IR
+        update_state :capture_ir
         tms!(1)  # => Exit1-IR
+        update_state :exit1_ir
         tms!(0)  # => Pause-IR
         update_state :pause_ir
         yield
         log 'Transition to Run-Test/Idle...'
         tms!(1)  # => Exit2-IR
+        update_state :exit2_ir
         tms!(1)  # => Update-IR
+        update_state :update_ir
         tms!(0)  # => Run-Test/Idle
         update_state :idle
       else # :shift_ir
         tms!(1)  # => Exit1-IR
+        update_state :exit1_ir
         tms!(0)  # => Pause-IR
         update_state :pause_ir
         yield
         log 'Transition to Shift-IR...'
         tms!(1)  # => Exit2-IR
+        update_state :exit2_ir
         tms!(0)  # => Shift-IR
         update_state :shift_ir
       end
@@ -281,7 +309,9 @@ module OrigenJTAG
 
     def update_state(state)
       @state = state
-      log "Current state: #{state_str}"
+      log "Current state: #{state_str}" if log_state_changes
+      @listeners ||= Origen.listeners_for(:on_jtag_state_change)
+      @listeners.each { |l| l.on_jtag_state_change(@state) }
     end
 
     private

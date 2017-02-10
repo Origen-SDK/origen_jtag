@@ -27,6 +27,9 @@ module OrigenJTAG
     attr_accessor :verbose
     alias_method :verbose?, :verbose
 
+    # Log all state changes in pattern comments, false by default
+    attr_accessor :log_state_changes
+
     def initialize(owner, options = {})
       @owner = owner
       validate_pins
@@ -61,6 +64,7 @@ module OrigenJTAG
       @tdo_strobe = options[:tdo_strobe]
       @tdo_store_cycle = options[:tdo_store_cycle]
       @state = options[:init_state]
+      @log_state_changes = options[:log_state_changes] || false
     end
 
     # Shift data into the TDI pin or out of the TDO pin.

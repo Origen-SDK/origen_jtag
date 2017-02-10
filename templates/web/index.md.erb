@@ -110,6 +110,18 @@ See the [<code>OrigenJTAG::Driver</code>](<%= path "api/OrigenJTAG/Driver.html" 
 [<code>OrigenJTAG::TAPController</code>](<%= path "api/OrigenJTAG/TAPController.html" %>)
 APIs for more details about the available driver methods.
 
+Any model/controller within a target runtime environment can listen out for JTAG state
+changes by implementing the following callback handler:
+
+~~~ruby
+def on_jtag_state_change(new_state)
+  if new_state == :update_dr
+    # Do something every time we enter this state
+  end
+end
+~~~
+
+
 ### How To Setup a Development Environment
 
 [Clone the repository from Github](https://github.com/Origen-SDK/origen_jtag).
