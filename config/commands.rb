@@ -18,27 +18,32 @@ aliases ={
 case @command
 
 ## Run the unit tests  
-#when "specs"
-#  require "rspec"
-#  exit RSpec::Core::Runner.run(['spec'])
+when "specs"
+  require "rspec"
+  exit RSpec::Core::Runner.run(['spec'])
 
-when "examples"  
+when "examples", "test"  
   Origen.load_application
   status = 0
 
   # Pattern generator tests
-  ARGV = %w(jtag_workout -t v93k.rb -r approved)
+  ARGV = %w(jtag_workout -t debug_RH1 -e v93k -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RH1 -r approved)
+  ARGV = %w(jtag_workout -t debug_RH1 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RL1 -r approved)
+  ARGV = %w(jtag_workout -t debug_RL1 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(jtag_workout -t v93k_RH4.rb -r approved)
+  ARGV = %w(jtag_workout -t debug_RH2.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RH4 -r approved)
+  ARGV = %w(jtag_workout -t debug_RH2_1.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RL4 -r approved)
+
+  ARGV = %w(jtag_workout -t debug_RH4 -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t debug_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t debug_RL4 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
   
   if Origen.app.stats.changed_files == 0 &&
@@ -52,6 +57,12 @@ when "examples"
     status = 1
   end
   puts
+  if @command == "test"
+    Origen.app.unload_target!
+    require "rspec"
+    result = RSpec::Core::Runner.run(['spec'])
+    status = status == 1 ? 1 : result
+  end
   exit status
 
 # Always leave an else clause to allow control to fall back through to the

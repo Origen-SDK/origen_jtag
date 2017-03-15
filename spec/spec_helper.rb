@@ -18,19 +18,19 @@ else
   $LOAD_PATH.unshift "#{origen_top}/lib"
 end
 
-require "origen"
+require 'origen'
 
 require "rspec/legacy_formatters"
 require "#{Origen.top}/spec/format/origen_formatter"
 
 if RUBY_VERSION >= '2.0.0'
-  require "byebug"
+  require 'byebug'
 else
   require 'debugger'
 end
 require 'pry'
 
-def load_target(target="default")
+def load_target(target='debug_RH1')
   Origen.target.switch_to target
   Origen.target.load!
 end

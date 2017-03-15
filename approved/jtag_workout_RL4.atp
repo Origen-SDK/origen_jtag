@@ -1,21 +1,21 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    18-Oct-2016 13:19PM
-//   By:      Daniel Hadad
-//   Command: origen g jtag_workout -t debug_RL4.rb
+//   Time:    15-Mar-2017 10:49AM
+//   By:      Lajaunie Ronald-B01784
+//   Command: origen g jtag_workout -t debug_RL4.rb -e j750.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
 //     Source:    git@github.com:Origen-SDK/origen_jtag.git
-//     Version:   0.12.1
-//     Branch:    master(7a845f18ebb) (+local edits)
+//     Version:   0.13.0
+//     Branch:    master(bf2dee1a50c) (+local edits)
 //   Origen
 //     Source:    https://github.com/Origen-SDK/origen
-//     Version:   0.7.35
+//     Version:   0.7.45
 //   Plugins
-//     atp:                      0.4.2
-//     origen_doc_helpers:       0.4.3
-//     origen_testers:           0.8.1
+//     atp:                      0.5.0
+//     origen_doc_helpers:       0.4.4
+//     origen_testers:           0.9.0
 // ***************************************************************************
 import tset nvmbist;                                                                            
 import svm_subr write_overlay;                                                                  
@@ -53,7 +53,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -61,7 +60,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] DR Data
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
@@ -71,7 +69,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Pause-DR
 // ######################################################################
@@ -84,7 +81,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-DR
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -92,7 +88,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Shift-IR
 // ######################################################################
@@ -105,7 +100,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] IR Data
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
@@ -115,7 +109,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition TAP controller in and out of Pause-IR
 // ######################################################################
@@ -130,7 +123,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-IR
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -138,7 +130,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Shift-DR, then back and forth into Pause-DR
 // ######################################################################
@@ -149,32 +140,27 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] DR Data
 // [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-DR
 // [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-DR
 // [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -183,7 +169,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Pause-DR, then back and forth into Shift-DR
 // ######################################################################
@@ -196,31 +181,26 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-DR
 // [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-DR
 // [JTAG] Transition to Shift-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Transition to Pause-DR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-DR
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -228,7 +208,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Shift-IR, then back and forth into Pause-IR
 // ######################################################################
@@ -241,32 +220,27 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 0 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] IR Data
 // [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-IR
 // [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-IR
 // [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -275,7 +249,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Transition into Pause-IR, then back and forth into Shift-IR
 // ######################################################################
@@ -290,31 +263,26 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-IR
 // [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-IR
 // [JTAG] Transition to Shift-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Transition to Pause-IR...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Pause-IR
 // [JTAG] Transition to Run-Test/Idle...
 repeat 2                                                         > nvmbist                      1 X X 1 ;
 repeat 2                                                         > nvmbist                      0 X X 1 ;
@@ -322,7 +290,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 X X 1 ;
 repeat 2                                                         > nvmbist                      1 X X 0 ;
 repeat 2                                                         > nvmbist                      0 X X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Shifting an explicit value into TDI
 // ######################################################################
@@ -843,103 +810,103 @@ repeat 2                                                         > nvmbist      
 // ## Test - Store register out of TDO
 // ######################################################################
 // Full register (16 bits)
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 1 ;
-                                                                 > nvmbist                      1 0 X 1 ;
-repeat 2                                                         > nvmbist                      0 0 X 1 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+stv                                                              > nvmbist                      0 0 X 1 ;
 // Full register with additional size (32 bits)
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
@@ -973,36 +940,36 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 X 1 ;
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 // Full register with reduced size (8 bits)
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
 // ######################################################################
 // ## Test - Store single bit out of TDO
 // ######################################################################
-stv                                                              > nvmbist                      1 0 X 0 ;
-                                                                 > nvmbist                      1 0 X 0 ;
-repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
@@ -1254,7 +1221,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Write DR: 0xFFFF
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -1294,7 +1260,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Write register into DR with full-width overlay
 // ######################################################################
@@ -1306,7 +1271,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
                                                                  > nvmbist                      0 1 X 0 ;
 call write_overlay                                               > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Write DR: 0x0
 // [JTAG] Transition to Run-Test/Idle...
 // [JTAG] /Write DR: 0x0
@@ -1314,7 +1278,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Read value out of DR
 // ######################################################################
@@ -1326,7 +1289,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1366,7 +1328,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Write value into IR
 // ######################################################################
@@ -1380,7 +1341,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Write IR: 0xF
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -1396,7 +1356,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Read value out of IR
 // ######################################################################
@@ -1410,7 +1369,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Read IR: 0xF
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1426,7 +1384,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - The IR value is tracked and duplicate writes are inhibited
 // ######################################################################
@@ -1442,7 +1399,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Shift-IR
 // [JTAG] Write IR: 0xF
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
@@ -1458,7 +1414,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 1 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Test - Reset
 // ######################################################################
@@ -1487,7 +1442,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
 repeat 2                                                         > nvmbist                      1 1 X 0 ;
 repeat 2                                                         > nvmbist                      0 1 X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1527,7 +1481,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // TDO should be X
 // Read value out of DR
 // [JTAG] Transition to Shift-DR...
@@ -1537,7 +1490,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1577,7 +1529,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // TDO should be H
 // Read value out of DR
 // [JTAG] Transition to Shift-DR...
@@ -1587,7 +1538,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Shift-DR
 // [JTAG] Read DR: 0xFFFF
 repeat 2                                                         > nvmbist                      1 0 H 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
@@ -1627,7 +1577,6 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      0 0 X 1 ;
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
-// [JTAG] Current state: Run-Test/Idle
 // ######################################################################
 // ## Pattern complete
 // ######################################################################

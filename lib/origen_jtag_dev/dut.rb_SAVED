@@ -1,14 +1,14 @@
-module OrigenJTAG
+module OrigenJTAGDev
   # This is a dummy DUT model which is used
   # to instantiate and test the JTAG locally
   # during development.
   #
   # It is not included when this library is imported.
-  class DUT
+  class SpecDUT
+    include Origen::Model
     include OrigenJTAG
-    include Origen::Callbacks
-    include Origen::Registers
-    include Origen::Pins
+
+    attr_reader :jtag_config
 
     JTAG_CONFIG = {
       verbose:         true,
@@ -25,40 +25,64 @@ module OrigenJTAG
       JTAG_CONFIG[:tdo_strobe] = options[:tdo_strobe] if options[:tdo_strobe]
       JTAG_CONFIG[:tdo_store_cycle] = options[:tdo_store_cycle] if options[:tdo_store_cycle]
       JTAG_CONFIG[:init_state] = options[:init_state] if options[:init_state]
+
+      instantiate_registers(options)
+      instantiate_pins(options)
+
+      tester.set_timeset('nvmbist', 40)
     end
 
-    def tclk_format
-      JTAG_CONFIG[:tclk_format]
+    def instantiate_registers(options = {})
+      reg :test16, 0x0012, size: 16 do |reg|
+        reg.bit 15..8, :bus
+        reg.bit 0, :bit
+      end
+
+      reg :test32, 0x0014, size: 32 do |reg|
+        reg.bit 31..16, :bus
+        reg.bit 0, :bit
+      end
     end
 
-    def tclk_multiple
-      JTAG_CONFIG[:tclk_multiple]
-    end
-
-    def tdo_strobe
-      JTAG_CONFIG[:tdo_strobe]
-    end
-
-    def tdo_store_cycle
-      JTAG_CONFIG[:tdo_store_cycle]
-    end
-
-    def init_state
-      JTAG_CONFIG[:init_state]
-    end
-
-    def on_create
-      add_reg :test16, 0x0012, 16, bus: { pos: 8, bits: 8 },
-                                   bit: { pos: 0 }
-
-      add_reg :test32, 0x0014, 32, bus: { pos: 16, bits: 16 },
-                                   bit: { pos: 0 }
-
-      $tester.set_timeset('nvmbist', 40)
+    def instantiate_pins(options={})
       add_pin :tclk
       add_pin :tdi
       add_pin :tdo
       add_pin :tms
+    end
+
+    # Getter for top-level tclk_format setting
+    def tclk_format
+      JTAG_CONFIG[:tclk_format]
+    end
+
+    # Getter for top-level tclk_multiple setting
+    def tclk_multiple
+      JTAG_CONFIG[:tclk_multiple]
+    end
+
+    # Getter for top-level tdo_strobe setting
+    def tdo_strobe
+      JTAG_CONFIG[:tdo_strobe]
+    end
+
+    # Getter for top-level tdo_store_cycle setting
+    def tdo_store_cycle
+      JTAG_CONFIG[:tdo_store_cycle]
+    end
+
+    # Getter for top-level init_state setting
+    def init_state
+      JTAG_CONFIG[:init_state]
+    end
+
+    # Wouldn't want to do this in reality, but allows some flexibility duing gem testing
+    def update_jtag_config(cfg, val)
+      if JTAG_CONFIG.key?(cfg)
+        JTAG_CONFIG[cfg] = val
+      else
+        fail "#{cfg} not a part of JTAG_CONFIG"
+      end
     end
   end
 end
