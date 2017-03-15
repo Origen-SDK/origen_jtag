@@ -37,7 +37,7 @@ describe 'JTAG Driver Specification' do
 
   it 'JTAG State can be queried' do
     load_target('debug_RH1')
-
+    dut.startup
     dut.jtag.idle
     dut.jtag.state_str.should == "Run-Test/Idle"
 

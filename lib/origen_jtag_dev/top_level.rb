@@ -28,8 +28,6 @@ module OrigenJTAGDev
 
       instantiate_registers(options)
       instantiate_pins(options)
-
-      tester.set_timeset('nvmbist', 40)
     end
 
     def instantiate_registers(options = {})
@@ -49,6 +47,10 @@ module OrigenJTAGDev
       add_pin :tdi
       add_pin :tdo
       add_pin :tms
+    end
+
+    def startup(options = {})
+      tester.set_timeset('nvmbist', 40)
     end
 
     # Getter for top-level tclk_format setting
