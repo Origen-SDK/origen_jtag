@@ -160,14 +160,20 @@ Pattern.create(options = { name: pat_name }) do
   test 'Write value into DR'
   jtag.write_dr 0xFFFF, size: 16, msg: 'Write value into DR'
 
-  test 'Write register into DR with full-width overlay'
+  test 'Write value into DR, with compare on TDO'
+  jtag.write_dr 0xFFFF, size: 16, shift_out_data: 0xAAAA, msg: 'Write value into DR'
+
+   test 'Write register into DR with full-width overlay'
   r = $dut.reg(:test32).overlay('write_overlay')
   jtag.write_dr r
 
   test 'Read value out of DR'
   jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
 
-  test 'Write value into IR'
+  test 'Read value out of DR, with specified shift in data into TDI'
+  jtag.read_dr 0xFFFF, size: 16, shift_in_data: 0x5555, msg: 'Read value out of DR'
+
+   test 'Write value into IR'
   jtag.write_ir 0xF, size: 4, msg: 'Write value into IR'
 
   test 'Read value out of IR'

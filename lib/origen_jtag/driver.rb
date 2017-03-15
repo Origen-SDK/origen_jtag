@@ -469,7 +469,7 @@ module OrigenJTAG
     def extract_shift_in_data(reg_or_val, size, options = {})
       if reg_or_val.respond_to?(:data)
         if options[:read]
-          data = options.delete(:shift_out_data) || 0
+          data = options[:shift_in_data] || 0
           tdi = Reg.dummy(size)
           tdi.write(data)
         else
@@ -479,7 +479,7 @@ module OrigenJTAG
         # Not a register model, so can't support bit-wise overlay
         tdi = Reg.dummy(size)
         if options[:read]
-          data = options.delete(:shift_out_data) || 0
+          data = options[:shift_in_data] || 0
           tdi.write(data)
         else
           tdi.write(reg_or_val)
@@ -496,14 +496,27 @@ module OrigenJTAG
         if options[:read]
           tdo = reg_or_val.dup
         else
-          data = options.delete(:shift_in_data) || 0
           tdo = Reg.dummy(size)
-          tdo.write(data)
+          if options[:shift_out_data]
+            tdo.write(options[:shift_out_data])
+            tdo.read
+          else
+            tdo.write(0)
+          end
         end
       else
         tdo = Reg.dummy(size)
-        tdo.write(reg_or_val)
-        tdo.read if options[:read]
+        if options[:read]
+          tdo.write(reg_or_val)
+          tdo.read
+        else
+          if options[:shift_out_data]
+            tdo.write(options[:shift_out_data])
+            tdo.read
+          else
+            tdo.write(0)
+          end
+        end
       end
       tdo
     end
