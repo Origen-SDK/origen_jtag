@@ -82,14 +82,24 @@ These accept either an absolute data value or an Origen register/bit collection.
 
 ~~~ruby
 jtag.write_dr 0x1234, :size => 16
+
 # The size option is not required when a register is supplied
 jtag.write_dr $dut.reg(:clkdiv)
+
 # Although it can still be added if the register is not the full data width
 jtag.write_dr $dut.reg(:clkdiv), :size => 32
-# A rich read method is available which supports bit-level read, store and
-# overlay operations
+
+# A rich read method is available which supports bit-level read, store and overlay operations
 $dut.reg(:clkdiv).bits(:div).read(0x55)
 jtag.read $dut.reg(:clkdiv)
+
+# In cases where both shift in (TDI) and shift out data (TDO) are critical, (e.g. compare shift
+#  out data on a write, or shfit in specific data on a read) the shift_in_data and 
+#  shift_out_data options can be specified.  By default, TDO will be dont care on writes
+#  and TDI will be 0 on reads.
+jtag.write_dr $dut.reg(:clkdiv), :shift_out_data => 0x4321
+jtag.read_dr $udt.reg(:clkdiv), :shift_in_data => 0x5678
+
 # Similar methods exist for the instruction register
 jtag.write_ir 0x1F, :size => 5
 jtag.read_ir 0x1F, :size => 5

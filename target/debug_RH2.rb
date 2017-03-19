@@ -3,9 +3,6 @@
 # Normally production targets define the target and then debug targets
 # are setup to load the production target before switching Origen to debug
 # mode as shown below.
-load "#{Origen.root}/target/production_RH4.rb"
-
-$tester = OrigenTesters::V93K.new
-$tester.inline_comments = false
+load "#{Origen.root}/target/production_RH2.rb"
 
 Origen.mode = :debug

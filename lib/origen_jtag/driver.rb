@@ -42,7 +42,7 @@ module OrigenJTAG
       # Fallback defaults
       options = {
         verbose:         false,
-        tclk_format:     :rh,                  # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
+        tclk_format:     :rh,                # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
         tclk_multiple:   1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
         #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
         #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
@@ -108,111 +108,91 @@ module OrigenJTAG
         includes_last_bit: true,
         no_subr:           false      # do not use subroutine for any overlay
       }.merge(options)
+
+      # save compression state for restoring afterwards
+      compression_on = !Origen.tester.dont_compress
+
+      # clean incoming data
       size = extract_size(reg_or_val, options)
+      tdi_reg = extract_shift_in_data(reg_or_val, size, options)
+      tdo_reg = extract_shift_out_data(reg_or_val, size, options)
+      global_ovl, ovl_reg = extract_overlay_data(reg_or_val, size, options)
+
+      # tester does not support direct labels, so can't do
       if options[:no_subr] && !$tester.respond_to?('label')
-        # tester does not support direct labels, so can't do
         cc 'This tester does not support use of labels, cannot do no_subr option as requested'
         cc '  going with subroutine overlay instead'
         options[:no_subr] = false
       end
-      if options.key?(:arm_debug_comment)
-        cc options[:arm_debug_comment]
+
+      # insert global label if specified
+      if global_ovl
+        if $tester.respond_to?('label')
+          $tester.label(global_ovl, true)
+        else
+          cc "Unsupported global label: #{global_ovl}"
+        end
       end
-      if options.key?(:arm_debug_overlay)
-        $tester.label(options[:arm_debug_overlay])
-      end
-      size = extract_size(reg_or_val, options)
-      contains_bits = (contains_bits?(reg_or_val) || is_a_bit?(reg_or_val))
-      owner.pin(:tdi).drive(0) # Drive state when reading out
-      owner.pin(:tms).drive(0)
+
+      # loop through each data bit
       last_overlay_label = ''
       size.times do |i|
-        call_subroutine = false
-        direct_overlay = false
-        if options[:read]
-          # If it's a register support bit-wise reads
-          if contains_bits
-            if reg_or_val[i]
-              if reg_or_val[i].is_to_be_stored?
-                Origen.tester.store_next_cycle(owner.pin(:tdo))
-                owner.pin(:tdo).dont_care if Origen.tester.j750?
-              elsif reg_or_val[i].has_overlay?
-                if Origen.mode.simulation?
-                  owner.pin(:tdo).dont_care
-                else
-                  if options[:no_subr]
-                    Origen.tester.dont_compress = true
-                    if reg_or_val[i].overlay_str != last_overlay_label
-                      $tester.label(reg_or_val[i].overlay_str)
-                      last_overlay_label = reg_or_val[i].overlay_str
-                    end
-                    owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
-                  else
-                    call_subroutine = reg_or_val[i].overlay_str
-                  end
-                end
-              elsif reg_or_val[i].is_to_be_read?
-                owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
-              elsif options.key?(:compare_data)
-                if i.eql?(0) || i.eql?(1) || i.eql?(2)
-                  # Skip comparing first three status bits
-                  owner.pin(:tdo).dont_care
-                else
-                  owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
-                end
-              else
-                owner.pin(:tdo).dont_care
-              end
-            # If the read width extends beyond the register boundary, don't care
-            # the extra bits
-            else
-              owner.pin(:tdo).dont_care
-            end
-          # Otherwise read the whole thing
-          else
-            Origen.tester.dont_compress = false
-            owner.pin(:tdo).assert(reg_or_val[i] ? reg_or_val[i] : 0)
-          end
-        else
-          if contains_bits && reg_or_val[i] && reg_or_val[i].has_overlay?
-            if Origen.mode.simulation?
-              owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
-            else
-              if options[:no_subr]
-                Origen.tester.dont_compress = true
-                if reg_or_val[i].overlay_str != last_overlay_label
-                  $tester.label(reg_or_val[i].overlay_str)
-                  last_overlay_label = reg_or_val[i].overlay_str
-                end
-                owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
-              else
-                call_subroutine = reg_or_val[i].overlay_str
-              end
-            end
-          elsif options.key?(:arm_debug_overlay)
-            if Origen.mode.simulation?
-              owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
-            else
-              $tester.label('// JTAG DATA Pin: ' + i.to_s)
-              owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
-            end
-          else
-            Origen.tester.dont_compress = false
-            owner.pin(:tdi).drive(reg_or_val[i] ? reg_or_val[i] : 0)
+        store_tdo_this_tclk = false
+
+        # Set up pin actions for bit transaction (tclk cycle)
+
+        # TDI
+        owner.pin(:tdi).drive(tdi_reg[i])
+
+        # TDO
+        owner.pin(:tdo).dont_care                               # default setting
+        if tdo_reg[i]
+          if tdo_reg[i].is_to_be_stored?                        # store
+            store_tdo_this_tclk = true
+            owner.pin(:tdo).dont_care if Origen.tester.j750?
+          elsif tdo_reg[i].is_to_be_read?                       # compare/assert
+            owner.pin(:tdo).assert(tdo_reg[i])
           end
         end
+
+        # TMS
+        owner.pin(:tms).drive(0)
+
+        # Overlay - reconfigure pin action for overlay if necessary
+        if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
+          if options[:no_subr]
+            Origen.tester.dont_compress = true
+            if ovl_reg[i].overlay_str != last_overlay_label
+              $tester.label(ovl_reg[i].overlay_str)
+              last_overlay_label = ovl_reg[i].overlay_str
+            end
+            owner.pin(:tdo).assert(tdo_reg[i]) if options[:read]
+          else
+            owner.pin(:tdi).drive(0)
+            call_subroutine = ovl_reg[i].overlay_str
+          end
+        end
+
+        # With JTAG pin actions queued up, use block call to tclk_cycle to
+        #   execute a single TCLK period.  Special handling of subroutines,
+        #   case of last bit in shift, and store vector (within a multi-cycle
+        #   tclk config).
         if call_subroutine
           Origen.tester.call_subroutine(call_subroutine)
           @last_data_vector_shifted = true
         else
           @last_data_vector_shifted = false
-          # Don't latch the last bit, that will be done when
-          # leaving the state.
+          @next_data_vector_to_be_stored = false
+
+          # Don't latch the last bit, that will be done when leaving the state.
           if i != size - 1 || options[:cycle_last]
             if i == size - 1 && options[:includes_last_bit]
               owner.pin(:tms).drive(1)
             end
             tclk_cycle do
+              if store_tdo_this_tclk && @next_data_vector_to_be_stored
+                Origen.tester.store_next_cycle(owner.pin(:tdo))
+              end
               Origen.tester.cycle
             end
             owner.pin(:tdo).dont_care
@@ -221,11 +201,12 @@ module OrigenJTAG
           end
         end
       end
-      # Clear read and similar flags to reflect that the request has just
-      # been fulfilled
+
+      # Clear read and similar flags to reflect that the request has just been fulfilled
       reg_or_val.clear_flags if reg_or_val.respond_to?(:clear_flags)
+
       # put back compression if turned on above
-      Origen.tester.dont_compress = false
+      Origen.tester.dont_compress = false if compression_on
     end
 
     # Cycles the tester through one TCLK cycle
@@ -250,7 +231,7 @@ module OrigenJTAG
       mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
                         ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
 
-      # determine whether TDO is set to capture for this TCK cycle
+      # determine whether TDO is set to capture for this TCLK cycle
       tdo_to_be_captured = owner.pin(:tdo).to_be_captured?
 
       # If TDO is already suspended (by an application) then don't do the
@@ -260,9 +241,7 @@ module OrigenJTAG
       @tclk_multiple.times do |i|
         # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
 
-        if tdo_to_be_captured
-          owner.pin(:tdo).state = @tdo_store_cycle == i ? :capture : :dont_care
-        end
+        @next_data_vector_to_be_stored = @tdo_store_cycle == i ? true : false
 
         if i < (@tclk_multiple + 1) / 2
           # first half of cycle
@@ -340,9 +319,6 @@ module OrigenJTAG
         end
         val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
         shift_dr(write: val.to_hex) do
-          if options[:overlay] == true
-            $tester.label(options[:overlay_label], true) # apply global label
-          end
           shift(reg_or_val, options)
         end
       end
@@ -376,9 +352,6 @@ module OrigenJTAG
           cc "#{options[:msg]}\n"
         end
         shift_dr(read: Origen::Utility.read_hex(reg_or_val)) do
-          if options[:overlay] == true
-            $tester.label(options[:overlay_label], true) # apply global label
-          end
           shift(reg_or_val, options)
         end
       end
@@ -456,6 +429,8 @@ module OrigenJTAG
 
     private
 
+    # Return size of transaction.  Options[:size] has priority and need not match the
+    #   register size.  Any mismatch will be handled by the api.
     def extract_size(reg_or_val, options = {})
       size = options[:size]
       unless size
@@ -466,6 +441,84 @@ module OrigenJTAG
         end
       end
       size
+    end
+
+    # Combine any legacy options into a single global overlay and create
+    #   new bit collection to track any bit-wise overlays.
+    def extract_overlay_data(reg_or_val, size, options = {})
+      if reg_or_val.respond_to?(:data)
+        ovl = reg_or_val.dup
+      else
+        ovl = Reg.dummy(size)
+      end
+
+      if options[:overlay]
+        global = options[:overlay_label]
+      elsif options.key?(:arm_debug_overlay)   # prob don't need this anymore
+        global = options[:arm_debug_overlay]   # prob don't need this anymore
+      else
+        global = nil
+      end
+
+      [global, ovl]
+    end
+
+    # Create data that will be shifted in on TDI, create new bit collection
+    #   on the fly if reg_or_val arg is data only.  Consider read operation
+    #   where caller has requested (specific) shift in data to be used.
+    def extract_shift_in_data(reg_or_val, size, options = {})
+      if reg_or_val.respond_to?(:data)
+        if options[:read]
+          data = options[:shift_in_data] || 0
+          tdi = Reg.dummy(size)
+          tdi.write(data)
+        else
+          tdi = reg_or_val.dup
+        end
+      else
+        # Not a register model, so can't support bit-wise overlay
+        tdi = Reg.dummy(size)
+        if options[:read]
+          data = options[:shift_in_data] || 0
+          tdi.write(data)
+        else
+          tdi.write(reg_or_val)
+        end
+      end
+      tdi
+    end
+
+    # Create data that will be shifted out on TDO, create new bit collection
+    #   on the fly if reg_or_val arg is data only.  Consider write operation
+    #   where caller has requested (specific) shift out data to be compared.
+    def extract_shift_out_data(reg_or_val, size, options = {})
+      if reg_or_val.respond_to?(:data)
+        if options[:read]
+          tdo = reg_or_val.dup
+        else
+          tdo = Reg.dummy(size)
+          if options[:shift_out_data]
+            tdo.write(options[:shift_out_data])
+            tdo.read
+          else
+            tdo.write(0)
+          end
+        end
+      else
+        tdo = Reg.dummy(size)
+        if options[:read]
+          tdo.write(reg_or_val)
+          tdo.read
+        else
+          if options[:shift_out_data]
+            tdo.write(options[:shift_out_data])
+            tdo.read
+          else
+            tdo.write(0)
+          end
+        end
+      end
+      tdo
     end
 
     # Validates that the parent object (the owner) has defined the necessary

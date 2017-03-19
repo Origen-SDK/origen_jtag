@@ -1,0 +1,1578 @@
+// ***************************************************************************
+// GENERATED:
+//   Time:    15-Mar-2017 17:23PM
+//   By:      Lajaunie Ronald-B01784
+//   Command: origen g jtag_workout -t debug_RH2_1.rb -e j750.rb
+// ***************************************************************************
+// ENVIRONMENT:
+//   Application
+//     Source:    git@github.com:Origen-SDK/origen_jtag.git
+//     Version:   0.13.0
+//     Branch:    master(6457b3e8c2f) (+local edits)
+//   Origen
+//     Source:    https://github.com/Origen-SDK/origen
+//     Version:   0.7.45
+//   Plugins
+//     atp:                      0.5.0
+//     origen_doc_helpers:       0.4.4
+//     origen_testers:           0.9.0
+// ***************************************************************************
+import tset nvmbist;                                                                            
+import svm_subr write_overlay;                                                                  
+import svm_subr write_overlay2;                                                                 
+import svm_subr read_overlay;                                                                   
+import svm_subr read_overlay2;                                                                  
+svm_only_file = no;                                                                             
+opcode_mode = extended;                                                                         
+compressed = yes;                                                                               
+                                                                                                
+vector ($tset, tclk, tdi, tdo, tms)                                                             
+{                                                                                               
+start_label pattern_st:                                                                         
+//                                                                                              t t t t
+//                                                                                              c d d m
+//                                                                                              l i o s
+//                                                                                              k      
+// ######################################################################
+// ## Test - Transition TAP controller in and out of Shift-DR
+// ######################################################################
+// [JTAG] Force transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] DR Data
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+// [JTAG] /DR Data
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition TAP controller in and out of Pause-DR
+// ######################################################################
+// [JTAG] Transition to Pause-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition TAP controller in and out of Shift-IR
+// ######################################################################
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] IR Data
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+// [JTAG] /IR Data
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition TAP controller in and out of Pause-IR
+// ######################################################################
+// [JTAG] Transition to Pause-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition into Shift-DR, then back and forth into Pause-DR
+// ######################################################################
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] DR Data
+// [JTAG] Transition to Pause-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Pause-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+// [JTAG] /DR Data
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition into Pause-DR, then back and forth into Shift-DR
+// ######################################################################
+// [JTAG] Transition to Pause-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Pause-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Pause-DR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition into Shift-IR, then back and forth into Pause-IR
+// ######################################################################
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] IR Data
+// [JTAG] Transition to Pause-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Pause-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+// [JTAG] /IR Data
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Transition into Pause-IR, then back and forth into Shift-IR
+// ######################################################################
+// [JTAG] Transition to Pause-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Pause-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Pause-IR...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 1 ;
+                                                                 > nvmbist                      1 X X 1 ;
+                                                                 > nvmbist                      0 X X 0 ;
+                                                                 > nvmbist                      1 X X 0 ;
+// ######################################################################
+// ## Test - Shifting an explicit value into TDI
+// ######################################################################
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// ######################################################################
+// ## Test - Shifting an explicit value out of TDO
+// ######################################################################
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 L 1 ;
+// ######################################################################
+// ## Test - Shift register into TDI
+// ######################################################################
+// Full register (16 bits)
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// Full register with additional size (32 bits)
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// Full register with reduced size (8 bits)
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Test - Shift register into TDI with overlay
+// ######################################################################
+// Full register (16 bits)
+call write_overlay                                               > nvmbist                      1 0 X 0 ;
+// Full register with additional size (32 bits)
+call write_overlay                                               > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// Full register with reduced size (8 bits)
+call write_overlay                                               > nvmbist                      1 0 X 1 ;
+// It should in-line overlays when running in simulation mode
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// Full register overlay without using subroutine
+write_overlay:                                                                                  
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// ######################################################################
+// ## Test - Shift register into TDI with single bit overlay
+// ######################################################################
+call write_overlay2                                              > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// ######################################################################
+// ## Test - Read register out of TDO
+// ######################################################################
+// Full register (16 bits)
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// Full register with additional size (32 bits)
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// Full register with reduced size (8 bits)
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+// ######################################################################
+// ## Test - Read single bit out of TDO
+// ######################################################################
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// ######################################################################
+// ## Test - Store register out of TDO
+// ######################################################################
+// Full register (16 bits)
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+stv                                                              > nvmbist                      1 0 X 1 ;
+// Full register with additional size (32 bits)
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// Full register with reduced size (8 bits)
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Test - Store single bit out of TDO
+// ######################################################################
+                                                                 > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// ######################################################################
+// ## Test - Test flag clear, bit 0 should be read, but not stored
+// ######################################################################
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// ######################################################################
+// ## Test - Shift register out of TDO with overlay
+// ######################################################################
+// Full register (16 bits)
+call read_overlay                                                > nvmbist                      1 0 X 1 ;
+// Full register with additional size (32 bits)
+call read_overlay                                                > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// Full register with reduced size (8 bits)
+call read_overlay                                                > nvmbist                      1 0 X 1 ;
+// It should in-line overlays when running in simulation mode
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// Full register overlay without using subroutine
+read_overlay:                                                                                   
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 L 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// ######################################################################
+// ## Test - Shift register out of TDO with single bit overlay
+// ######################################################################
+call read_overlay2                                               > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// ######################################################################
+// ## Test - Write value into DR
+// ######################################################################
+// Write value into DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Write DR: 0xFFFF
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// [JTAG] /Write DR: 0xFFFF
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// ######################################################################
+// ## Test - Write value into DR, with compare on TDO
+// ######################################################################
+// Write value into DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Write DR: 0xFFFF
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 L 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 H 1 ;
+// [JTAG] /Write DR: 0xFFFF
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// ######################################################################
+// ## Test - Write register into DR with full-width overlay
+// ######################################################################
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+call write_overlay                                               > nvmbist                      1 1 X 0 ;
+// [JTAG] Write DR: 0x0
+// [JTAG] Transition to Run-Test/Idle...
+// [JTAG] /Write DR: 0x0
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Test - Read value out of DR
+// ######################################################################
+// Read value out of DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// [JTAG] /Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Test - Read value out of DR, with specified shift in data into TDI
+// ######################################################################
+// Read value out of DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Read DR: 0xFFFF
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 H 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// [JTAG] /Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Test - Write value into IR
+// ######################################################################
+// Write value into IR
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Write IR: 0xF
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// [JTAG] /Write IR: 0xF
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// ######################################################################
+// ## Test - Read value out of IR
+// ######################################################################
+// Read value out of IR
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Read IR: 0xF
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// [JTAG] /Read IR: 0xF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Test - The IR value is tracked and duplicate writes are inhibited
+// ######################################################################
+// ######################################################################
+// ## Test - Unless forced
+// ######################################################################
+// [JTAG] Transition to Shift-IR...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Write IR: 0xF
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// [JTAG] /Write IR: 0xF
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// ######################################################################
+// ## Test - Reset
+// ######################################################################
+// [JTAG] Force transition to Test-Logic-Reset...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+// ######################################################################
+// ## Test - Suspend of compare on TDO works
+// ######################################################################
+// TDO should be H
+// Read value out of DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 1 X 1 ;
+                                                                 > nvmbist                      1 1 X 1 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+                                                                 > nvmbist                      0 1 X 0 ;
+                                                                 > nvmbist                      1 1 X 0 ;
+// [JTAG] Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// [JTAG] /Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// TDO should be X
+// Read value out of DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+// [JTAG] /Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// TDO should be H
+// Read value out of DR
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// [JTAG] Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 H 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 H 1 ;
+// [JTAG] /Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      1 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+                                                                 > nvmbist                      1 0 X 0 ;
+// ######################################################################
+// ## Pattern complete
+// ######################################################################
+end_module                                                       > nvmbist                      1 0 X 0 ;
+}                                                                                               
