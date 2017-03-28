@@ -72,7 +72,9 @@ when "examples", "test"
 # before handing control back to Origen. Un-comment the example below to get started.
 else
   @application_commands = <<-EOT
+ specs        Run the specs (tests), -c will enable coverage
  examples     Run the examples (tests), -c will enable coverage
+ test         Run both specs and examples, -c will enable coverage
   EOT
 
 end 
