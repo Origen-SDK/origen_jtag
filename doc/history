@@ -1,3 +1,17 @@
+<a class="anchor release_tag" name="v0_14_0"></a>
+<h1><a href="#v0_14_0">Tag: v0.14.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Lajaunie Ronald-B01784 on 28-Mar-2017 08:45AM
+
+
+* Ability to compare 'out' data on writes and specify 'in' data on reads (see web doc for
+API details).
+* Resolved Issue#1: tdo\_store\_cycle not working.
+* Updated to latest origen plugin structure (environment, boot, maillists, and lib/\_dev).
+* Added spec file for more coverage.
+
 <a class="anchor release_tag" name="v0_13_0"></a>
 <h1><a href="#v0_13_0">Tag: v0.13.0</a></h1>
 
