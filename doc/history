@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_15_0"></a>
+<h1><a href="#v0_15_0">Tag: v0.15.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Lajaunie Ronald-B01784 on 28-Apr-2017 09:35AM
+
+
+* Patch bug in last release that lost store information of last bit when using shift\_dr
+method
+
 <a class="anchor release_tag" name="v0_14_0"></a>
 <h1><a href="#v0_14_0">Tag: v0.14.0</a></h1>
 
