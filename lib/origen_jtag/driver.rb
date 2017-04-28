@@ -198,6 +198,7 @@ module OrigenJTAG
             owner.pin(:tdo).dont_care
           else
             @deferred_compare = true
+            @deferred_store = true if store_tdo_this_tclk
           end
         end
       end
@@ -291,7 +292,18 @@ module OrigenJTAG
         owner.pin(:tdo).dont_care
       end
 
+      if @deferred_store
+        @deferred_store = nil
+        store_tdo_this_tclk = true
+      else
+        store_tdo_this_tclk = false
+      end
+      @next_data_vector_to_be_stored = false
+
       tclk_cycle do
+        if store_tdo_this_tclk && @next_data_vector_to_be_stored
+          Origen.tester.store_next_cycle(owner.pin(:tdo))
+        end
         owner.pin(:tms).drive!(val)
       end
     end

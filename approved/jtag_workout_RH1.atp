@@ -1,14 +1,14 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    15-Mar-2017 17:23PM
+//   Time:    28-Apr-2017 09:16AM
 //   By:      Lajaunie Ronald-B01784
 //   Command: origen g jtag_workout -t debug_RH1.rb -e j750.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
 //     Source:    git@github.com:Origen-SDK/origen_jtag.git
-//     Version:   0.13.0
-//     Branch:    master(6457b3e8c2f) (+local edits)
+//     Version:   0.14.0
+//     Branch:    master(367fecaa95c) (+local edits)
 //   Origen
 //     Source:    https://github.com/Origen-SDK/origen
 //     Version:   0.7.45
@@ -449,6 +449,49 @@ repeat 15                                                        > nvmbist      
 // [JTAG] Transition to Run-Test/Idle...
                                                                  > nvmbist                      0 0 H 1 ;
 // [JTAG] /Read DR: 0xFFFF
+                                                                 > nvmbist                      0 0 X 1 ;
+                                                                 > nvmbist                      0 0 X 0 ;
+// ######################################################################
+// ## Test - Store value out of DR
+// ######################################################################
+// [JTAG] Transition to Shift-DR...
+                                                                 > nvmbist                      0 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// [JTAG] Read DR: 0xSSSSSSSS
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+stv                                                              > nvmbist                      0 0 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+stv                                                              > nvmbist                      0 0 X 1 ;
+// [JTAG] /Read DR: 0xSSSSSSSS
                                                                  > nvmbist                      0 0 X 1 ;
                                                                  > nvmbist                      0 0 X 0 ;
 // ######################################################################
