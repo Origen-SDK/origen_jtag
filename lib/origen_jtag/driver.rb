@@ -118,21 +118,24 @@ module OrigenJTAG
       tdo_reg = extract_shift_out_data(reg_or_val, size, options)
       global_ovl, ovl_reg = extract_overlay_data(reg_or_val, size, options)
 
-      # tester does not support direct labels, so can't do
-      if options[:no_subr] && !$tester.respond_to?('label')
-        cc 'This tester does not support use of labels, cannot do no_subr option as requested'
-        cc '  going with subroutine overlay instead'
-        options[:no_subr] = false
-      end
-
-      # insert global label if specified
-      if global_ovl
-        if $tester.respond_to?('label')
-          $tester.label(global_ovl, true)
-        else
-          cc "Unsupported global label: #{global_ovl}"
+      # let the tester handle overlay if possible
+      unless tester.respond_to?(:source_memory)
+        # tester does not support direct labels, so can't do
+        if options[:no_subr] && !$tester.respond_to?('label')
+          cc 'This tester does not support use of labels, cannot do no_subr option as requested'
+          cc '  going with subroutine overlay instead'
+          options[:no_subr] = false
         end
-      end
+
+        # insert global label if specified
+        if global_ovl
+          if $tester.respond_to?('label')
+            $tester.label(global_ovl, true)
+          else
+            cc "Unsupported global label: #{global_ovl}"
+          end
+        end
+      end # of let tester handle overlay if possible
 
       # loop through each data bit
       last_overlay_label = ''
@@ -158,26 +161,36 @@ module OrigenJTAG
         # TMS
         owner.pin(:tms).drive(0)
 
-        # Overlay - reconfigure pin action for overlay if necessary
-        if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
-          if options[:no_subr]
-            Origen.tester.dont_compress = true
-            if ovl_reg[i].overlay_str != last_overlay_label
-              $tester.label(ovl_reg[i].overlay_str)
-              last_overlay_label = ovl_reg[i].overlay_str
-            end
-            owner.pin(:tdo).assert(tdo_reg[i]) if options[:read]
-          else
-            owner.pin(:tdi).drive(0)
-            call_subroutine = ovl_reg[i].overlay_str
+        # let tester handle overlay if implemented
+        overlay_options = {}
+        if tester.respond_to?(:source_memory)
+          if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
+            overlay_options[:pins] = owner.pin(:tdi)
+            overlay_options[:overlay_str] = ovl_reg[i].overlay_str
+            overlay_options[:overlay_style] = :label if options[:no_subr]
           end
-        end
+        else
+          # Overlay - reconfigure pin action for overlay if necessary
+          if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
+            if options[:no_subr]
+              Origen.tester.dont_compress = true
+              if ovl_reg[i].overlay_str != last_overlay_label
+                $tester.label(ovl_reg[i].overlay_str)
+                last_overlay_label = ovl_reg[i].overlay_str
+              end
+              owner.pin(:tdo).assert(tdo_reg[i]) if options[:read]
+            else
+              owner.pin(:tdi).drive(0)
+              call_subroutine = ovl_reg[i].overlay_str
+            end
+          end
+        end # of let tester handle overlay
 
         # With JTAG pin actions queued up, use block call to tclk_cycle to
         #   execute a single TCLK period.  Special handling of subroutines,
         #   case of last bit in shift, and store vector (within a multi-cycle
         #   tclk config).
-        if call_subroutine
+        if call_subroutine && !tester.respond_to?(:source_memory)
           Origen.tester.call_subroutine(call_subroutine)
           @last_data_vector_shifted = true
         else
@@ -193,7 +206,12 @@ module OrigenJTAG
               if store_tdo_this_tclk && @next_data_vector_to_be_stored
                 Origen.tester.store_next_cycle(owner.pin(:tdo))
               end
-              Origen.tester.cycle
+              if overlay_options[:pins].nil?
+                Origen.tester.cycle
+              else
+                Origen.tester.cycle overlay: overlay_options
+                overlay_options[:change_data] = false			# data change only on first cycle if overlay
+              end
             end
             owner.pin(:tdo).dont_care
           else
