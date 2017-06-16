@@ -547,8 +547,12 @@ module OrigenJTAG
           tdo.read
         else
           if options[:shift_out_data]
-            tdo.write(options[:shift_out_data])
-            tdo.read
+            if options[:shift_out_data].is_a?(Origen::Registers::Reg)
+              tdo = options[:shift_out_data]
+            else
+              tdo.write(options[:shift_out_data])
+              tdo.read
+            end
           else
             tdo.write(0)
           end

@@ -46,6 +46,9 @@ when "examples", "test"
   ARGV = %w(jtag_workout -t debug_RL4 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
   
+  ARGV = %w(rww_test -t debug_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
   if Origen.app.stats.changed_files == 0 &&
      Origen.app.stats.new_files == 0 &&
      Origen.app.stats.changed_patterns == 0 &&
