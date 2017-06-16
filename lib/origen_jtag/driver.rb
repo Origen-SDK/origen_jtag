@@ -523,15 +523,19 @@ module OrigenJTAG
     #   where caller has requested (specific) shift out data to be compared.
     def extract_shift_out_data(reg_or_val, size, options = {})
       if reg_or_val.respond_to?(:data)
-        if options[:read] || options[:shift_out_data]
+        if options[:read]
           tdo = reg_or_val.dup
         else
-          tdo = Reg.dummy(size)
+          tdo = Reg.dummy(size) unless options[:shift_out_data].is_a?(Origen::Registers::Reg)
         end
-        unless options[:read]
+        unless options[:read]			# if this is a write operation
           if options[:shift_out_data]
-            tdo.write(options[:shift_out_data])
-            tdo.read
+            if options[:shift_out_data].is_a?(Origen::Registers::Reg)
+              tdo = options[:shift_out_data]
+            else
+              tdo.write(options[:shift_out_data])
+              tdo.read
+            end
           else
             tdo.write(0)
           end
