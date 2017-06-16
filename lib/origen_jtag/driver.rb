@@ -528,7 +528,7 @@ module OrigenJTAG
         else
           tdo = Reg.dummy(size)
         end
-        if !options[:read]
+        unless options[:read]
           if options[:shift_out_data]
             tdo.write(options[:shift_out_data])
             tdo.read
