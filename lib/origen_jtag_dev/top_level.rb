@@ -40,6 +40,10 @@ module OrigenJTAGDev
         reg.bit 31..16, :bus
         reg.bit 0, :bit
       end
+
+      reg :full16, 0x0012, size: 16 do |reg|
+        reg.bit 15..0, :data
+      end
     end
 
     def instantiate_pins(options = {})
