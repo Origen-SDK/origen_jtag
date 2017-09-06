@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    origen_jtag (0.15.0)
+    origen_jtag (0.16.0)
       origen (~> 0.7, >= 0.7.35)
 
 GEM
@@ -159,4 +159,4 @@ DEPENDENCIES
   origen_testers
 
 BUNDLED WITH
-   1.13.4
+   1.15.3

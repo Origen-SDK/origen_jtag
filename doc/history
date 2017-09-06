@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_16_0"></a>
+<h1><a href="#v0_16_0">Tag: v0.16.0</a></h1>
+
+##### Branch: 'master'
+
+##### by pderouen on 06-Sep-2017 11:52AM
+
+
+added support for tester handled overlay
+added bit masking support for read while write operation
+
 <a class="anchor release_tag" name="v0_15_0"></a>
 <h1><a href="#v0_15_0">Tag: v0.15.0</a></h1>
 
