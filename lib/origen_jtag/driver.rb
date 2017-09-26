@@ -525,6 +525,7 @@ module OrigenJTAG
       if reg_or_val.respond_to?(:data)
         if options[:read]
           tdo = reg_or_val.dup
+          tdo.read(options) unless options[:mask].nil?
         else
           tdo = Reg.dummy(size) unless options[:shift_out_data].is_a?(Origen::Registers::Reg)
         end
@@ -534,7 +535,7 @@ module OrigenJTAG
               tdo = options[:shift_out_data]
             else
               tdo.write(options[:shift_out_data])
-              tdo.read
+              tdo.read(options)
             end
           else
             tdo.write(0)
@@ -544,14 +545,14 @@ module OrigenJTAG
         tdo = Reg.dummy(size)
         if options[:read]
           tdo.write(reg_or_val)
-          tdo.read
+          tdo.read(options)
         else
           if options[:shift_out_data]
             if options[:shift_out_data].is_a?(Origen::Registers::Reg)
               tdo = options[:shift_out_data]
             else
               tdo.write(options[:shift_out_data])
-              tdo.read
+              tdo.read(options)
             end
           else
             tdo.write(0)

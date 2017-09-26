@@ -204,4 +204,17 @@ Pattern.create(options = { name: pat_name }) do
   end
   cc 'TDO should be H'
   jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
+
+  test 'Mask option for read_dr works'
+  cc 'TDO should be H'
+  jtag.read_dr 0xFFFF, size: 16, mask: 0x5555, msg: 'Read value out of DR'
+
+  test 'Write value into DR, with compare on TDO'
+  jtag.write_dr 0x5555, size: 16, shift_out_data: 0xAAAA, mask: 0x00FF, msg: 'Write value into DR'
+
+  test 'Shifting an explicit value out of TDO with mask'
+  jtag.shift 0x1234, size: 16, read: true, mask: 0xFF00
+
+  test 'Shifting an explicit value into TDI (and out of TDO)'
+  jtag.shift 0x1234, size: 16, cycle_last: true, shift_out_data: 0xAAAA, mask: 0x0F0F
 end
