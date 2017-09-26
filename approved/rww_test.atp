@@ -1,14 +1,14 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    16-Jun-2017 15:28PM
-//   By:      pderouen
+//   Time:    26-Sep-2017 09:30AM
+//   By:      Lajaunie Ronald-B01784
 //   Command: origen g rww_test -t debug_RH4.rb -e j750.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
 //     Source:    git@github.com:Origen-SDK/origen_jtag.git
-//     Version:   0.15.0
-//     Branch:    update_rd_while_wr(d6173ae2e97) (+local edits)
+//     Version:   0.16.0
+//     Branch:    tdo-mask(8adedcafd3b)
 //   Origen
 //     Source:    https://github.com/Origen-SDK/origen
 //     Version:   0.7.45

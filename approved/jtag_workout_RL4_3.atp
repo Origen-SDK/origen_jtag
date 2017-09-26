@@ -1,14 +1,14 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    28-Apr-2017 09:16AM
+//   Time:    26-Sep-2017 09:30AM
 //   By:      Lajaunie Ronald-B01784
 //   Command: origen g jtag_workout -t debug_RL4.rb -e j750.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
 //     Source:    git@github.com:Origen-SDK/origen_jtag.git
-//     Version:   0.14.0
-//     Branch:    master(367fecaa95c) (+local edits)
+//     Version:   0.16.0
+//     Branch:    tdo-mask(8adedcafd3b)
 //   Origen
 //     Source:    https://github.com/Origen-SDK/origen
 //     Version:   0.7.45
@@ -1791,7 +1791,176 @@ repeat 2                                                         > nvmbist      
 repeat 2                                                         > nvmbist                      1 0 X 0 ;
 repeat 2                                                         > nvmbist                      0 0 X 0 ;
 // ######################################################################
+// ## Test - Mask option for read_dr works
+// ######################################################################
+// TDO should be H
+// Read value out of DR
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// [JTAG] Read DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+// [JTAG] /Read DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// ######################################################################
+// ## Test - Write value into DR, with compare on TDO
+// ######################################################################
+// Write value into DR
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// [JTAG] Write DR: 0x5555
+repeat 2                                                         > nvmbist                      1 1 L 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 L 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 L 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 L 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+// [JTAG] /Write DR: 0x5555
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// ######################################################################
+// ## Test - Shifting an explicit value out of TDO with mask
+// ######################################################################
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+// ######################################################################
+// ## Test - Shifting an explicit value into TDI (and out of TDO)
+// ######################################################################
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 L 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 H 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 L 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 H 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 ;
+repeat 2                                                         > nvmbist                      0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 0 ;
+repeat 2                                                         > nvmbist                      0 0 X 0 ;
+repeat 2                                                         > nvmbist                      1 0 X 1 ;
+repeat 2                                                         > nvmbist                      0 0 X 1 ;
+// ######################################################################
 // ## Pattern complete
 // ######################################################################
-end_module                                                       > nvmbist                      0 0 X 0 ;
+end_module                                                       > nvmbist                      0 0 X 1 ;
 }                                                                                               
