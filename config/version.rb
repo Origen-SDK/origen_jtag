@@ -1,6 +1,6 @@
 module OrigenJTAG
   MAJOR = 0
-  MINOR = 16
+  MINOR = 17
   BUGFIX = 0
   DEV = nil
 

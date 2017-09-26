@@ -1,3 +1,13 @@
+<a class="anchor release_tag" name="v0_17_0"></a>
+<h1><a href="#v0_17_0">Tag: v0.17.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Lajaunie Ronald-B01784 on 26-Sep-2017 10:29AM
+
+
+* Allow 'mask' option to drop through to the bit\_collection.read
+
 <a class="anchor release_tag" name="v0_16_0"></a>
 <h1><a href="#v0_16_0">Tag: v0.16.0</a></h1>
 
