@@ -166,8 +166,13 @@ module OrigenJTAG
         if tester.respond_to?(:source_memory)
           if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
             overlay_options[:pins] = owner.pin(:tdi)
-            overlay_options[:overlay_str] = ovl_reg[i].overlay_str
-            overlay_options[:overlay_style] = :label if options[:no_subr]
+            if global_ovl
+              overlay_options[:overlay_str] = global_ovl
+              overlay_options[:is_global_label] = true
+            else
+              overlay_options[:overlay_str] = ovl_reg[i].overlay_str
+            end
+            overlay_options[:overlay_style] = :label if options[:no_subr] || global_ovl
             tester_subr_overlay = overlay_options[:overlay_style] != :label && tester.overlay_style == :subroutine
             owner.pin(:tdi).drive(0) if tester_subr_overlay
             owner.pin(:tdo).assert(tdo_reg[i]) if options[:read] unless tester_subr_overlay
