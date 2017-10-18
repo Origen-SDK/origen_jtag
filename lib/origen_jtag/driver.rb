@@ -166,8 +166,21 @@ module OrigenJTAG
         if tester.respond_to?(:source_memory)
           if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
             overlay_options[:pins] = owner.pin(:tdi)
-            overlay_options[:overlay_str] = ovl_reg[i].overlay_str
-            overlay_options[:overlay_style] = :label if options[:no_subr]
+            if global_ovl
+              overlay_options[:overlay_str] = global_ovl
+            else
+              overlay_options[:overlay_str] = ovl_reg[i].overlay_str
+            end
+            if options[:no_subr] || global_ovl
+              if global_ovl
+                overlay_options[:overlay_style] = :global_label
+              else
+                overlay_options[:overlay_style] = :label
+              end
+            end
+            tester_subr_overlay = !(options[:no_subr] || global_ovl) && tester.overlay_style == :subroutine
+            owner.pin(:tdi).drive(0) if tester_subr_overlay
+            owner.pin(:tdo).assert(tdo_reg[i]) if options[:read] unless tester_subr_overlay
           end
         else
           # Overlay - reconfigure pin action for overlay if necessary
@@ -190,17 +203,20 @@ module OrigenJTAG
         #   execute a single TCLK period.  Special handling of subroutines,
         #   case of last bit in shift, and store vector (within a multi-cycle
         #   tclk config).
-        if call_subroutine && !tester.respond_to?(:source_memory)
-          Origen.tester.call_subroutine(call_subroutine)
+        if call_subroutine || tester_subr_overlay
           @last_data_vector_shifted = true
         else
           @last_data_vector_shifted = false
-          @next_data_vector_to_be_stored = false
+        end
 
+        if call_subroutine
+          Origen.tester.call_subroutine(call_subroutine)
+        else
+          @next_data_vector_to_be_stored = false
           # Don't latch the last bit, that will be done when leaving the state.
           if i != size - 1 || options[:cycle_last]
             if i == size - 1 && options[:includes_last_bit]
-              owner.pin(:tms).drive(1)
+              owner.pin(:tms).drive(1) unless tester_subr_overlay
             end
             tclk_cycle do
               if store_tdo_this_tclk && @next_data_vector_to_be_stored
@@ -531,7 +547,7 @@ module OrigenJTAG
         end
         unless options[:read]			# if this is a write operation
           if options[:shift_out_data]
-            if options[:shift_out_data].is_a?(Origen::Registers::Reg)
+            if options[:shift_out_data].class.to_s =~ /Origen::Registers/
               tdo = options[:shift_out_data]
             else
               tdo.write(options[:shift_out_data])
@@ -548,7 +564,7 @@ module OrigenJTAG
           tdo.read(options)
         else
           if options[:shift_out_data]
-            if options[:shift_out_data].is_a?(Origen::Registers::Reg)
+            if options[:shift_out_data].class.to_s =~ /Origen::Registers/
               tdo = options[:shift_out_data]
             else
               tdo.write(options[:shift_out_data])
