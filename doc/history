@@ -1,3 +1,13 @@
+<a class="anchor release_tag" name="v0_17_1"></a>
+<h1><a href="#v0_17_1">Tag: v0.17.1</a></h1>
+
+##### Branch: 'master'
+
+##### by FSL\b04525 on 18-Oct-2017 10:17AM
+
+
+fix overlay bugs introduced with origen\_testers >= 0.10.0 < 0.13.2
+
 <a class="anchor release_tag" name="v0_17_0"></a>
 <h1><a href="#v0_17_0">Tag: v0.17.0</a></h1>
 
