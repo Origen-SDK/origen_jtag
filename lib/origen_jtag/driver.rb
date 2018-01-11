@@ -181,6 +181,8 @@ module OrigenJTAG
             tester_subr_overlay = !(options[:no_subr] || global_ovl) && tester.overlay_style == :subroutine
             owner.pin(:tdi).drive(0) if tester_subr_overlay
             owner.pin(:tdo).assert(tdo_reg[i]) if options[:read] unless tester_subr_overlay
+            # Force the last bit to be shifted from this method if overlay requested on the last bit
+            options[:cycle_last] = true if i == size - 1
           end
         else
           # Overlay - reconfigure pin action for overlay if necessary
@@ -216,7 +218,10 @@ module OrigenJTAG
           # Don't latch the last bit, that will be done when leaving the state.
           if i != size - 1 || options[:cycle_last]
             if i == size - 1 && options[:includes_last_bit]
-              owner.pin(:tms).drive(1) unless tester_subr_overlay
+              unless tester_subr_overlay
+                owner.pin(:tms).drive(1)
+                @last_data_vector_shifted = true
+              end
             end
             tclk_cycle do
               if store_tdo_this_tclk && @next_data_vector_to_be_stored
