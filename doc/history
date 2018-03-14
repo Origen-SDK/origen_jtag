@@ -1,3 +1,13 @@
+<a class="anchor release_tag" name="v0_17_2"></a>
+<h1><a href="#v0_17_2">Tag: v0.17.2</a></h1>
+
+##### Branch: 'master'
+
+##### by nxa18793 on 14-Mar-2018 07:29AM
+
+
+bug fix for digsrc digcap overlay (MSB previously lost)
+
 <a class="anchor release_tag" name="v0_17_1"></a>
 <h1><a href="#v0_17_1">Tag: v0.17.1</a></h1>
 
