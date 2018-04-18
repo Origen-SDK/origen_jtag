@@ -1,0 +1,453 @@
+// ***************************************************************************
+// GENERATED:
+//   Time:    18-Apr-2018 07:17AM
+//   By:      nxa18793
+//   Command: origen g pattern/two_port.rb -t new_2port_RH4.rb -e j750.rb
+// ***************************************************************************
+// ENVIRONMENT:
+//   Application
+//     Source:    git@github.com:Origen-SDK/origen_jtag.git
+//     Version:   0.17.2
+//     Branch:    PinFlexibility(1f8b1ea41c3) (+local edits)
+//   Origen
+//     Source:    https://github.com/Origen-SDK/origen
+//     Version:   0.26.0
+//   Plugins
+//     atp:                      0.8.0
+//     origen_doc_helpers:       0.5.0
+//     origen_testers:           0.13.2
+// ***************************************************************************
+import tset nvmbist;                                                                            
+svm_only_file = no;                                                                             
+opcode_mode = extended;                                                                         
+compressed = yes;                                                                               
+                                                                                                
+vector ($tset, tclk, tdi, tdo, tms, tck_2, tdi_2, tdo_2, tms_2)                                 
+{                                                                                               
+start_label pattern_st:                                                                         
+//                                                                                              t t t t t t t t
+//                                                                                              c d d m c d d m
+//                                                                                              l i o s k i o s
+//                                                                                              k       - - - -
+//                                                                                                      2 2 2 2
+// ######################################################################
+// ## test using first jtag port
+// ######################################################################
+// TDO should be HLHL_LHLH_HLHL_LHLH
+// [JTAG] Force transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 0 X X X X ;
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      0 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 X X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 X X 0 X X X X ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 1 X X X X ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// TDO should be XXXX_XXXX_HHHH_HHHH
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// TDO should be HLHL_LHLH_HLHL_LHLH
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 L 0 X X X X ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 1 X X X X ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// TDO should be XXXX_XXXX_HHHH_HHHH
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 H 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      0 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 1 X X X X ;
+repeat 2                                                         > nvmbist                      0 1 X 0 X X X X ;
+repeat 2                                                         > nvmbist                      1 1 X 0 X X X X ;
+// ######################################################################
+// ## test using second jtag port
+// ######################################################################
+// TDO should be HLHL_LHLH_HLHL_LHLH
+// [JTAG] Force transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 0 ;
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 X X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 X X 0 ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 1 ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// TDO should be XXXX_XXXX_HHHH_HHHH
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// TDO should be HLHL_LHLH_HLHL_LHLH
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 L 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 1 ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// TDO should be XXXX_XXXX_HHHH_HHHH
+// [JTAG] Transition to Shift-DR...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// [JTAG] Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 H 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// [JTAG] Transition to Run-Test/Idle...
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+// [JTAG] /Write DR: 0xFFFF
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 1 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 0 1 X 0 ;
+repeat 2                                                         > nvmbist                      1 1 X 0 1 1 X 0 ;
+// ######################################################################
+// ## Pattern complete
+// ######################################################################
+end_module                                                       > nvmbist                      1 1 X 0 1 1 X 0 ;
+}                                                                                               
