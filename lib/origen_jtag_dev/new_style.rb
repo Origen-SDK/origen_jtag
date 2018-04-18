@@ -49,7 +49,11 @@ module OrigenJTAGDev
     end
 
     def instantiate_pins(options = {})
-      add_pin :tclk
+      if options[:invalid_pins]
+        add_pin :tck
+      else
+        add_pin :tclk
+      end
       add_pin :tdi
       add_pin :tdo
       add_pin :tms

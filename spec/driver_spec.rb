@@ -46,5 +46,8 @@ describe 'JTAG Driver Specification' do
     end
   end
 
+  it 'Raises error on instantiation with invalid pins' do
+    lambda {load_target('prod_invalid_pins')}.should raise_error
+  end
 
 end
