@@ -30,6 +30,66 @@ __NOTE:__ You will also need to include <code>require 'origen_jtag'</code> somew
 
 ### How To Use
 
+#### New Style Example
+
+The driver no longer requires specific pin names (or aliases), supports sub_block instantiation and DUTs with multiple JTAG ports.
+ You are no longer required to include "OrigenJTAG" in your DUT class.
+
+Here is an example integration:
+
+~~~ruby
+class Pioneer
+
+  include Origen::TopLevel
+
+  def initialize
+    add_pin :tclk
+    add_pin :tdi
+    add_pin :tdo
+    add_pin :tms
+
+    add_pin :tck2
+    add_pin :tdi2
+    add_pin :tdo2
+    add_pin :tms2
+
+
+    # In this first instance TCK covers 4 tester cycles,
+    # 2 high then 2 low for each effective TCK pulse.
+    # Strobe TDO only when TCK high.  Only store TDO on last cycle (3)
+
+    # several pluggins use dut.jtag, your default port driver should be named jtag for compatibility
+    sub_block :jtag, class_name: 'OrigenJTAG::Driver',
+                     tclk_format:       :rl,
+                     tclk_multiple:     4,
+                     tdo_strobe:        :tclk_high,
+                     tdo_store_cycle:   3,
+                     tck_pin:           pin(:tclk),
+                     tdi_pin:           pin(:tdi),
+                     tdo_pin:           pin(:tdo),
+                     tms_pin:           pin(:tms)
+
+    # create a driver for a 2nd port like this
+    # note different configuration settings can be used
+    sub_block :jtag_port2, class_name: 'OrigenJTAG::Driver',
+                     tclk_format:       :rh,
+                     tclk_multiple:     2,
+                     tdo_strobe:        :tclk_high,
+                     tdo_store_cycle:   1,
+                     tck_pin:           pin(:tck2),
+                     tdi_pin:           pin(:tdi2),
+                     tdo_pin:           pin(:tdo2),
+                     tms_pin:           pin(:tms2)
+  end
+
+end
+
+dut.jtag                # => jtag driver for the first port (tclk, tdi, tdo, tms)
+dut.jtag_port2          # => jtag driver for the second port (tck2, tdi2, tdo2, tms2)
+~~~
+
+#### Legacy Example
+
 Include the <code>OrigenJTAG</code> module to add a JTAG driver to your class and
 define the required pins.
 Normally the pins would be an alias to existing DUT pins and therefore the
@@ -74,6 +134,8 @@ end
 
 Pioneer.new.jtag  # => An instance of OrigenJTAG::Driver
 ~~~
+
+#### APIs
 
 Two APIs are provided, the primary one provides canned methods to read and
 write to the IR and DR registers.

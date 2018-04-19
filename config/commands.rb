@@ -55,6 +55,38 @@ when "examples", "test"
   ARGV = %w(full_reg_ovly_cap -t debug_RH4 -e uflex.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
+  # Pattern generator tests -- confirm sub_block instanced jtag gives same results
+  ARGV = %w(jtag_workout -t new_style_RH1 -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_style_RH1 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_style_RL1 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(jtag_workout -t new_style_RH2.rb -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_style_RH2_1.rb -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(jtag_workout -t new_style_RH4 -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_style_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_style_RL4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(rww_test -t new_style_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(global_label_test -t new_style_RH1 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(full_reg_ovly_cap -t new_style_RH4 -e uflex.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(two_port -t new_2port_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
   if Origen.app.stats.changed_files == 0 &&
      Origen.app.stats.new_files == 0 &&
      Origen.app.stats.changed_patterns == 0 &&
