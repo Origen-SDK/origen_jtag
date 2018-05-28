@@ -1,5 +1,6 @@
 pat_name = "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.tclk_multiple}"
 pat_name = pat_name + "_#{dut.tdo_store_cycle}" if dut.tdo_store_cycle != 0
+pat_name += "_tclk_vals" if dut.try(:tclk_vals)
 
 Pattern.create(options = { name: pat_name }) do
   def test(msg)

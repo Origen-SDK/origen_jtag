@@ -23,6 +23,7 @@ module OrigenJTAGDev
       @jtag_config[:tdo_strobe] = options[:tdo_strobe] if options[:tdo_strobe]
       @jtag_config[:tdo_store_cycle] = options[:tdo_store_cycle] if options[:tdo_store_cycle]
       @jtag_config[:init_state] = options[:init_state] if options[:init_state]
+      @jtag_config[:tclk_vals] = options[:tclk_vals] if options[:tclk_vals]
 
       instantiate_registers(options)
       instantiate_pins(options)
@@ -78,6 +79,11 @@ module OrigenJTAGDev
     # Getter for top-level tclk_multiple setting
     def tclk_multiple
       @jtag_config[:tclk_multiple]
+    end
+
+    # Getter for top-level tclk_vals setting
+    def tclk_vals
+      @jtag_config[:tclk_vals]
     end
 
     # Getter for top-level tdo_strobe setting
