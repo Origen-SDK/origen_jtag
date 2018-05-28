@@ -7,7 +7,7 @@ describe 'JTAG Driver Specification' do
   end
 
   it 'JTAG Configuration can be declared at DUT creation' do 
-    load_target('debug_RL4')
+    load_target('RL4.rb')
 
     # verify specified configuration
     dut.tclk_format.should == :rl
@@ -18,25 +18,25 @@ describe 'JTAG Driver Specification' do
   end
 
   it 'JTAG Configuration can be changed post-DUT-creation' do
-    load_target('debug_RH1')
+    load_target('RH1.rb')
     dut.tclk_format.should == :rh                 # check initial settings
     dut.update_jtag_config(:tclk_format, :rl)     # update configuration   
     dut.tclk_format.should == :rl                 # verify updates
   end
 
   it "Trying to update invalid config type results in error" do
-    load_target('debug_RL1')
+    load_target('RL1.rb')
     lambda { dut.update_jtag_config(:invalid_config, 22) }.should raise_error
   end
 
   it 'JTAG TCLK format is invalid' do
-    load_target('debug_RL1')
+    load_target('RL1.rb')
     dut.update_jtag_config(:tclk_format, :nrz)
     lambda { dut.jtag.tclk_cycle }.should raise_error
   end
 
   it 'JTAG State can be queried' do
-    load_target('debug_RH1')
+    load_target('RH1.rb')
     dut.startup
     dut.jtag.idle
     dut.jtag.state_str.should == "Run-Test/Idle"
@@ -47,7 +47,7 @@ describe 'JTAG Driver Specification' do
   end
 
   it 'Raises error on instantiation with invalid pins' do
-    lambda {load_target('prod_invalid_pins')}.should raise_error
+    lambda {load_target('invalid_pins')}.should raise_error
   end
 
 end
