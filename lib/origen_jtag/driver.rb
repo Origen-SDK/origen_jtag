@@ -71,6 +71,12 @@ module OrigenJTAG
       @tdo_store_cycle = options[:tdo_store_cycle]
       @state = options[:init_state]
       @log_state_changes = options[:log_state_changes] || false
+      if options[:tclk_vals]
+        @tclk_vals = options[:tclk_vals]
+        unless @tclk_vals.is_a?(Hash) && @tclk_vals.key?(:on) && @tclk_vals.key?(:off)
+          fail "When specifying TCLK values, you must supply a hash with both :on and :off keys, e.g. tclk_vals: { on: 'P', off: 0 }"
+        end
+      end
     end
 
     # Shift data into the TDI pin or out of the TDO pin.
@@ -291,7 +297,7 @@ module OrigenJTAG
 
         if i < (@tclk_multiple + 1) / 2
           # first half of cycle
-          @tck_pin.drive(tclk_val)
+          @tck_pin.drive(@tclk_vals ? @tclk_vals[:on] : tclk_val)
           unless tdo_already_suspended
             unless tdo_to_be_captured
               if mask_tdo_half0
@@ -305,7 +311,7 @@ module OrigenJTAG
           end
         else
           # second half of cycle
-          @tck_pin.drive(1 - tclk_val)
+          @tck_pin.drive(@tclk_vals ? @tclk_vals[:off] : (1 - tclk_val))
           unless tdo_already_suspended
             unless tdo_to_be_captured
               if mask_tdo_half1

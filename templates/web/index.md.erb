@@ -88,6 +88,16 @@ dut.jtag                # => jtag driver for the first port (tclk, tdi, tdo, tms
 dut.jtag_port2          # => jtag driver for the second port (tck2, tdi2, tdo2, tms2)
 ~~~
 
+By default, the driver will apply the conventional '1' and '0' drive values on the TCK pin to turn
+the clock on and off, however
+this can be overridden by supplying the `:tclk_vals` option as shown in the example below:
+
+~~~ruby
+# My V93K timing setup uses 'P' to enable a clock pulse instead of '1'
+tclk_vals: { on: 'P', off: 0 }
+~~~
+
+
 #### Legacy Example
 
 Include the <code>OrigenJTAG</code> module to add a JTAG driver to your class and

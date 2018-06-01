@@ -27,64 +27,70 @@ when "examples", "test"
   status = 0
 
   # Pattern generator tests
-  ARGV = %w(jtag_workout -t debug_RH1 -e v93k -r approved)
+  ARGV = %w(jtag_workout -t RH1.rb -e v93k -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RH1 -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t RH1.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RL1 -e j750.rb -r approved)
-  load "#{Origen.top}/lib/origen/commands/generate.rb"
-
-  ARGV = %w(jtag_workout -t debug_RH2.rb -e j750.rb -r approved)
-  load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RH2_1.rb -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t RL1.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(jtag_workout -t debug_RH4 -e v93k -r approved)
+  ARGV = %w(jtag_workout -t RH2.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RH4 -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t RH2_1.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t debug_RL4 -e j750.rb -r approved)
+
+  ARGV = %w(jtag_workout -t RH4.rb -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t RH4.rb -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t RL4.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
   
-  ARGV = %w(rww_test -t debug_RH4 -e j750.rb -r approved)
+  ARGV = %w(rww_test -t RH4.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(global_label_test -t debug_RH1 -e j750.rb -r approved)
+  ARGV = %w(global_label_test -t RH1.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(full_reg_ovly_cap -t debug_RH4 -e uflex.rb -r approved)
+  ARGV = %w(full_reg_ovly_cap -t RH4.rb -e uflex.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
   # Pattern generator tests -- confirm sub_block instanced jtag gives same results
-  ARGV = %w(jtag_workout -t new_style_RH1 -e v93k -r approved)
+  ARGV = %w(jtag_workout -t new_RH1 -e v93k -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t new_style_RH1 -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t new_RH1 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t new_style_RL1 -e j750.rb -r approved)
-  load "#{Origen.top}/lib/origen/commands/generate.rb"
-
-  ARGV = %w(jtag_workout -t new_style_RH2.rb -e j750.rb -r approved)
-  load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t new_style_RH2_1.rb -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t new_RL1 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(jtag_workout -t new_style_RH4 -e v93k -r approved)
+  ARGV = %w(jtag_workout -t new_RH2.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t new_style_RH4 -e j750.rb -r approved)
-  load "#{Origen.top}/lib/origen/commands/generate.rb"
-  ARGV = %w(jtag_workout -t new_style_RL4 -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t new_RH2_1.rb -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(rww_test -t new_style_RH4 -e j750.rb -r approved)
+  ARGV = %w(jtag_workout -t new_RH4 -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+  ARGV = %w(jtag_workout -t new_RL4 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(global_label_test -t new_style_RH1 -e j750.rb -r approved)
+  ARGV = %w(rww_test -t new_RH4 -e j750.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
-  ARGV = %w(full_reg_ovly_cap -t new_style_RH4 -e uflex.rb -r approved)
+  ARGV = %w(global_label_test -t new_RH1 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(full_reg_ovly_cap -t new_RH4 -e uflex.rb -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
   ARGV = %w(two_port -t new_2port_RH4 -e j750.rb -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(jtag_workout -t new_P1 -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
+  ARGV = %w(jtag_workout -t new_P4 -e v93k -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
   if Origen.app.stats.changed_files == 0 &&
