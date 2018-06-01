@@ -1,3 +1,22 @@
+<a class="anchor release_tag" name="v0_19_0"></a>
+<h1><a href="#v0_19_0">Tag: v0.19.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Stephen McGinty on 01-Jun-2018 14:49PM
+
+
+Adds the ability to override the conventional '1' and '0' drive values
+on the TCK pin via the following new configuration option:
+
+~~~ruby
+# My V93K timing setup uses 'P' to enable a clock pulse instead of '1'
+tclk\_vals: { on: 'P', off: 0 }
+~~~
+
+This is primarily added to support a V93K-style timing setup whereby the clk
+pin on is defined via a wave called 'P' or similar, instead of '1'.
+
 <a class="anchor release_tag" name="v0_18_0"></a>
 <h1><a href="#v0_18_0">Tag: v0.18.0</a></h1>
 
