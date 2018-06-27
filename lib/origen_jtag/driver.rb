@@ -23,6 +23,9 @@ module OrigenJTAG
     # Returns the current value in the instruction register
     attr_reader :ir_value
 
+    # Returns the tclk multiple
+    attr_reader :tclk_multiple
+
     attr_accessor :tclk_format
     # Set true to print out debug comments about all state transitions
     attr_accessor :verbose

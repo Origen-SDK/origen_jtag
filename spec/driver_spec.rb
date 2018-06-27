@@ -46,6 +46,11 @@ describe 'JTAG Driver Specification' do
     end
   end
 
+  it 'TCLK multiple can be queried' do
+    load_target('RL4.rb')
+    dut.jtag.tclk_multiple.should == 4
+  end
+
   it 'Raises error on instantiation with invalid pins' do
     lambda {load_target('invalid_pins')}.should raise_error
   end
