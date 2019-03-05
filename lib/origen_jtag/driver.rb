@@ -169,7 +169,7 @@ module OrigenJTAG
             store_tdo_this_tclk = true
             @tdo_pin.dont_care if Origen.tester.j750?
           elsif tdo_reg[i].is_to_be_read?                       # compare/assert
-            @tdo_pin.assert(tdo_reg[i])
+            @tdo_pin.assert(tdo_reg[i], meta: { position: i })
           end
         end
 
@@ -195,7 +195,7 @@ module OrigenJTAG
             end
             tester_subr_overlay = !(options[:no_subr] || global_ovl) && tester.overlay_style == :subroutine
             @tdi_pin.drive(0) if tester_subr_overlay
-            @tdo_pin.assert(tdo_reg[i]) if options[:read] unless tester_subr_overlay
+            @tdo_pin.assert(tdo_reg[i], meta: { position: i }) if options[:read] unless tester_subr_overlay
             # Force the last bit to be shifted from this method if overlay requested on the last bit
             options[:cycle_last] = true if i == size - 1
           end
@@ -208,7 +208,7 @@ module OrigenJTAG
                 $tester.label(ovl_reg[i].overlay_str)
                 last_overlay_label = ovl_reg[i].overlay_str
               end
-              @tdo_pin.assert(tdo_reg[i]) if options[:read]
+              @tdo_pin.assert(tdo_reg[i], meta: { position: i }) if options[:read]
             else
               @tdi_pin.drive(0)
               call_subroutine = ovl_reg[i].overlay_str
