@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_20_0"></a>
+<h1><a href="#v0_20_0">Tag: v0.20.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Stephen McGinty on 07-Mar-2019 10:40AM
+
+
+Now adds the necessary meta data during a read transaction to enable OrigenSim to resolve
+the actual read data in the event of a failed register read.
+
 <a class="anchor release_tag" name="v0_19_1"></a>
 <h1><a href="#v0_19_1">Tag: v0.19.1</a></h1>
 
