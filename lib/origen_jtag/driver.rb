@@ -65,6 +65,10 @@ module OrigenJTAG
         init_state:      :unknown
       }.merge(options)
 
+      if @cycle_callback && options[:tclk_multiple] != 1
+        fail 'A cycle_callback can only be used with a tclk_multiple setting of 1'
+      end
+
       init_tap_controller(options)
 
       @verbose = options[:verbose]
@@ -278,70 +282,75 @@ module OrigenJTAG
     # Assumes caller will drive pattern to tester
     # via .drive or similar
     def tclk_cycle
-      case @tclk_format
-        when :rh
-          tclk_val = 0
-        when :rl
-          tclk_val = 1
-        else
-          fail 'ERROR: Invalid Tclk timing format!'
-      end
-
-      # determine whether to mask TDO on first half cycle
-      mask_tdo_half0 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1)) ||
-                        ((@tclk_format == :rh) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1))
-
-      # determine whether to mask TDO on second half cycle
-      mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
-                        ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
-
-      # determine whether TDO is set to capture for this TCLK cycle
-      # Is this ever the case Paul Derouen? This l
-      # tdo_to_be_captured = @pins[:tdo].to_be_captured?
-
-      # If TDO is already suspended (by an application) then don't do the
-      # suspends below since the resume will clear the application's suspend
-      tdo_already_suspended = !cycle_callback? && @pins[:tdo].suspended? && !@tdo_suspended_by_driver
-
-      @tclk_multiple.times do |i|
-        # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
-
-        @next_data_vector_to_be_stored = @tdo_store_cycle == i ? true : false
-
-        if i < (@tclk_multiple + 1) / 2
-          # first half of cycle
-          action :tck, :drive, (@tclk_vals ? @tclk_vals[:on] : tclk_val)
-          unless tdo_already_suspended
-            # unless tdo_to_be_captured
-            if mask_tdo_half0
-              @tdo_suspended_by_driver = true
-              action :suspend
-            else
-              @tdo_suspended_by_driver = false
-              action :resume
-            end
-            # end
-          end
-        else
-          # second half of cycle
-          action :tck, :drive, (@tclk_vals ? @tclk_vals[:off] : (1 - tclk_val))
-          unless tdo_already_suspended
-            # unless tdo_to_be_captured
-            if mask_tdo_half1
-              @tdo_suspended_by_driver = true
-              action :suspend
-            else
-              @tdo_suspended_by_driver = false
-              action :resume
-            end
-            # end
-          end
-        end
+      if cycle_callback?
+        @next_data_vector_to_be_stored = @tdo_store_cycle
         yield
-      end
-      if @tdo_suspended_by_driver
-        @tdo_suspended_by_driver = false
-        @pins[:tdo].resume unless cycle_callback?
+      else
+        case @tclk_format
+          when :rh
+            tclk_val = 0
+          when :rl
+            tclk_val = 1
+          else
+            fail 'ERROR: Invalid Tclk timing format!'
+        end
+
+        # determine whether to mask TDO on first half cycle
+        mask_tdo_half0 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1)) ||
+                          ((@tclk_format == :rh) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1))
+
+        # determine whether to mask TDO on second half cycle
+        mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
+                          ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
+
+        # determine whether TDO is set to capture for this TCLK cycle
+        # Is this ever the case Paul Derouen? This line can be commented out without any effect on the test cases
+        # tdo_to_be_captured = @pins[:tdo].to_be_captured?
+
+        # If TDO is already suspended (by an application) then don't do the
+        # suspends below since the resume will clear the application's suspend
+        tdo_already_suspended = !cycle_callback? && @pins[:tdo].suspended? && !@tdo_suspended_by_driver
+
+        @tclk_multiple.times do |i|
+          # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
+
+          @next_data_vector_to_be_stored = @tdo_store_cycle == i ? true : false
+
+          if i < (@tclk_multiple + 1) / 2
+            # first half of cycle
+            @pins[:tck].drive(@tclk_vals ? @tclk_vals[:on] : tclk_val)
+            unless tdo_already_suspended
+              # unless tdo_to_be_captured
+              if mask_tdo_half0
+                @tdo_suspended_by_driver = true
+                @pins[:tdo].suspend
+              else
+                @tdo_suspended_by_driver = false
+                @pins[:tdo].resume
+              end
+              # end
+            end
+          else
+            # second half of cycle
+            @pins[:tck].drive(@tclk_vals ? @tclk_vals[:off] : (1 - tclk_val))
+            unless tdo_already_suspended
+              # unless tdo_to_be_captured
+              if mask_tdo_half1
+                @tdo_suspended_by_driver = true
+                @pins[:tdo].suspend
+              else
+                @tdo_suspended_by_driver = false
+                @pins[:tdo].resume
+              end
+              # end
+            end
+          end
+          yield
+        end
+        if @tdo_suspended_by_driver
+          @tdo_suspended_by_driver = false
+          @pins[:tdo].resume
+        end
       end
     end
 
@@ -504,6 +513,13 @@ module OrigenJTAG
       end
     end
 
+    def apply_action(pin, actions)
+      actions.each do |operation|
+        method = operation.shift
+        pin.send(method, *operation) if method
+      end
+    end
+
     private
 
     def action(pin_id, *operations)
@@ -525,32 +541,19 @@ module OrigenJTAG
       if @actions
         if cycle_callback?
           @owner.send(@cycle_callback, @actions, options)
-          clear_actions
         else
-          @actions.each do |key, value|
-            if key == :store
-              tester.store_next_cycle(@pins[:tdo]) if value
-            elsif key == :suspend
-              @pins[:tdo].suspend if value
-            elsif key == :resume
-              @pins[:tdo].resume if value
-            else
-              value.each do |operation|
-                method = operation.shift
-                if method
-                  @pins[key].send(method, *operation)
-                end
-              end
-            end
-          end
-          clear_actions
+          apply_action(@pins[:tms], @actions[:tms])
+          apply_action(@pins[:tdi], @actions[:tdi])
+          apply_action(@pins[:tdo], @actions[:tdo])
+          tester.store_next_cycle(@pins[:tdo]) if @actions[:store]
           tester.cycle(options)
         end
+        clear_actions
       end
     end
 
     def clear_actions
-      @actions = { tck: [], tdi: [], tms: [], tdo: [], store: false, suspend: false, resume: false }
+      @actions = { tdi: [], tms: [], tdo: [], store: false }
     end
 
     # Return size of transaction.  Options[:size] has priority and need not match the

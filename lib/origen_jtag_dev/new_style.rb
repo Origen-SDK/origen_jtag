@@ -24,6 +24,7 @@ module OrigenJTAGDev
       @jtag_config[:tdo_store_cycle] = options[:tdo_store_cycle] if options[:tdo_store_cycle]
       @jtag_config[:init_state] = options[:init_state] if options[:init_state]
       @jtag_config[:tclk_vals] = options[:tclk_vals] if options[:tclk_vals]
+      @jtag_config[:cycle_callback] = options[:cycle_callback] if options[:cycle_callback]
 
       instantiate_registers(options)
       instantiate_pins(options)
