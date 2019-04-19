@@ -1,5 +1,6 @@
 pat_name = "jtag_workout_#{$dut.tclk_format.upcase}#{$dut.tclk_multiple}"
 pat_name = pat_name + "_#{dut.tdo_store_cycle}" if dut.tdo_store_cycle != 0
+pat_name += "_serial" if dut.is_a?(OrigenJTAGDev::Serial)
 pat_name += "_tclk_vals" if dut.try(:tclk_vals)
 
 Pattern.create(options = { name: pat_name }) do
@@ -196,15 +197,17 @@ Pattern.create(options = { name: pat_name }) do
   test 'Reset'
   jtag.reset
 
-  test 'Suspend of compare on TDO works'
-  cc 'TDO should be H'
-  jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
-  tester.ignore_fails($dut.pin(:tdo)) do
-    cc 'TDO should be X'
+  if dut.has_pin?(:tdo)
+    test 'Suspend of compare on TDO works'
+    cc 'TDO should be H'
+    jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
+    tester.ignore_fails($dut.pin(:tdo)) do
+      cc 'TDO should be X'
+      jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
+    end
+    cc 'TDO should be H'
     jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
   end
-  cc 'TDO should be H'
-  jtag.read_dr 0xFFFF, size: 16, msg: 'Read value out of DR'
 
   test 'Mask option for read_dr works'
   cc 'TDO should be H'

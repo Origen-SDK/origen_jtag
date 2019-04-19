@@ -187,7 +187,7 @@ module OrigenJTAG
 
         # let tester handle overlay if implemented
         overlay_options = {}
-        if tester.respond_to?(:source_memory)
+        if tester.respond_to?(:source_memory) && !cycle_callback?
           if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
             overlay_options[:pins] = @pins[:tdi]
             if global_ovl
@@ -296,7 +296,8 @@ module OrigenJTAG
                         ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
 
       # determine whether TDO is set to capture for this TCLK cycle
-      tdo_to_be_captured = @pins[:tdo].to_be_captured?
+      # Is this ever the case Paul Derouen? This l
+      # tdo_to_be_captured = @pins[:tdo].to_be_captured?
 
       # If TDO is already suspended (by an application) then don't do the
       # suspends below since the resume will clear the application's suspend
@@ -311,29 +312,29 @@ module OrigenJTAG
           # first half of cycle
           action :tck, :drive, (@tclk_vals ? @tclk_vals[:on] : tclk_val)
           unless tdo_already_suspended
-            unless tdo_to_be_captured
-              if mask_tdo_half0
-                @tdo_suspended_by_driver = true
-                action :suspend
-              else
-                @tdo_suspended_by_driver = false
-                action :resume
-              end
+            # unless tdo_to_be_captured
+            if mask_tdo_half0
+              @tdo_suspended_by_driver = true
+              action :suspend
+            else
+              @tdo_suspended_by_driver = false
+              action :resume
             end
+            # end
           end
         else
           # second half of cycle
           action :tck, :drive, (@tclk_vals ? @tclk_vals[:off] : (1 - tclk_val))
           unless tdo_already_suspended
-            unless tdo_to_be_captured
-              if mask_tdo_half1
-                @tdo_suspended_by_driver = true
-                action :suspend
-              else
-                @tdo_suspended_by_driver = false
-                action :resume
-              end
+            # unless tdo_to_be_captured
+            if mask_tdo_half1
+              @tdo_suspended_by_driver = true
+              action :suspend
+            else
+              @tdo_suspended_by_driver = false
+              action :resume
             end
+            # end
           end
         end
         yield
@@ -520,31 +521,32 @@ module OrigenJTAG
       end
     end
 
-    def apply_actions
+    def cycle(options = {})
       if @actions
-        @actions.each do |key, value|
-          if key == :store
-            tester.store_next_cycle(@pins[:tdo]) if value
-          elsif key == :suspend
-            @pins[:tdo].suspend if value
-          elsif key == :resume
-            @pins[:tdo].resume if value
-          else
-            value.each do |operation|
-              method = operation.shift
-              if method
-                @pins[key].send(method, *operation)
+        if cycle_callback?
+          @owner.send(@cycle_callback, @actions, options)
+          clear_actions
+        else
+          @actions.each do |key, value|
+            if key == :store
+              tester.store_next_cycle(@pins[:tdo]) if value
+            elsif key == :suspend
+              @pins[:tdo].suspend if value
+            elsif key == :resume
+              @pins[:tdo].resume if value
+            else
+              value.each do |operation|
+                method = operation.shift
+                if method
+                  @pins[key].send(method, *operation)
+                end
               end
             end
           end
+          clear_actions
+          tester.cycle(options)
         end
       end
-      clear_actions
-    end
-
-    def cycle(options = {})
-      apply_actions
-      tester.cycle(options)
     end
 
     def clear_actions
