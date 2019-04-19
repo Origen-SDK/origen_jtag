@@ -6,7 +6,7 @@ module OrigenJTAG
   # state machine via the TAPController module.
   #
   # To use this driver the parent model must define the following pins (an alias is fine):
-  #   :tclk
+  #   :tck
   #   :tdi
   #   :tdo
   #   :tms
@@ -23,10 +23,20 @@ module OrigenJTAG
     # Returns the current value in the instruction register
     attr_reader :ir_value
 
-    # Returns the tclk multiple
-    attr_reader :tclk_multiple
+    # The number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
+    #    e.g. @tck_multiple = 2, @tck_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
+    #         @tck_multiple = 4, @tck_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
+    attr_accessor :tck_multiple
+    alias_method :tclk_multiple, :tck_multiple
+    alias_method :tclk_multiple=, :tck_multiple=
 
-    attr_accessor :tclk_format
+    # Wave/timing format of the JTAG clock:  :rh (ReturnHigh) or :rl (ReturnLo), :rh is the default
+    attr_accessor :tck_format
+    alias_method :tclk_format, :tck_format
+    alias_method :tclk_format=, :tck_format=
+
+    attr_reader :tdo_strobe
+
     # Set true to print out debug comments about all state transitions
     attr_accessor :verbose
     alias_method :verbose?, :verbose
@@ -52,38 +62,46 @@ module OrigenJTAG
       # Fallback defaults
       options = {
         verbose:         false,
-        tclk_format:     :rh,                # format of JTAG clock used:  ReturnHigh (:rh), ReturnLo (:rl)
-        tclk_multiple:   1,                  # number of cycles for one clock pulse, assumes 50% duty cycle. Uses tester non-return format to spread TCK across multiple cycles.
-        #    e.g. @tclk_multiple = 2, @tclk_format = :rh, means one cycle with Tck low (non-return), one with Tck high (NR)
-        #         @tclk_multiple = 4, @tclk_format = :rl, means 2 cycles with Tck high (NR), 2 with Tck low (NR)
-        tdo_strobe:      :tclk_high,            # when using multiple cycles for TCK, when to strobe for TDO, options include:
-        #     :tclk_high   - strobe TDO only when TCK is high
-        #     :tclk_low    - strobe TDO only when TCK is low
-        #     :tclk_all    - strobe TDO throughout TCK cycle
         tdo_store_cycle: 0,                # store vector cycle within TCK (i.e. when to indicate to tester to store vector within TCK cycle.  0 is first vector, 1 is second, etc.)
         # NOTE: only when user indicates to store TDO, which will mean we don't care the 1 or 0 value on TDO (overriding effectively :tdo_strobe option above)
         init_state:      :unknown
       }.merge(options)
 
-      if @cycle_callback && options[:tclk_multiple] != 1
-        fail 'A cycle_callback can only be used with a tclk_multiple setting of 1'
-      end
-
       init_tap_controller(options)
 
       @verbose = options[:verbose]
       @ir_value = :unknown
-      @tclk_format = options[:tclk_format]
-      @tclk_multiple = options[:tclk_multiple]
-      @tdo_strobe = options[:tdo_strobe]
+      @tck_format = options[:tck_format] || options[:tclk_format] || :rh
+      @tck_multiple = options[:tck_multiple] || options[:tclk_multiple] || 1
+      self.tdo_strobe = options[:tdo_strobe] || :tck_high
       @tdo_store_cycle = options[:tdo_store_cycle]
       @state = options[:init_state]
       @log_state_changes = options[:log_state_changes] || false
-      if options[:tclk_vals]
-        @tclk_vals = options[:tclk_vals]
-        unless @tclk_vals.is_a?(Hash) && @tclk_vals.key?(:on) && @tclk_vals.key?(:off)
-          fail "When specifying TCLK values, you must supply a hash with both :on and :off keys, e.g. tclk_vals: { on: 'P', off: 0 }"
+      if options[:tck_vals] || options[:tclk_vals]
+        @tck_vals = options[:tck_vals] || options[:tclk_vals]
+        unless @tck_vals.is_a?(Hash) && @tck_vals.key?(:on) && @tck_vals.key?(:off)
+          fail "When specifying TCK values, you must supply a hash with both :on and :off keys, e.g. tck_vals: { on: 'P', off: 0 }"
         end
+      end
+      if @cycle_callback && @tck_multiple != 1
+        fail 'A cycle_callback can only be used with a tck_multiple setting of 1'
+      end
+    end
+
+    # when using multiple cycles for TCK, set when to strobe for TDO, options include:
+    #     :tck_high   - strobe TDO only when TCK is high (Default)
+    #     :tck_low    - strobe TDO only when TCK is low
+    #     :tck_all    - strobe TDO throughout TCK cycle
+    def tdo_strobe=(val)
+      case val
+      when :tck_high, :tclk_high
+        @tdo_strobe = :tck_high
+      when :tck_low, :tclk_low
+        @tdo_strobe = :tck_low
+      when :tck_all, :tclk_all
+        @tdo_strobe = :tck_all
+      else
+        fail 'tdo_strobe must be set to one of: :tck_high, :tck_low or :tck_all'
       end
     end
 
@@ -168,9 +186,9 @@ module OrigenJTAG
       # loop through each data bit
       last_overlay_label = ''
       size.times do |i|
-        store_tdo_this_tclk = false
+        store_tdo_this_tck = false
 
-        # Set up pin actions for bit transaction (tclk cycle)
+        # Set up pin actions for bit transaction (tck cycle)
 
         # TDI
         action :tdi, :drive, tdi_reg[i]
@@ -179,7 +197,7 @@ module OrigenJTAG
         action :tdo, :dont_care                                 # default setting
         if tdo_reg[i]
           if tdo_reg[i].is_to_be_stored?                        # store
-            store_tdo_this_tclk = true
+            store_tdo_this_tck = true
             action :tdo, :dont_care if Origen.tester.j750?
           elsif tdo_reg[i].is_to_be_read?                       # compare/assert
             action :tdo, :assert, tdo_reg[i], meta: { position: i }
@@ -229,10 +247,10 @@ module OrigenJTAG
           end
         end # of let tester handle overlay
 
-        # With JTAG pin actions queued up, use block call to tclk_cycle to
-        #   execute a single TCLK period.  Special handling of subroutines,
+        # With JTAG pin actions queued up, use block call to tck_cycle to
+        #   execute a single TCK period.  Special handling of subroutines,
         #   case of last bit in shift, and store vector (within a multi-cycle
-        #   tclk config).
+        #   tck config).
         if call_subroutine || tester_subr_overlay
           @last_data_vector_shifted = true
         else
@@ -251,8 +269,8 @@ module OrigenJTAG
                 @last_data_vector_shifted = true
               end
             end
-            tclk_cycle do
-              if store_tdo_this_tclk && @next_data_vector_to_be_stored
+            tck_cycle do
+              if store_tdo_this_tck && @next_data_vector_to_be_stored
                 action :store
               end
               if overlay_options[:pins].nil? || cycle_callback?
@@ -265,7 +283,7 @@ module OrigenJTAG
             @pins[:tdo].dont_care unless cycle_callback?
           else
             @deferred_compare = true
-            @deferred_store = true if store_tdo_this_tclk
+            @deferred_store = true if store_tdo_this_tck
           end
         end
       end
@@ -277,33 +295,33 @@ module OrigenJTAG
       Origen.tester.dont_compress = false if compression_on
     end
 
-    # Cycles the tester through one TCLK cycle
-    # Adjusts for the TCLK format and cycle span
+    # Cycles the tester through one TCK cycle
+    # Adjusts for the TCK format and cycle span
     # Assumes caller will drive pattern to tester
     # via .drive or similar
-    def tclk_cycle
+    def tck_cycle
       if cycle_callback?
         @next_data_vector_to_be_stored = @tdo_store_cycle
         yield
       else
-        case @tclk_format
+        case @tck_format
           when :rh
-            tclk_val = 0
+            tck_val = 0
           when :rl
-            tclk_val = 1
+            tck_val = 1
           else
             fail 'ERROR: Invalid Tclk timing format!'
         end
 
         # determine whether to mask TDO on first half cycle
-        mask_tdo_half0 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1)) ||
-                          ((@tclk_format == :rh) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1))
+        mask_tdo_half0 =  ((@tck_format == :rl) && (@tdo_strobe == :tck_low) && (@tck_multiple > 1)) ||
+                          ((@tck_format == :rh) && (@tdo_strobe == :tck_high) && (@tck_multiple > 1))
 
         # determine whether to mask TDO on second half cycle
-        mask_tdo_half1 =  ((@tclk_format == :rl) && (@tdo_strobe == :tclk_high) && (@tclk_multiple > 1)) ||
-                          ((@tclk_format == :rh) && (@tdo_strobe == :tclk_low) && (@tclk_multiple > 1))
+        mask_tdo_half1 =  ((@tck_format == :rl) && (@tdo_strobe == :tck_high) && (@tck_multiple > 1)) ||
+                          ((@tck_format == :rh) && (@tdo_strobe == :tck_low) && (@tck_multiple > 1))
 
-        # determine whether TDO is set to capture for this TCLK cycle
+        # determine whether TDO is set to capture for this TCK cycle
         # Is this ever the case Paul Derouen? This line can be commented out without any effect on the test cases
         # tdo_to_be_captured = @pins[:tdo].to_be_captured?
 
@@ -311,14 +329,14 @@ module OrigenJTAG
         # suspends below since the resume will clear the application's suspend
         tdo_already_suspended = !cycle_callback? && @pins[:tdo].suspended? && !@tdo_suspended_by_driver
 
-        @tclk_multiple.times do |i|
-          # 50% duty cycle if @tclk_multiple is even, otherwise slightly off
+        @tck_multiple.times do |i|
+          # 50% duty cycle if @tck_multiple is even, otherwise slightly off
 
           @next_data_vector_to_be_stored = @tdo_store_cycle == i ? true : false
 
-          if i < (@tclk_multiple + 1) / 2
+          if i < (@tck_multiple + 1) / 2
             # first half of cycle
-            @pins[:tck].drive(@tclk_vals ? @tclk_vals[:on] : tclk_val)
+            @pins[:tck].drive(@tck_vals ? @tck_vals[:on] : tck_val)
             unless tdo_already_suspended
               # unless tdo_to_be_captured
               if mask_tdo_half0
@@ -332,7 +350,7 @@ module OrigenJTAG
             end
           else
             # second half of cycle
-            @pins[:tck].drive(@tclk_vals ? @tclk_vals[:off] : (1 - tclk_val))
+            @pins[:tck].drive(@tck_vals ? @tck_vals[:off] : (1 - tck_val))
             unless tdo_already_suspended
               # unless tdo_to_be_captured
               if mask_tdo_half1
@@ -355,7 +373,7 @@ module OrigenJTAG
     end
 
     # Applies the given value to the TMS pin and then
-    # cycles the tester for one TCLK
+    # cycles the tester for one TCK
     #
     # @param [Integer] val Value to drive on the TMS pin, 0 or 1
     def tms!(val)
@@ -367,14 +385,14 @@ module OrigenJTAG
 
       if @deferred_store
         @deferred_store = nil
-        store_tdo_this_tclk = true
+        store_tdo_this_tck = true
       else
-        store_tdo_this_tclk = false
+        store_tdo_this_tck = false
       end
       @next_data_vector_to_be_stored = false
 
-      tclk_cycle do
-        if store_tdo_this_tclk && @next_data_vector_to_be_stored
+      tck_cycle do
+        if store_tdo_this_tck && @next_data_vector_to_be_stored
           action :store
         end
         action :tms, :drive, val
