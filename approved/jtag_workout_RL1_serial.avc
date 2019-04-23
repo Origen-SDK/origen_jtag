@@ -1,0 +1,2283 @@
+# ***************************************************************************
+# GENERATED:
+#   Time:    18-Apr-2019 17:17PM
+#   By:      Stephen McGinty
+#   Mode:    debug
+#   Command: origen g jtag_workout -t serial_P1.rb -e v93k.rb
+# ***************************************************************************
+# ENVIRONMENT:
+#   Application
+#     Source:    git@github.com:Origen-SDK/origen_jtag.git
+#     Version:   0.20.0
+#     Branch:    serial(80bcd3e9af3) (+local edits)
+#   Origen
+#     Source:    https://github.com/Origen-SDK/origen
+#     Version:   0.42.2
+#   Plugins
+#     atp:                      0.8.0
+#     origen_doc_helpers:       0.5.0
+#     origen_testers:           0.13.2
+# ***************************************************************************
+FORMAT TCK TIO;
+#                                                   t t
+#                                                   c i
+#                                                   k o
+# ######################################################################
+# ## Test - Transition TAP controller in and out of Shift-DR
+# ######################################################################
+# [JTAG] Force transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] DR Data
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /DR Data
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition TAP controller in and out of Pause-DR
+# ######################################################################
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition TAP controller in and out of Shift-IR
+# ######################################################################
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] IR Data
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /IR Data
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition TAP controller in and out of Pause-IR
+# ######################################################################
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition into Shift-DR, then back and forth into Pause-DR
+# ######################################################################
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] DR Data
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /DR Data
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition into Pause-DR, then back and forth into Shift-DR
+# ######################################################################
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Pause-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition into Shift-IR, then back and forth into Pause-IR
+# ######################################################################
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] IR Data
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /IR Data
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Transition into Pause-IR, then back and forth into Shift-IR
+# ######################################################################
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Pause-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shifting an explicit value into TDI
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shifting an explicit value out of TDO
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 L # ;
+# ######################################################################
+# ## Test - Shift register into TDI
+# ######################################################################
+# Full register (16 bits)
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# Full register with additional size (32 bits)
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# Full register with reduced size (8 bits)
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shift register into TDI with overlay
+# ######################################################################
+# Full register (16 bits)
+R1                       nvmbist                    1 X # ;
+SQPG JSUB write_overlay;
+# Full register with additional size (32 bits)
+R1                       nvmbist                    1 X # ;
+SQPG JSUB write_overlay;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# Full register with reduced size (8 bits)
+R1                       nvmbist                    1 X # ;
+SQPG JSUB write_overlay;
+# It should in-line overlays when running in simulation mode
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shift register into TDI with single bit overlay
+# ######################################################################
+R1                       nvmbist                    1 X # ;
+SQPG JSUB write_overlay2;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Read register out of TDO
+# ######################################################################
+# Full register (16 bits)
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 H # ;
+# Full register with additional size (32 bits)
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# Full register with reduced size (8 bits)
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+# ######################################################################
+# ## Test - Read single bit out of TDO
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Store register out of TDO
+# ######################################################################
+# Full register (16 bits)
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 C # ;
+# Full register with additional size (32 bits)
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# Full register with reduced size (8 bits)
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+# ######################################################################
+# ## Test - Store single bit out of TDO
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Test flag clear, bit 0 should be read, but not stored
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shift register out of TDO with overlay
+# ######################################################################
+# Full register (16 bits)
+R1                       nvmbist                    1 X # ;
+SQPG JSUB read_overlay;
+# Full register with additional size (32 bits)
+R1                       nvmbist                    1 X # ;
+SQPG JSUB read_overlay;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# Full register with reduced size (8 bits)
+R1                       nvmbist                    1 X # ;
+SQPG JSUB read_overlay;
+# It should in-line overlays when running in simulation mode
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shift register out of TDO with single bit overlay
+# ######################################################################
+R1                       nvmbist                    1 X # ;
+SQPG JSUB read_overlay2;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Write value into DR
+# ######################################################################
+# Write value into DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Write DR: 0xFFFF
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /Write DR: 0xFFFF
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Write value into DR, with compare on TDO
+# ######################################################################
+# Write value into DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Write DR: 0xFFFF
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] /Write DR: 0xFFFF
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Write register into DR with full-width overlay
+# ######################################################################
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Write DR: 0x0
+SQPG JSUB write_overlay;
+# [JTAG] Transition to Run-Test/Idle...
+# [JTAG] /Write DR: 0x0
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Read value out of DR
+# ######################################################################
+# Read value out of DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Store value out of DR
+# ######################################################################
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Read DR: 0xSSSSSSSS
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 C # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 C # ;
+# [JTAG] /Read DR: 0xSSSSSSSS
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Read value out of DR, with specified shift in data into TDI
+# ######################################################################
+# Read value out of DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Write value into IR
+# ######################################################################
+# Write value into IR
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Write IR: 0xF
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /Write IR: 0xF
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Read value out of IR
+# ######################################################################
+# Read value out of IR
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Read IR: 0xF
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] /Read IR: 0xF
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - The IR value is tracked and duplicate writes are inhibited
+# ######################################################################
+# ######################################################################
+# ## Test - Unless forced
+# ######################################################################
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Write IR: 0xF
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /Write IR: 0xF
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Reset
+# ######################################################################
+# [JTAG] Force transition to Test-Logic-Reset...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Mask option for read_dr works
+# ######################################################################
+# TDO should be H
+# Read value out of DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Read DR: 0xFFFF
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /Read DR: 0xFFFF
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Write value into DR, with compare on TDO
+# ######################################################################
+# Write value into DR
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Write DR: 0x5555
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# [JTAG] /Write DR: 0x5555
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Test - Shifting an explicit value out of TDO with mask
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+# ######################################################################
+# ## Test - Shifting an explicit value into TDI (and out of TDO)
+# ######################################################################
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 L # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 H # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 X # ;
+R1                       nvmbist                    1 0 # ;
+R1                       nvmbist                    1 1 # ;
+R1                       nvmbist                    1 X # ;
+# ######################################################################
+# ## Pattern complete
+# ######################################################################
+SQPG STOP;

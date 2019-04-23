@@ -93,6 +93,9 @@ when "examples", "test"
   ARGV = %w(jtag_workout -t new_P4 -e v93k -r approved)
   load "#{Origen.top}/lib/origen/commands/generate.rb"
 
+  ARGV = %w(jtag_workout -t serial_P1 -e v93k -r approved)
+  load "#{Origen.top}/lib/origen/commands/generate.rb"
+
   if Origen.app.stats.changed_files == 0 &&
      Origen.app.stats.new_files == 0 &&
      Origen.app.stats.changed_patterns == 0 &&

@@ -26,24 +26,42 @@ or if your application is a plugin add this to your <code>.gemspec</code>
 spec.add_development_dependency "origen_jtag", ">= <%= Origen.app.version %>"
 ~~~
 
-__NOTE:__ You will also need to include <code>require 'origen_jtag'</code> somewhere in your environment.  This can be done in <code>config/environment.rb</code> for example.
+__NOTE:__ You will also need to include <code>require 'origen_jtag'</code> somewhere in your environment.
+This can be done in <code>config/environment.rb</code> for example.
 
 ### How To Use
 
-#### New Style Example
+#### Integration
 
-The driver no longer requires specific pin names (or aliases), supports sub_block instantiation and DUTs with multiple JTAG ports.
- You are no longer required to include "OrigenJTAG" in your DUT class.
-
-Here is an example integration:
+This plugin provides a JTAG driver that should be instantiated by the top-level DUT model as shown in this
+basic integration example:
 
 ~~~ruby
-class Pioneer
+class MyApp::MyDUT
+  include Origen::TopLevel
 
+  def initialize(options = {})
+    # The JTAG driver will use these pins by default if they are defined (or aliases)
+    add_pin :tck
+    add_pin :tdi
+    add_pin :tdo
+    add_pin :tms
+
+    sub_block :jtag, class_name: 'OrigenJTAG::Driver'
+  end
+end
+~~~
+
+Multiple JTAG blocks can be instantiated if the DUT has multiple JTAG ports, and each one can be individually
+customized as shown in this more complex example:
+
+~~~ruby
+class MyApp::MyDUT
   include Origen::TopLevel
 
   def initialize
-    add_pin :tclk
+    # The JTAG driver will use these pins by default if they are defined (or aliases)
+    add_pin :tck
     add_pin :tdi
     add_pin :tdo
     add_pin :tms
@@ -58,92 +76,48 @@ class Pioneer
     # 2 high then 2 low for each effective TCK pulse.
     # Strobe TDO only when TCK high.  Only store TDO on last cycle (3)
 
-    # several pluggins use dut.jtag, your default port driver should be named jtag for compatibility
+    # Several plugins use dut.jtag, your default port driver should be named jtag for compatibility
     sub_block :jtag, class_name: 'OrigenJTAG::Driver',
-                     tclk_format:       :rl,
-                     tclk_multiple:     4,
-                     tdo_strobe:        :tclk_high,
-                     tdo_store_cycle:   3,
-                     tck_pin:           pin(:tclk),
-                     tdi_pin:           pin(:tdi),
-                     tdo_pin:           pin(:tdo),
-                     tms_pin:           pin(:tms)
+                     tck_format:        :rl,
+                     tck_multiple:      4,
+                     tdo_strobe:        :tck_high,
+                     tdo_store_cycle:   3
 
-    # create a driver for a 2nd port like this
-    # note different configuration settings can be used
+    # Create a driver for a 2nd port like this, note different configuration settings can be used
     sub_block :jtag_port2, class_name: 'OrigenJTAG::Driver',
-                     tclk_format:       :rh,
-                     tclk_multiple:     2,
-                     tdo_strobe:        :tclk_high,
+                     tck_format:        :rh,
+                     tck_multiple:      2,
+                     tdo_strobe:        :tck_high,
                      tdo_store_cycle:   1,
                      tck_pin:           pin(:tck2),
                      tdi_pin:           pin(:tdi2),
                      tdo_pin:           pin(:tdo2),
                      tms_pin:           pin(:tms2)
   end
-
 end
 
-dut.jtag                # => jtag driver for the first port (tclk, tdi, tdo, tms)
+dut.jtag                # => jtag driver for the first port (tck, tdi, tdo, tms)
 dut.jtag_port2          # => jtag driver for the second port (tck2, tdi2, tdo2, tms2)
 ~~~
 
+Here are some of the most common configuration options:
+
+* **tck_format** - TCK timing format,  Return High (:rh) or Return Low (:rl). Default is :rh.
+* **tck_multiple** - Number of cycles for a single TCK pulse to cover, to support cases where TCK needs to be a fraction of another clock period. Assumes 50% duty cycle, specify only even numbers if > 1. Default is :r1.
+* **tdo_strobe** - When using multiple cycles for TCK, which state of TCK to strobe for TDO, :tck_high or :tck_low or :tck_all. Default :tck_high.
+* **tdo_store_cycle** - When using multiple cycles for TCK, which cycle of TCK to store for TDO if store requested (0 to number of tck_multiple-1). Default 0
+
 By default, the driver will apply the conventional '1' and '0' drive values on the TCK pin to turn
 the clock on and off, however
-this can be overridden by supplying the `:tclk_vals` option as shown in the example below:
+this can be overridden by supplying the `:tck_vals` option as shown in the example below:
 
 ~~~ruby
 # My V93K timing setup uses 'P' to enable a clock pulse instead of '1'
-tclk_vals: { on: 'P', off: 0 }
+tck_vals: { on: 'P', off: 0 }
 ~~~
 
-
-#### Legacy Example
-
-Include the <code>OrigenJTAG</code> module to add a JTAG driver to your class and
-define the required pins.
-Normally the pins would be an alias to existing DUT pins and therefore the
-JTAG driver module cannot assume them.
-
-Including the module adds a <code>jtag</code> method which will return an instance of
-[<code>OrigenJTAG::Driver</code>](<%= path "api/OrigenJTAG/Driver.html" %>).
-
-The following attributes can be customized by defining a <code>JTAG_CONFIG</code>
-hash:
-
-* **tclk_format** - TCLK timing format,  Return High (:rh) or Return Low (:rl). Default is :rh.
-* **tclk_multiple** - Number of cycles for a single TCLK pulse to cover, to support cases where TCLK needs to be a fraction of another clock period. Assumes 50% duty cycle, specify only even numbers if > 1. Default is :r1.
-* **tdo_strobe** - When using multiple cycles for TCK, which state of TCK to strobe for TDO, :tclk_high or :tclk_low or :tclk_all. Default :tclk_high.
-* **tdo_store_cycle** - When using multiple cycles for TCK, which cycle of TCK to store for TDO if store requested (0 to number of tclk_multiple-1). Default 0
-
-Here is an example integration:
-
-~~~ruby
-class Pioneer
-
-  include OrigenJTAG
-  include Origen::Pins
-
-  # TCK covers 4 tester cycles, 2 high then 2 low for each effective TCK pulse
-  # Strobe TDO only when TCK high.  Only store TDO on last cycle (3)
-  JTAG_CONFIG = {
-    :tclk_format => :rl,
-    :tclk_multiple => 4,
-    :tdo_strobe => :tclk_high,
-    :tdo_store_cycle => 3,
-  }
-
-  def initialize
-    add_pin :tclk
-    add_pin :tdi
-    add_pin :tdo
-    add_pin :tms
-  end
-
-end
-
-Pioneer.new.jtag  # => An instance of OrigenJTAG::Driver
-~~~
+A [legacy integration is also supported](<%= path "legacy" %>), but not recommended for new projects
+as it may be deprecated in future.
 
 #### APIs
 
@@ -203,6 +177,57 @@ def on_jtag_state_change(new_state)
 end
 ~~~
 
+#### Custom JTAG Cycle Protocols
+
+This plugin also allows applications to define how a JTAG cycle should be implemented at the
+pin-level, providing the flexibility to handle hybrid JTAG protocols.
+An example would be an ultra-low pincount device where the JTAG signals are multiplexed down a
+single wire.
+
+To implement a custom protocol, a `:cycle_callback` option should be supplied when instantiating the
+driver to specify the name of the DUT method that will implement the cycle.
+**Note that most other configuration options are meaningless in this context (and some non-default
+values will raise an error) because the application
+is now taking full responsibility for how a JTAG cycle is implemented.**
+Similarly, there is no requirement for the conventional JTAG pins to be present or specified when this
+option is given since the driver is no longer responsible for the vector generation.
+
+The given method should accept two arguments:
+
+* **actions** - A hash containing the actions that should be applied to the `:tdi`, `:tms` and `:tdo`,
+  pins and a boolean flag called `:store` which indicates if TDO should be stored/captured on this cycle
+* **options** - Any options that should be passed to the tester when calling `tester.cycle`
+
+The JTAG driver provides a method called `apply_action` which accepts a pin object and the pin-specific
+actions from the actions hash, e.g.
+
+~~~ruby
+jtag.apply_action(pin(:my_pin), actions[:tms])
+~~~
+
+Here is a complete example which would serialize TDI, TMS and TDO on a single pin:
+
+~~~ruby
+class MyApp::MyDUT
+  def initialize(options = {})
+    add_pin :tck
+    add_pin :tio
+
+    sub_block :jtag, class_name: 'OrigenJTAG::Driver', cycle_callback: :jtag_cycle
+  end
+
+  def jtag_cycle(actions, options = {})
+    pin(:tck).drive(1)
+    jtag.apply_action(pin(:tio), actions[:tdi])
+    tester.cycle(options)
+    jtag.apply_action(pin(:tio), actions[:tms])
+    tester.cycle(options)
+    jtag.apply_action(pin(:tio), actions[:tdo])
+    tester.store_next_cycle(pin(:tio)) if actions[:store]
+    tester.cycle(options)
+  end
+end
+~~~
 
 ### How To Setup a Development Environment
 

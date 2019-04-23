@@ -1,0 +1,43 @@
+% render "layouts/basic.html" do
+
+### Legacy Integration
+
+The following approach to adding an JTAG driver is still supported, however new projects
+should use the new style integration as described [on the home page](<%= path "/" %>).
+
+Include the <code>OrigenJTAG</code> module to add a JTAG driver to your class and
+define the required pins.
+Normally the pins would be an alias to existing DUT pins and therefore the
+JTAG driver module cannot assume them.
+
+Including the module adds a <code>jtag</code> method which will return an instance of
+[<code>OrigenJTAG::Driver</code>](<%= path "api/OrigenJTAG/Driver.html" %>).
+
+Here is an example integration:
+
+~~~ruby
+class MyApp::MyDUT
+  include Origen::TopLevel
+  include OrigenJTAG
+
+  # TCK covers 4 tester cycles, 2 high then 2 low for each effective TCK pulse
+  # Strobe TDO only when TCK high.  Only store TDO on last cycle (3)
+  JTAG_CONFIG = {
+    :tck_format => :rl,
+    :tck_multiple => 4,
+    :tdo_strobe => :tck_high,
+    :tdo_store_cycle => 3,
+  }
+
+  def initialize
+    add_pin :tck
+    add_pin :tdi
+    add_pin :tdo
+    add_pin :tms
+  end
+end
+
+MyApp::MyDUT.new.jtag  # => An instance of OrigenJTAG::Driver
+~~~
+
+% end

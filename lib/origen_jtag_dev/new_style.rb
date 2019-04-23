@@ -24,6 +24,7 @@ module OrigenJTAGDev
       @jtag_config[:tdo_store_cycle] = options[:tdo_store_cycle] if options[:tdo_store_cycle]
       @jtag_config[:init_state] = options[:init_state] if options[:init_state]
       @jtag_config[:tclk_vals] = options[:tclk_vals] if options[:tclk_vals]
+      @jtag_config[:cycle_callback] = options[:cycle_callback] if options[:cycle_callback]
 
       instantiate_registers(options)
       instantiate_pins(options)
@@ -50,12 +51,10 @@ module OrigenJTAGDev
     end
 
     def instantiate_pins(options = {})
-      if options[:invalid_pins]
-        add_pin :tck
-      else
-        add_pin :tclk
+      add_pin :tclk
+      unless options[:invalid_pins]
+        add_pin :tdi
       end
-      add_pin :tdi
       add_pin :tdo
       add_pin :tms
 
@@ -101,7 +100,7 @@ module OrigenJTAGDev
       @jtag_config[:init_state]
     end
 
-    # Wouldn't want to do this in reality, but allows some flexibility duing gem testing
+    # Wouldn't want to do this in reality, but allows some flexibility during gem testing
     def update_jtag_config(cfg, val)
       if @jtag_config.key?(cfg)
         @jtag_config[cfg] = val
