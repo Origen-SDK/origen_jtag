@@ -18,6 +18,7 @@ class OrigenJTAGApplication < Origen::Application
   # To enable deployment of your documentation to a web server (via the 'origen web'
   # command) fill in these attributes.
   config.web_directory = "git@github.com:Origen-SDK/Origen-SDK.github.io.git/jtag"
+  #config.web_directory = "https://github.com/Origen-SDK/Origen-SDK.github.io.git/jtag"
   config.web_domain = "http://origen-sdk.org/jtag"
 
   config.semantically_version = true
