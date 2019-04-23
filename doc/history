@@ -1,3 +1,17 @@
+<a class="anchor release_tag" name="v0_21_0"></a>
+<h1><a href="#v0_21_0">Tag: v0.21.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Stephen McGinty on 23-Apr-2019 11:52AM
+
+
+* Added a new custom JTAG cycle hook to allow applications to define how JTAG cycles are
+  implemented at the pin-level
+* Updated all documentation and internal code to reference TCK instead of TCLK, though in
+  all cases the TCLK versions of pin names and options are still supported
+* Cleaned up documentation
+
 <a class="anchor release_tag" name="v0_20_0"></a>
 <h1><a href="#v0_20_0">Tag: v0.20.0</a></h1>
 

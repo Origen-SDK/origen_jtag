@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    origen_jtag (0.20.0)
+    origen_jtag (0.21.0)
       origen (~> 0.7, >= 0.7.35)
       origen_testers (>= 0.13.2)
 
