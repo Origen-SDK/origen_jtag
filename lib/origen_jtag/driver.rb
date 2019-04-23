@@ -321,10 +321,6 @@ module OrigenJTAG
         mask_tdo_half1 =  ((@tck_format == :rl) && (@tdo_strobe == :tck_high) && (@tck_multiple > 1)) ||
                           ((@tck_format == :rh) && (@tdo_strobe == :tck_low) && (@tck_multiple > 1))
 
-        # determine whether TDO is set to capture for this TCK cycle
-        # Is this ever the case Paul Derouen? This line can be commented out without any effect on the test cases
-        # tdo_to_be_captured = @pins[:tdo].to_be_captured?
-
         # If TDO is already suspended (by an application) then don't do the
         # suspends below since the resume will clear the application's suspend
         tdo_already_suspended = !cycle_callback? && @pins[:tdo].suspended? && !@tdo_suspended_by_driver
@@ -338,7 +334,6 @@ module OrigenJTAG
             # first half of cycle
             @pins[:tck].drive(@tck_vals ? @tck_vals[:on] : tck_val)
             unless tdo_already_suspended
-              # unless tdo_to_be_captured
               if mask_tdo_half0
                 @tdo_suspended_by_driver = true
                 @pins[:tdo].suspend
@@ -346,13 +341,11 @@ module OrigenJTAG
                 @tdo_suspended_by_driver = false
                 @pins[:tdo].resume
               end
-              # end
             end
           else
             # second half of cycle
             @pins[:tck].drive(@tck_vals ? @tck_vals[:off] : (1 - tck_val))
             unless tdo_already_suspended
-              # unless tdo_to_be_captured
               if mask_tdo_half1
                 @tdo_suspended_by_driver = true
                 @pins[:tdo].suspend
@@ -360,7 +353,6 @@ module OrigenJTAG
                 @tdo_suspended_by_driver = false
                 @pins[:tdo].resume
               end
-              # end
             end
           end
           yield
@@ -541,14 +533,9 @@ module OrigenJTAG
     private
 
     def action(pin_id, *operations)
-      options = operations.pop if operations.last.is_a?(Hash)
       @actions ||= clear_actions
       if pin_id == :store
         @actions[:store] = true
-      elsif pin_id == :suspend
-        @actions[:suspend] = true
-      elsif pin_id == :resume
-        @actions[:resume] = true
       else
         fail "Unkown JTAG pin ID: #{pin_id}" unless @actions[pin_id]
         @actions[pin_id] << operations
