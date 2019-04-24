@@ -55,4 +55,9 @@ describe 'JTAG Driver Specification' do
     lambda {load_target('invalid_pins')}.should raise_error
   end
 
+  it 'maintains access to tclk_cycle method' do
+    load_target('RL4.rb')
+    dut.jtag.respond_to?(:tclk_cycle).should == true
+  end
+
 end
