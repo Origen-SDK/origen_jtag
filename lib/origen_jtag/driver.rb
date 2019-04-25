@@ -363,6 +363,7 @@ module OrigenJTAG
         end
       end
     end
+    alias_method :tclk_cycle, :tck_cycle
 
     # Applies the given value to the TMS pin and then
     # cycles the tester for one TCK
