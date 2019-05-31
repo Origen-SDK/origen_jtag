@@ -51,8 +51,12 @@ describe 'JTAG Driver Specification' do
     dut.jtag.tclk_multiple.should == 4
   end
 
-  it 'Raises error on instantiation with invalid pins' do
-    lambda {load_target('invalid_pins')}.should raise_error
+  it 'Raises error when used with invalid pins' do
+    lambda {
+      load_target('invalid_pins')
+      dut.jtag.pause_dr do
+      end
+    }.should raise_error
   end
 
   it 'maintains access to tclk_cycle method' do
