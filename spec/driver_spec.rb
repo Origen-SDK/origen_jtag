@@ -60,4 +60,15 @@ describe 'JTAG Driver Specification' do
     dut.jtag.respond_to?(:tclk_cycle).should == true
   end
 
+  it 'tdo_store_cycle and tdo_strobe can be accessed' do
+    load_target('RL4.rb')
+    dut.jtag.tdo_store_cycle.should == 3
+    dut.jtag.tdo_store_cycle = 2
+    dut.jtag.tdo_store_cycle.should == 2
+
+    dut.jtag.tdo_strobe.should == :tck_high
+    dut.jtag.tdo_strobe = :tck_low
+    dut.jtag.tdo_strobe.should == :tck_low
+  end
+
 end
