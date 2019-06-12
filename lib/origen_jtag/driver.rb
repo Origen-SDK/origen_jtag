@@ -665,13 +665,23 @@ module OrigenJTAG
       tdo
     end
 
+    def to_pin(pin_or_id)
+      if pin_or_id
+        if pin_or_id.is_a?(Symbol) || pin_or_id.is_a?(String)
+          @owner.pin(pin_or_id)
+        else
+          pin_or_id
+        end
+      end
+    end
+
     def pins
       @pins ||= begin
         pins = {}
-        pins[:tck] = @given_options[:tck_pin]
-        pins[:tdi] = @given_options[:tdi_pin]
-        pins[:tdo] = @given_options[:tdo_pin]
-        pins[:tms] = @given_options[:tms_pin]
+        pins[:tck] = to_pin(@given_options[:tck_pin])
+        pins[:tdi] = to_pin(@given_options[:tdi_pin])
+        pins[:tdo] = to_pin(@given_options[:tdo_pin])
+        pins[:tms] = to_pin(@given_options[:tms_pin])
 
         # Support legacy implementation where tck was incorrectly called tclk, in case of both being
         # defined then :tck has priority
@@ -680,6 +690,7 @@ module OrigenJTAG
         pins[:tdi] ||= @owner.pin(:tdi)
         pins[:tdo] ||= @owner.pin(:tdo)
         pins[:tms] ||= @owner.pin(:tms)
+
         pins
       end
     rescue
@@ -688,8 +699,8 @@ module OrigenJTAG
       puts 'the following pins (an alias is fine):'
       puts REQUIRED_PINS
       puts '-- or --'
-      puts 'Pass the pins in the initialization options:'
-      puts "sub_block :jtag, class_name: 'OrigenJTAG::Driver', tck_pin: dut.pin(:tck), tdi_pin: dut.pin(:tdi), tdo_pin: dut.pin(:tdo), tms_pin: dut.pin(:tms)"
+      puts 'Pass the pin IDs to be used instead in the initialization options:'
+      puts "sub_block :jtag, class_name: 'OrigenJTAG::Driver', tck_pin: :clk, tdi_pin: :gpio1, tdo_pin: :gpio2, tms_pin: :gpio3"
       raise 'JTAG driver error!'
     end
   end

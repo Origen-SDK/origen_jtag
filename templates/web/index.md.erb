@@ -89,10 +89,10 @@ class MyApp::MyDUT
                      tck_multiple:      2,
                      tdo_strobe:        :tck_high,
                      tdo_store_cycle:   1,
-                     tck_pin:           pin(:tck2),
-                     tdi_pin:           pin(:tdi2),
-                     tdo_pin:           pin(:tdo2),
-                     tms_pin:           pin(:tms2)
+                     tck_pin:           :tck2,
+                     tdi_pin:           :tdi2,
+                     tdo_pin:           :tdo2,
+                     tms_pin:           :tms2
   end
 end
 
