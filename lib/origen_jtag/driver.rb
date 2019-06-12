@@ -35,7 +35,8 @@ module OrigenJTAG
     alias_method :tclk_format, :tck_format
     alias_method :tclk_format=, :tck_format=
 
-    attr_reader :tdo_strobe
+    attr_accessor :tdo_strobe
+    attr_accessor :tdo_store_cycle
 
     # Set true to print out debug comments about all state transitions
     attr_accessor :verbose
