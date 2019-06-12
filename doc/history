@@ -1,3 +1,13 @@
+<a class="anchor release_tag" name="v0_22_0"></a>
+<h1><a href="#v0_22_0">Tag: v0.22.0</a></h1>
+
+##### Branch: 'master'
+
+##### by Paul DeRouen on 12-Jun-2019 08:23AM
+
+
+Moves pin validation to run time. Makes tdo\_store\_cycle and tdo\_strobe accessors.
+
 <a class="anchor release_tag" name="v0_21_1"></a>
 <h1><a href="#v0_21_1">Tag: v0.21.1</a></h1>
 
