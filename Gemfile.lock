@@ -21,7 +21,7 @@ GEM
       origen (>= 0.2.3)
       sexpistol (~> 0.0)
     builder (3.2.3)
-    byebug (11.0.1)
+    byebug (8.2.5)
     coderay (1.1.2)
     colored (1.2)
     colorize (0.8.1)
@@ -173,7 +173,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  byebug
+  byebug (~> 8)
   coveralls
   nokogiri (= 1.8.5)
   origen_doc_helpers
