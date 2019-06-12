@@ -30,7 +30,8 @@ module OrigenJTAGDev
       instantiate_pins(options)
       sub_block :jtag, { class_name: 'OrigenJTAG::Driver' }.merge(@jtag_config)
       if options[:extra_port]
-        sub_block :jtag2, { class_name: 'OrigenJTAG::Driver', tck_pin: pin(:tck_2), tdi_pin: pin(:tdi_2), tdo_pin: pin(:tdo_2), tms_pin: pin(:tms_2) }.merge(@jtag_config)
+        # Test supplying both pin IDs (recommended) and pin objects (legacy)
+        sub_block :jtag2, { class_name: 'OrigenJTAG::Driver', tck_pin: :tck_2, tdi_pin: :tdi_2, tdo_pin: pin(:tdo_2), tms_pin: pin(:tms_2) }.merge(@jtag_config)
       end
     end
 

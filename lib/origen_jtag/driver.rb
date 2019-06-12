@@ -58,7 +58,7 @@ module OrigenJTAG
       end
 
       @cycle_callback = options[:cycle_callback]
-      validate_pins(options) unless @cycle_callback
+      @given_options = options.dup  # Save these for later use in the pins method
 
       # Fallback defaults
       options = {
@@ -212,7 +212,7 @@ module OrigenJTAG
         overlay_options = {}
         if tester.respond_to?(:source_memory) && !cycle_callback?
           if ovl_reg[i] && ovl_reg[i].has_overlay? && !Origen.mode.simulation?
-            overlay_options[:pins] = @pins[:tdi]
+            overlay_options[:pins] = pins[:tdi]
             if global_ovl
               overlay_options[:overlay_str] = global_ovl
             else
@@ -281,7 +281,7 @@ module OrigenJTAG
                 overlay_options[:change_data] = false			# data change only on first cycle if overlay
               end
             end
-            @pins[:tdo].dont_care unless cycle_callback?
+            pins[:tdo].dont_care unless cycle_callback?
           else
             @deferred_compare = true
             @deferred_store = true if store_tdo_this_tck
@@ -324,7 +324,7 @@ module OrigenJTAG
 
         # If TDO is already suspended (by an application) then don't do the
         # suspends below since the resume will clear the application's suspend
-        tdo_already_suspended = !cycle_callback? && @pins[:tdo].suspended? && !@tdo_suspended_by_driver
+        tdo_already_suspended = !cycle_callback? && pins[:tdo].suspended? && !@tdo_suspended_by_driver
 
         @tck_multiple.times do |i|
           # 50% duty cycle if @tck_multiple is even, otherwise slightly off
@@ -333,26 +333,26 @@ module OrigenJTAG
 
           if i < (@tck_multiple + 1) / 2
             # first half of cycle
-            @pins[:tck].drive(@tck_vals ? @tck_vals[:on] : tck_val)
+            pins[:tck].drive(@tck_vals ? @tck_vals[:on] : tck_val)
             unless tdo_already_suspended
               if mask_tdo_half0
                 @tdo_suspended_by_driver = true
-                @pins[:tdo].suspend
+                pins[:tdo].suspend
               else
                 @tdo_suspended_by_driver = false
-                @pins[:tdo].resume
+                pins[:tdo].resume
               end
             end
           else
             # second half of cycle
-            @pins[:tck].drive(@tck_vals ? @tck_vals[:off] : (1 - tck_val))
+            pins[:tck].drive(@tck_vals ? @tck_vals[:off] : (1 - tck_val))
             unless tdo_already_suspended
               if mask_tdo_half1
                 @tdo_suspended_by_driver = true
-                @pins[:tdo].suspend
+                pins[:tdo].suspend
               else
                 @tdo_suspended_by_driver = false
-                @pins[:tdo].resume
+                pins[:tdo].resume
               end
             end
           end
@@ -360,7 +360,7 @@ module OrigenJTAG
         end
         if @tdo_suspended_by_driver
           @tdo_suspended_by_driver = false
-          @pins[:tdo].resume
+          pins[:tdo].resume
         end
       end
     end
@@ -549,10 +549,10 @@ module OrigenJTAG
         if cycle_callback?
           @owner.send(@cycle_callback, @actions, options)
         else
-          apply_action(@pins[:tms], @actions[:tms])
-          apply_action(@pins[:tdi], @actions[:tdi])
-          apply_action(@pins[:tdo], @actions[:tdo])
-          tester.store_next_cycle(@pins[:tdo]) if @actions[:store]
+          apply_action(pins[:tms], @actions[:tms])
+          apply_action(pins[:tdi], @actions[:tdi])
+          apply_action(pins[:tdo], @actions[:tdo])
+          tester.store_next_cycle(pins[:tdo]) if @actions[:store]
           tester.cycle(options)
         end
         clear_actions
@@ -666,30 +666,42 @@ module OrigenJTAG
       tdo
     end
 
-    # Validates that the parent object (the owner) has defined the necessary
-    # pins to implement the JTAG
-    def validate_pins(options)
-      @pins = {}
-      @pins[:tck] = options[:tck_pin]
-      @pins[:tdi] = options[:tdi_pin]
-      @pins[:tdo] = options[:tdo_pin]
-      @pins[:tms] = options[:tms_pin]
+    def to_pin(pin_or_id)
+      if pin_or_id
+        if pin_or_id.is_a?(Symbol) || pin_or_id.is_a?(String)
+          @owner.pin(pin_or_id)
+        else
+          pin_or_id
+        end
+      end
+    end
 
-      # Support legacy implementation where tck was incorrectly called tclk, in case of both being
-      # defined then :tck has priority
-      @pins[:tck] ||= @owner.pin(:tck) if @owner.has_pin?(:tck)
-      @pins[:tck] ||= @owner.pin(:tclk)
-      @pins[:tdi] ||= @owner.pin(:tdi)
-      @pins[:tdo] ||= @owner.pin(:tdo)
-      @pins[:tms] ||= @owner.pin(:tms)
+    def pins
+      @pins ||= begin
+        pins = {}
+        pins[:tck] = to_pin(@given_options[:tck_pin])
+        pins[:tdi] = to_pin(@given_options[:tdi_pin])
+        pins[:tdo] = to_pin(@given_options[:tdo_pin])
+        pins[:tms] = to_pin(@given_options[:tms_pin])
+
+        # Support legacy implementation where tck was incorrectly called tclk, in case of both being
+        # defined then :tck has priority
+        pins[:tck] ||= @owner.pin(:tck) if @owner.has_pin?(:tck)
+        pins[:tck] ||= @owner.pin(:tclk)
+        pins[:tdi] ||= @owner.pin(:tdi)
+        pins[:tdo] ||= @owner.pin(:tdo)
+        pins[:tms] ||= @owner.pin(:tms)
+
+        pins
+      end
     rescue
       puts 'Missing JTAG pins!'
       puts "In order to use the JTAG driver your #{owner.class} class must either define"
       puts 'the following pins (an alias is fine):'
       puts REQUIRED_PINS
       puts '-- or --'
-      puts 'Pass the pins in the initialization options:'
-      puts "sub_block :jtag, class_name: 'OrigenJTAG::Driver', tck_pin: dut.pin(:tck), tdi_pin: dut.pin(:tdi), tdo_pin: dut.pin(:tdo), tms_pin: dut.pin(:tms)"
+      puts 'Pass the pin IDs to be used instead in the initialization options:'
+      puts "sub_block :jtag, class_name: 'OrigenJTAG::Driver', tck_pin: :clk, tdi_pin: :gpio1, tdo_pin: :gpio2, tms_pin: :gpio3"
       raise 'JTAG driver error!'
     end
   end
