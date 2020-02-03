@@ -476,19 +476,19 @@ module OrigenJTAG
     #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
     #   occurs.
     def write_ir(reg_or_val, options = {})
-      if Origen.tester.respond_to?(:write_ir)
-        Origen.tester.write_ir(reg_or_val, options)
-      else
-        val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
-        if val != ir_value || options[:force]
-          if options[:msg]
-            cc "#{options[:msg]}\n"
-          end
+      val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
+      if val != ir_value || options[:force]
+        if options[:msg]
+          cc "#{options[:msg]}\n"
+        end
+        if Origen.tester.respond_to?(:write_ir)
+          Origen.tester.write_ir(reg_or_val, options)
+        else
           shift_ir(write: val.to_hex) do
             shift(reg_or_val, options)
           end
-          @ir_value = val
         end
+        @ir_value = val
       end
     end
 
