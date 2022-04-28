@@ -4,22 +4,22 @@ module OrigenJTAG
   module TAPController
     # Map of internal state symbols to human readable names
     STATES = {
-      reset:      'Test-Logic-Reset',
-      idle:       'Run-Test/Idle',
-      select_dr:  'Select-DR',
-      capture_dr: 'Capture-DR',
-      shift_dr:   'Shift-DR',
-      exit1_dr:   'Exit1-DR',
-      pause_dr:   'Pause-DR',
-      exit2_dr:   'Exit2-DR',
-      update_dr:  'Update-DR',
-      select_ir:  'Select-IR',
-      capture_ir: 'Capture-IR',
-      shift_ir:   'Shift-IR',
-      exit1_ir:   'Exit1-IR',
-      pause_ir:   'Pause-IR',
-      exit2_ir:   'Exit2-IR',
-      update_ir:  'Update-IR'
+      reset:          'Test-Logic-Reset',
+      idle:           'Run-Test/Idle',
+      select_dr_scan: 'Select-DR-Scan',
+      capture_dr:     'Capture-DR',
+      shift_dr:       'Shift-DR',
+      exit1_dr:       'Exit1-DR',
+      pause_dr:       'Pause-DR',
+      exit2_dr:       'Exit2-DR',
+      update_dr:      'Update-DR',
+      select_ir_scan: 'Select-IR-Scan',
+      capture_ir:     'Capture-IR',
+      shift_ir:       'Shift-IR',
+      exit1_ir:       'Exit1-IR',
+      pause_ir:       'Pause-IR',
+      exit2_ir:       'Exit2-IR',
+      update_ir:      'Update-IR'
     }
 
     # Returns the current state of the JTAG TAP Controller
@@ -50,11 +50,27 @@ module OrigenJTAG
     #   end
     #   # State is Run-Test/Idle
     def shift_dr(options = {})
-      validate_state(:idle, :pause_dr)
+      options = {
+        start_state: :idle,   # Allowed start states: :idle, :select_dr_scan, :update_ir, :update_dr
+        end_state:   :idle    # Allowed end states: :idle, :update_dr
+      }.merge(options)
+
+      if options[:start_state] == :idle  # allow for pause_dr state also if called from pause_dr block
+        validate_state(:idle, :pause_dr)
+      elsif options[:state_state] == :select_dr_scan
+        validate_state(:select_dr_scan, :pause_dr)
+      elsif options[:state_state] == :update_dr
+        validate_state(:update_dr, :pause_dr)
+      elsif options[:state_state] == :update_ir
+        validate_state(:update_ir, :pause_dr)
+      end
       log 'Transition to Shift-DR...'
-      if state == :idle
-        tms!(1)  # => Select-DR-Scan
-        update_state :select_dr_scan
+      if state == :idle || state == :select_dr_scan || state == :update_ir || state == :update_dr
+        # Non-pause states
+        unless state == :select_dr_scan
+          tms!(1)  # => Select-DR-Scan
+          update_state :select_dr_scan
+        end
         tms!(0)  # => Capture-DR
         update_state :capture_dr
         tms!(0)  # => Shift-DR
@@ -78,8 +94,10 @@ module OrigenJTAG
         end
         tms!(1)  # => Update-DR
         update_state :update_dr
-        tms!(0)  # => Run-Test/Idle
-        update_state :idle
+        if options[:end_state] == :idle
+          tms!(0)  # => Run-Test/Idle
+          update_state :idle
+        end
       else # :pause_dr
         tms!(1)  # => Exit2-DR
         update_state :exit2_dr
@@ -175,13 +193,23 @@ module OrigenJTAG
     #   end
     #   # State is Run-Test/Idle
     def shift_ir(options = {})
-      validate_state(:idle, :pause_ir)
+      options = {
+        start_state: :idle,   # Allowed start states: :idle, :select_ir_scan
+        end_state:   :idle    # Allowed end states: :idle, :update_ir, :select_dr_scan
+      }.merge(options)
+      if options[:start_state] == :idle
+        validate_state(:idle, :pause_ir)
+      else
+        validate_state(:select_ir_scan, :pause_ir)
+      end
       log 'Transition to Shift-IR...'
-      if state == :idle
-        tms!(1)  # => Select-DR-Scan
-        update_state :select_dr_scan
-        tms!(1)  # => Select-IR-Scan
-        update_state :select_ir_scan
+      if state == :idle || state == :select_ir_scan
+        unless state == :select_ir_scan
+          tms!(1)  # => Select-DR-Scan
+          update_state :select_dr_scan
+          tms!(1)  # => Select-IR-Scan
+          update_state :select_ir_scan
+        end
         tms!(0)  # => Capture-IR
         update_state :capture_ir
         tms!(0)  # => Shift-IR
@@ -195,7 +223,13 @@ module OrigenJTAG
         end
         log msg, always: true do
           yield
-          log 'Transition to Run-Test/Idle...'
+          if options[:end_state] == :idle
+            log 'Transition to Run-Test/Idle...'
+          elsif options[:end_state] == :update_ir
+            log 'Transition to Update-IR...'
+          elsif options[:end_state] == :select_dr_scan
+            log 'Transition to Select-DR-Scan...'
+          end
           if @last_data_vector_shifted
             @last_data_vector_shifted = false
           else
@@ -205,8 +239,13 @@ module OrigenJTAG
         end
         tms!(1)  # => Update-IR
         update_state :update_ir
-        tms!(0)  # => Run-Test/Idle
-        update_state :idle
+        if options[:end_state] == :idle
+          tms!(0)  # => Run-Test/Idle
+          update_state :idle
+        elsif options[:end_state] == :select_dr_scan
+          tms!(1)  # => Select-DR-Scan
+          update_state :select_dr_scan
+        end
       else # :pause_ir
         tms!(1)  # => Exit2-IR
         update_state :exit2_ir

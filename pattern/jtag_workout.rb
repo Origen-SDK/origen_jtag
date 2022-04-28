@@ -193,7 +193,13 @@ Pattern.create(options = { name: pat_name }) do
 
   test 'Unless forced'
   jtag.write_ir 0xF, size: 4, force: true
- 
+
+  test 'Write IR, starting with Idle, leave in Select-DR-Scan state'
+  jtag.write_ir(0x7, size: 8, end_state: :select_dr_scan, force: true)
+
+  test 'Write DR starting with Select-DR-Scan state, end with Idle'
+  jtag.write_dr(0x12345678, size: 32, start_state: :select_dr_scan)
+
   test 'Reset'
   jtag.reset
 

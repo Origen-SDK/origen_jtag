@@ -416,7 +416,7 @@ module OrigenJTAG
           cc "#{options[:msg]}\n"
         end
         val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
-        shift_dr(write: val.to_hex) do
+        shift_dr(options.merge(write: val.to_hex)) do
           shift(reg_or_val, options)
         end
       end
@@ -449,7 +449,7 @@ module OrigenJTAG
         if options[:msg]
           cc "#{options[:msg]}\n"
         end
-        shift_dr(read: Origen::Utility.read_hex(reg_or_val)) do
+        shift_dr(options.merge(read: Origen::Utility.read_hex(reg_or_val))) do
           shift(reg_or_val, options)
         end
       end
@@ -484,7 +484,7 @@ module OrigenJTAG
         if Origen.tester.respond_to?(:write_ir)
           Origen.tester.write_ir(reg_or_val, options)
         else
-          shift_ir(write: val.to_hex) do
+          shift_ir(options.merge(write: val.to_hex)) do
             shift(reg_or_val, options)
           end
         end
