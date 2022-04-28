@@ -1,3 +1,14 @@
+<a class="anchor release_tag" name="v0_22_2"></a>
+<h1><a href="#v0_22_2">Tag: v0.22.2</a></h1>
+
+##### Branch: 'master'
+
+##### by Daniel Hadad on 28-Apr-2022 08:19AM
+
+
+Added options to permit some different init/end states for write\_ir and write\_dr if
+desired.
+
 <a class="anchor release_tag" name="v0_22_1"></a>
 <h1><a href="#v0_22_1">Tag: v0.22.1</a></h1>
 
