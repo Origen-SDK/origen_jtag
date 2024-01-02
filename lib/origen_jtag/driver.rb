@@ -568,7 +568,7 @@ module OrigenJTAG
     def extract_size(reg_or_val, options = {})
       size = options[:size]
       unless size
-        if reg_or_val.is_a?(Fixnum) || !reg_or_val.respond_to?(:size)
+        if reg_or_val.is_a?(Integer) || !reg_or_val.respond_to?(:size)
           fail 'When suppling a value to JTAG::Driver#shift you must supply a :size in the options!'
         else
           size = reg_or_val.size
