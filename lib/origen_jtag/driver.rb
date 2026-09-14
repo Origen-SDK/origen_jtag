@@ -45,6 +45,30 @@ module OrigenJTAG
     # Log all state changes in pattern comments, false by default
     attr_accessor :log_state_changes
 
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    attr_accessor :chained_ir_msb_length
+
+    # by default, the chained IR data is all zeros, this value overrides
+    attr_accessor :chained_ir_msb_data
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    attr_accessor :chained_ir_lsb_length
+
+    # by default, the chained IR data is all zeros, this value overrides
+    attr_accessor :chained_ir_lsb_data
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    attr_accessor :chained_dr_msb_length
+
+    # by default, the chained DR data is all zeros, this value overrides
+    attr_accessor :chained_dr_msb_data
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    attr_accessor :chained_dr_lsb_length
+
+    # by default, the chained DR data is all zeros, this value overrides
+    attr_accessor :chained_dr_lsb_data
+
     def initialize(owner, options = {})
       if owner.is_a?(Hash)
         @owner = parent
@@ -87,6 +111,15 @@ module OrigenJTAG
       if @cycle_callback && @tck_multiple != 1
         fail 'A cycle_callback can only be used with a tck_multiple setting of 1'
       end
+
+      @chained_ir_msb_length = options[:chained_ir_msb_length]
+      @chained_ir_msb_data = options[:chained_ir_msb_data] || 0
+      @chained_ir_lsb_length = options[:chained_ir_lsb_length]
+      @chained_ir_lsb_data = options[:chained_ir_lsb_data] || 0
+      @chained_dr_msb_length = options[:chained_dr_msb_length]
+      @chained_dr_msb_data = options[:chained_dr_msb_data] || 0
+      @chained_dr_lsb_length = options[:chained_dr_lsb_length]
+      @chained_dr_lsb_data = options[:chained_dr_lsb_data] || 0
     end
 
     # when using multiple cycles for TCK, set when to strobe for TDO, options include:
@@ -183,6 +216,17 @@ module OrigenJTAG
           end
         end
       end # of let tester handle overlay if possible
+
+      # loop through any LSB appended bits
+      if options[:tdi_lsb_append_size]
+        # tdo is always don't care for appended bits
+        action :tdo, :dont_care
+        cc "appending #{options[:tdi_lsb_append_size]} LSB bits"
+        options[:tdi_lsb_append_size].times do |i|
+          action :tdi, :drive, options[:tdi_lsb_append_data][i]
+          tck_cycle { cycle }
+        end
+      end
 
       # loop through each data bit
       last_overlay_label = ''
@@ -286,6 +330,19 @@ module OrigenJTAG
             @deferred_compare = true
             @deferred_store = true if store_tdo_this_tck
           end
+        end
+      end
+
+      # loop through any MSB append bits
+      if options[:tdi_msb_append_size]
+        # last tdi bit was left applied, so tck cycle first, then apply new tdi and leave last one for state machine driver
+        options[:tdi_msb_append_size].times do |i|
+          tck_cycle { cycle }
+          if i == 0
+            cc "appending #{options[:tdi_msb_append_size]} MSB bits"
+            action :tdo, :dont_care
+          end
+          action :tdi, :drive, options[:tdi_msb_append_data][i]
         end
       end
 
@@ -409,6 +466,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def write_dr(reg_or_val, options = {})
+    options = options.merge(get_chained_in_data(:dr))
       if Origen.tester.respond_to?(:write_dr)
         Origen.tester.write_dr(reg_or_val, options)
       else
@@ -440,6 +498,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def read_dr(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:dr))
       if Origen.tester.respond_to?(:read_dr)
         Origen.tester.read_dr(reg_or_val, options)
       else
@@ -476,6 +535,7 @@ module OrigenJTAG
     #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
     #   occurs.
     def write_ir(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:ir))
       val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
       if val != ir_value || options[:force]
         if options[:msg]
@@ -510,6 +570,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def read_ir(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:ir))
       if Origen.tester.respond_to?(:read_ir)
         Origen.tester.read_ir(reg_or_val, options)
       else
@@ -595,6 +656,36 @@ module OrigenJTAG
       end
 
       [global, ovl]
+    end
+
+    # Create data that will be shifted in on TDI prior (MSB) to target device and
+    #   after (LSB) when multiple devices are chained together
+    def get_chained_in_data(shift_type)
+      tdi_msb_append_size = nil
+      tdi_msb_append_data = 0
+      tdi_lsb_append_size = nil
+      tdi_lsb_append_data = 0
+      if shift_type == :ir
+        if @chained_ir_msb_length
+          tdi_msb_append_size = @chained_ir_msb_length
+          tdi_msb_append_data = @chained_ir_msb_data
+        end
+        if @chained_ir_lsb_length
+          tdi_lsb_append_size = @chained_ir_lsb_length
+          tdi_lsb_append_data = @chained_ir_lsb_data
+        end
+      end
+      if shift_type == :dr
+        if @chained_dr_msb_length
+          tdi_msb_append_size = @chained_dr_msb_length
+          tdi_msb_append_data = @chained_dr_msb_data
+        end
+        if @chained_dr_lsb_length
+          tdi_lsb_append_size = @chained_dr_lsb_length
+          tdi_lsb_append_data = @chained_dr_lsb_data
+        end
+      end
+      { tdi_msb_append_size: tdi_msb_append_size, tdi_msb_append_data: tdi_msb_append_data, tdi_lsb_append_size: tdi_lsb_append_size, tdi_lsb_append_data: tdi_lsb_append_data }
     end
 
     # Create data that will be shifted in on TDI, create new bit collection
