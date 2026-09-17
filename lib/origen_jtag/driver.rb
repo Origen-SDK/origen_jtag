@@ -46,25 +46,25 @@ module OrigenJTAG
     attr_accessor :log_state_changes
 
     # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the MSB side
-    attr_accessor :chained_ir_msb_length
+    attr_reader :chained_ir_msb_length
 
     # by default, the chained IR data is all zeros, this value overrides
     attr_accessor :chained_ir_msb_data
 
     # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the LSB side
-    attr_accessor :chained_ir_lsb_length
+    attr_reader :chained_ir_lsb_length
 
     # by default, the chained IR data is all zeros, this value overrides
     attr_accessor :chained_ir_lsb_data
 
     # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the MSB side
-    attr_accessor :chained_dr_msb_length
+    attr_reader :chained_dr_msb_length
 
     # by default, the chained DR data is all zeros, this value overrides
     attr_accessor :chained_dr_msb_data
 
     # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the LSB side
-    attr_accessor :chained_dr_lsb_length
+    attr_reader :chained_dr_lsb_length
 
     # by default, the chained DR data is all zeros, this value overrides
     attr_accessor :chained_dr_lsb_data
@@ -120,6 +120,30 @@ module OrigenJTAG
       @chained_dr_msb_data = options[:chained_dr_msb_data] || 0
       @chained_dr_lsb_length = options[:chained_dr_lsb_length]
       @chained_dr_lsb_data = options[:chained_dr_lsb_data] || 0
+    end
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    def chained_ir_msb_length=(val)
+      @chained_ir_msb_length = val.to_i
+      @chained_ir_msb_length = nil if @chained_ir_msb_length <= 0
+    end
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    def chained_ir_lsb_length=(val)
+      @chained_ir_lsb_length = val.to_i
+      @chained_ir_lsb_length = nil if @chained_ir_lsb_length <= 0
+    end
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    def chained_dr_msb_length=(val)
+      @chained_dr_msb_length = val.to_i
+      @chained_dr_msb_length = nil if @chained_dr_msb_length <= 0
+    end
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    def chained_dr_lsb_length=(val)
+      @chained_dr_lsb_length = val.to_i
+      @chained_dr_lsb_length = nil if @chained_dr_lsb_length <= 0
     end
 
     # when using multiple cycles for TCK, set when to strobe for TDO, options include:
