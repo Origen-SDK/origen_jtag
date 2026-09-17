@@ -35,7 +35,7 @@ module OrigenJTAG
     alias_method :tclk_format, :tck_format
     alias_method :tclk_format=, :tck_format=
 
-    attr_accessor :tdo_strobe
+    attr_reader :tdo_strobe
     attr_accessor :tdo_store_cycle
 
     # Set true to print out debug comments about all state transitions
@@ -295,7 +295,7 @@ module OrigenJTAG
             end
             tester_subr_overlay = !(options[:no_subr] || global_ovl) && tester.overlay_style == :subroutine
             action :tdi, :drive, 0 if tester_subr_overlay
-            action :tdo, :assert, tdo_reg[i], meta: { position: i } if options[:read] unless tester_subr_overlay
+            action :tdo, :assert, tdo_reg[i], meta: { position: i } unless tester_subr_overlay || !options[:read]
             # Force the last bit to be shifted from this method if overlay requested on the last bit
             options[:cycle_last] = true if i == size - 1
           end
@@ -490,7 +490,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def write_dr(reg_or_val, options = {})
-    options = options.merge(get_chained_in_data(:dr))
+      options = options.merge(get_chained_in_data(:dr))
       if Origen.tester.respond_to?(:write_dr)
         Origen.tester.write_dr(reg_or_val, options)
       else
@@ -625,6 +625,7 @@ module OrigenJTAG
         @actions[:store] = true
       else
         fail "Unkown JTAG pin ID: #{pin_id}" unless @actions[pin_id]
+
         @actions[pin_id] << operations
       end
     end
