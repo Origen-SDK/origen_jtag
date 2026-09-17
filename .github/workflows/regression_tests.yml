@@ -37,6 +37,8 @@ jobs:
         ORIGEN_GEM_MANAGE_BUNDLER: "false"
     - name: Run Origen Lint
       run: origen lint --no-correct
+    - name: Set Origen to debug mode
+      run: origen m debug
     - name: Run Regression tests
       run: origen test -c
       env:
