@@ -296,7 +296,7 @@ module OrigenJTAG
         #   execute a single TCK period.  Special handling of subroutines,
         #   case of last bit in shift, and store vector (within a multi-cycle
         #   tck config).
-        if call_subroutine || tester_subr_overlay
+        if (call_subroutine || tester_subr_overlay) && !options[:tdi_msb_append_size]
           @last_data_vector_shifted = true
         else
           @last_data_vector_shifted = false
@@ -307,8 +307,8 @@ module OrigenJTAG
         else
           @next_data_vector_to_be_stored = false
           # Don't latch the last bit, that will be done when leaving the state.
-          if i != size - 1 || options[:cycle_last]
-            if i == size - 1 && options[:includes_last_bit]
+          if i != size - 1 || options[:cycle_last] || options[:tdi_msb_append_size]
+            if i == size - 1 && options[:includes_last_bit] && !options[:tdi_msb_append_size]
               unless tester_subr_overlay
                 action :tms, :drive, 1
                 @last_data_vector_shifted = true
@@ -337,12 +337,12 @@ module OrigenJTAG
       if options[:tdi_msb_append_size]
         # last tdi bit was left applied, so tck cycle first, then apply new tdi and leave last one for state machine driver
         options[:tdi_msb_append_size].times do |i|
-          tck_cycle { cycle }
           if i == 0
             cc "appending #{options[:tdi_msb_append_size]} MSB bits"
             action :tdo, :dont_care
           end
           action :tdi, :drive, options[:tdi_msb_append_data][i]
+          tck_cycle { cycle } unless i == options[:tdi_msb_append_size] - 1
         end
       end
 
