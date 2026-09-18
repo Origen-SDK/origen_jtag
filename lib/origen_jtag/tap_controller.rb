@@ -356,8 +356,7 @@ module OrigenJTAG
     private
 
     def init_tap_controller(options = {})
-      options = {
-      }.merge(options)
+      options = {}.merge(options)
     end
 
     # Ensures that the current state matches one of the given acceptable
@@ -369,7 +368,7 @@ module OrigenJTAG
       if current_state == :unknown && acceptable_states.include?(:idle)
         idle
       elsif acceptable_states.include?(current_state)
-        return
+        nil
       else
         fail 'JTAG TAP Controller - An invalid state sequence has occurred!'
       end

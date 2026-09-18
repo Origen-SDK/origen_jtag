@@ -1,5 +1,5 @@
 require 'origen'
-require_relative '../config/application.rb'
+require_relative '../config/application'
 
 # Include this module to add a JTAG driver to your class
 module OrigenJTAG
