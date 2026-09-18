@@ -604,7 +604,7 @@ module OrigenJTAG
         if options[:msg]
           cc "#{options[:msg]}\n"
         end
-        shift_ir(read: Origen::Utility.read_hex(reg_or_val)) do
+        shift_ir(options.merge(read: Origen::Utility.read_hex(reg_or_val))) do
           shift(reg_or_val, options)
         end
       end
