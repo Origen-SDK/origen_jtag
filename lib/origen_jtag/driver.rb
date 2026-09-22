@@ -35,7 +35,7 @@ module OrigenJTAG
     alias_method :tclk_format, :tck_format
     alias_method :tclk_format=, :tck_format=
 
-    attr_accessor :tdo_strobe
+    attr_reader :tdo_strobe
     attr_accessor :tdo_store_cycle
 
     # Set true to print out debug comments about all state transitions
@@ -44,6 +44,30 @@ module OrigenJTAG
 
     # Log all state changes in pattern comments, false by default
     attr_accessor :log_state_changes
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    attr_reader :chained_ir_msb_length
+
+    # by default, the chained IR data is all zeros, this value overrides
+    attr_accessor :chained_ir_msb_data
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    attr_reader :chained_ir_lsb_length
+
+    # by default, the chained IR data is all zeros, this value overrides
+    attr_accessor :chained_ir_lsb_data
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    attr_reader :chained_dr_msb_length
+
+    # by default, the chained DR data is all zeros, this value overrides
+    attr_accessor :chained_dr_msb_data
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    attr_reader :chained_dr_lsb_length
+
+    # by default, the chained DR data is all zeros, this value overrides
+    attr_accessor :chained_dr_lsb_data
 
     def initialize(owner, options = {})
       if owner.is_a?(Hash)
@@ -87,6 +111,39 @@ module OrigenJTAG
       if @cycle_callback && @tck_multiple != 1
         fail 'A cycle_callback can only be used with a tck_multiple setting of 1'
       end
+
+      @chained_ir_msb_length = options[:chained_ir_msb_length]
+      @chained_ir_msb_data = options[:chained_ir_msb_data] || 0
+      @chained_ir_lsb_length = options[:chained_ir_lsb_length]
+      @chained_ir_lsb_data = options[:chained_ir_lsb_data] || 0
+      @chained_dr_msb_length = options[:chained_dr_msb_length]
+      @chained_dr_msb_data = options[:chained_dr_msb_data] || 0
+      @chained_dr_lsb_length = options[:chained_dr_lsb_length]
+      @chained_dr_lsb_data = options[:chained_dr_lsb_data] || 0
+    end
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    def chained_ir_msb_length=(val)
+      @chained_ir_msb_length = val.to_i
+      @chained_ir_msb_length = nil if @chained_ir_msb_length <= 0
+    end
+
+    # number of additional IR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    def chained_ir_lsb_length=(val)
+      @chained_ir_lsb_length = val.to_i
+      @chained_ir_lsb_length = nil if @chained_ir_lsb_length <= 0
+    end
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the MSB side
+    def chained_dr_msb_length=(val)
+      @chained_dr_msb_length = val.to_i
+      @chained_dr_msb_length = nil if @chained_dr_msb_length <= 0
+    end
+
+    # number of additional DR bits to add when chaining multiple devices, these additional bits are added to the LSB side
+    def chained_dr_lsb_length=(val)
+      @chained_dr_lsb_length = val.to_i
+      @chained_dr_lsb_length = nil if @chained_dr_lsb_length <= 0
     end
 
     # when using multiple cycles for TCK, set when to strobe for TDO, options include:
@@ -184,6 +241,17 @@ module OrigenJTAG
         end
       end # of let tester handle overlay if possible
 
+      # loop through any LSB appended bits
+      if options[:tdi_lsb_append_size]
+        # tdo is always don't care for appended bits
+        action :tdo, :dont_care
+        cc "appending #{options[:tdi_lsb_append_size]} LSB bits"
+        options[:tdi_lsb_append_size].times do |i|
+          action :tdi, :drive, options[:tdi_lsb_append_data][i]
+          tck_cycle { cycle }
+        end
+      end
+
       # loop through each data bit
       last_overlay_label = ''
       size.times do |i|
@@ -227,7 +295,7 @@ module OrigenJTAG
             end
             tester_subr_overlay = !(options[:no_subr] || global_ovl) && tester.overlay_style == :subroutine
             action :tdi, :drive, 0 if tester_subr_overlay
-            action :tdo, :assert, tdo_reg[i], meta: { position: i } if options[:read] unless tester_subr_overlay
+            action :tdo, :assert, tdo_reg[i], meta: { position: i } unless tester_subr_overlay || !options[:read]
             # Force the last bit to be shifted from this method if overlay requested on the last bit
             options[:cycle_last] = true if i == size - 1
           end
@@ -252,7 +320,7 @@ module OrigenJTAG
         #   execute a single TCK period.  Special handling of subroutines,
         #   case of last bit in shift, and store vector (within a multi-cycle
         #   tck config).
-        if call_subroutine || tester_subr_overlay
+        if (call_subroutine || tester_subr_overlay) && !options[:tdi_msb_append_size]
           @last_data_vector_shifted = true
         else
           @last_data_vector_shifted = false
@@ -263,8 +331,8 @@ module OrigenJTAG
         else
           @next_data_vector_to_be_stored = false
           # Don't latch the last bit, that will be done when leaving the state.
-          if i != size - 1 || options[:cycle_last]
-            if i == size - 1 && options[:includes_last_bit]
+          if i != size - 1 || options[:cycle_last] || options[:tdi_msb_append_size]
+            if i == size - 1 && options[:includes_last_bit] && !options[:tdi_msb_append_size]
               unless tester_subr_overlay
                 action :tms, :drive, 1
                 @last_data_vector_shifted = true
@@ -286,6 +354,19 @@ module OrigenJTAG
             @deferred_compare = true
             @deferred_store = true if store_tdo_this_tck
           end
+        end
+      end
+
+      # loop through any MSB append bits
+      if options[:tdi_msb_append_size]
+        # last tdi bit was left applied, so tck cycle first, then apply new tdi and leave last one for state machine driver
+        options[:tdi_msb_append_size].times do |i|
+          if i == 0
+            cc "appending #{options[:tdi_msb_append_size]} MSB bits"
+            action :tdo, :dont_care
+          end
+          action :tdi, :drive, options[:tdi_msb_append_data][i]
+          tck_cycle { cycle } unless i == options[:tdi_msb_append_size] - 1
         end
       end
 
@@ -409,6 +490,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def write_dr(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:dr))
       if Origen.tester.respond_to?(:write_dr)
         Origen.tester.write_dr(reg_or_val, options)
       else
@@ -440,6 +522,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def read_dr(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:dr))
       if Origen.tester.respond_to?(:read_dr)
         Origen.tester.read_dr(reg_or_val, options)
       else
@@ -476,6 +559,7 @@ module OrigenJTAG
     #   a msg to be written out prior to shifting in IR data.  Will not write comment only if write
     #   occurs.
     def write_ir(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:ir))
       val = reg_or_val.respond_to?(:data) ? reg_or_val.data : reg_or_val
       if val != ir_value || options[:force]
         if options[:msg]
@@ -510,6 +594,7 @@ module OrigenJTAG
     # @option options [String] :msg  By default will not make any comments directly here.  Can pass
     #   a msg to be written out prior to shifting data.
     def read_ir(reg_or_val, options = {})
+      options = options.merge(get_chained_in_data(:ir))
       if Origen.tester.respond_to?(:read_ir)
         Origen.tester.read_ir(reg_or_val, options)
       else
@@ -519,7 +604,7 @@ module OrigenJTAG
         if options[:msg]
           cc "#{options[:msg]}\n"
         end
-        shift_ir(read: Origen::Utility.read_hex(reg_or_val)) do
+        shift_ir(options.merge(read: Origen::Utility.read_hex(reg_or_val))) do
           shift(reg_or_val, options)
         end
       end
@@ -540,6 +625,7 @@ module OrigenJTAG
         @actions[:store] = true
       else
         fail "Unkown JTAG pin ID: #{pin_id}" unless @actions[pin_id]
+
         @actions[pin_id] << operations
       end
     end
@@ -595,6 +681,36 @@ module OrigenJTAG
       end
 
       [global, ovl]
+    end
+
+    # Create data that will be shifted in on TDI prior (MSB) to target device and
+    #   after (LSB) when multiple devices are chained together
+    def get_chained_in_data(shift_type)
+      tdi_msb_append_size = nil
+      tdi_msb_append_data = 0
+      tdi_lsb_append_size = nil
+      tdi_lsb_append_data = 0
+      if shift_type == :ir
+        if @chained_ir_msb_length
+          tdi_msb_append_size = @chained_ir_msb_length
+          tdi_msb_append_data = @chained_ir_msb_data
+        end
+        if @chained_ir_lsb_length
+          tdi_lsb_append_size = @chained_ir_lsb_length
+          tdi_lsb_append_data = @chained_ir_lsb_data
+        end
+      end
+      if shift_type == :dr
+        if @chained_dr_msb_length
+          tdi_msb_append_size = @chained_dr_msb_length
+          tdi_msb_append_data = @chained_dr_msb_data
+        end
+        if @chained_dr_lsb_length
+          tdi_lsb_append_size = @chained_dr_lsb_length
+          tdi_lsb_append_data = @chained_dr_lsb_data
+        end
+      end
+      { tdi_msb_append_size: tdi_msb_append_size, tdi_msb_append_data: tdi_msb_append_data, tdi_lsb_append_size: tdi_lsb_append_size, tdi_lsb_append_data: tdi_lsb_append_data }
     end
 
     # Create data that will be shifted in on TDI, create new bit collection

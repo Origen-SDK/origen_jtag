@@ -116,6 +116,52 @@ this can be overridden by supplying the `:tck_vals` option as shown in the examp
 tck_vals: { on: 'P', off: 0 }
 ~~~
 
+#### Chained (Embedded) Devices
+
+The driver supports targeting an embedded (or chained) device -- i.e. a device whose JTAG port is
+not the only one on the scan chain. When additional devices share the same TDI/TDO path, extra bits
+must be padded into the IR and DR shift operations to satisfy the other devices in the chain.
+Configure the driver with any combination of the following options to describe the surrounding chain:
+
+* **chained_ir_msb_length** - Number of IR padding bits to append on the MSB side (i.e. devices between the target and TDI).
+* **chained_ir_msb_data** - Data value for the MSB IR padding bits. Default is 0.
+* **chained_ir_lsb_length** - Number of IR padding bits to append on the LSB side (i.e. devices between the target and TDO).
+* **chained_ir_lsb_data** - Data value for the LSB IR padding bits. Default is 0.
+* **chained_dr_msb_length** - Number of DR padding bits to append on the MSB side.
+* **chained_dr_msb_data** - Data value for the MSB DR padding bits. Default is 0.
+* **chained_dr_lsb_length** - Number of DR padding bits to append on the LSB side.
+* **chained_dr_lsb_data** - Data value for the LSB DR padding bits. Default is 0.
+
+Example -- targeting a device that sits between two other devices on the chain (one 4-bit IR device
+on the MSB side, one 8-bit IR device on the LSB side):
+
+~~~ruby
+sub_block :jtag, class_name: 'OrigenJTAG::Driver',
+                 chained_ir_msb_length: 4,
+                 chained_ir_lsb_length: 8,
+                 chained_dr_msb_length: 1,
+                 chained_dr_lsb_length: 1
+~~~
+
+The padding bits default to all zeros but can be overridden using the corresponding `_data` options
+if the chained devices require specific BYPASS or IDCODE values.
+
+All chain settings can also be modified at runtime after instantiation, which is useful when the
+chain topology changes between test flows or when sharing a single JTAG driver across multiple
+configurations:
+
+~~~ruby
+# Change the chain configuration at runtime
+dut.jtag.chained_ir_msb_length = 7
+dut.jtag.chained_ir_lsb_length = 4
+dut.jtag.chained_ir_msb_data   = 0x7F   # drive all-ones into upstream bypass registers
+dut.jtag.chained_dr_msb_length = 1
+dut.jtag.chained_dr_lsb_length = 1
+
+# Setting a length to 0 disables padding on that side
+dut.jtag.chained_ir_lsb_length = 0
+~~~
+
 A [legacy integration is also supported](<%= path "legacy" %>), but not recommended for new projects
 as it may be deprecated in future.
 

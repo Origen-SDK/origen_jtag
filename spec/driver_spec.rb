@@ -75,4 +75,71 @@ describe 'JTAG Driver Specification' do
     dut.jtag.tdo_strobe.should == :tck_low
   end
 
+  it 'chained device setting defaults maintain backward compatibility' do
+    load_target('RL4.rb')
+    dut.jtag.chained_dr_lsb_length.should == nil
+    dut.jtag.chained_dr_msb_length.should == nil
+    dut.jtag.chained_ir_lsb_length.should == nil
+    dut.jtag.chained_ir_msb_length.should == nil
+
+    dut.jtag.chained_dr_lsb_data.should == 0
+    dut.jtag.chained_dr_msb_data.should == 0
+    dut.jtag.chained_ir_lsb_data.should == 0
+    dut.jtag.chained_ir_msb_data.should == 0
+  end
+
+  it 'chained device settings can be modified' do
+    load_target('RL4.rb')
+    dut.jtag.chained_dr_lsb_length = 9
+    dut.jtag.chained_dr_msb_length = 7
+    dut.jtag.chained_ir_lsb_length = 2
+    dut.jtag.chained_ir_msb_length = 1
+
+    dut.jtag.chained_dr_lsb_length.should == 9
+    dut.jtag.chained_dr_msb_length.should == 7
+    dut.jtag.chained_ir_lsb_length.should == 2
+    dut.jtag.chained_ir_msb_length.should == 1
+
+    dut.jtag.chained_dr_lsb_data = 1
+    dut.jtag.chained_dr_msb_data = 2
+    dut.jtag.chained_ir_lsb_data = 3
+    dut.jtag.chained_ir_msb_data = 4
+
+    dut.jtag.chained_dr_lsb_data.should == 1
+    dut.jtag.chained_dr_msb_data.should == 2
+    dut.jtag.chained_ir_lsb_data.should == 3
+    dut.jtag.chained_ir_msb_data.should == 4
+  end
+
+  it 'chained device size fields clear to nil' do
+    load_target('RL4.rb')
+    dut.jtag.chained_dr_lsb_length = 9
+    dut.jtag.chained_dr_msb_length = 7
+    dut.jtag.chained_ir_lsb_length = 2
+    dut.jtag.chained_ir_msb_length = 1
+
+    dut.jtag.chained_dr_lsb_length = 0
+    dut.jtag.chained_dr_lsb_length.should == nil
+    dut.jtag.chained_dr_msb_length.should == 7
+    dut.jtag.chained_ir_lsb_length.should == 2
+    dut.jtag.chained_ir_msb_length.should == 1
+
+    dut.jtag.chained_dr_msb_length = 0
+    dut.jtag.chained_dr_lsb_length.should == nil
+    dut.jtag.chained_dr_msb_length.should == nil
+    dut.jtag.chained_ir_lsb_length.should == 2
+    dut.jtag.chained_ir_msb_length.should == 1
+
+    dut.jtag.chained_ir_lsb_length = 0
+    dut.jtag.chained_dr_lsb_length.should == nil
+    dut.jtag.chained_dr_msb_length.should == nil
+    dut.jtag.chained_ir_lsb_length.should == nil
+    dut.jtag.chained_ir_msb_length.should == 1
+
+    dut.jtag.chained_ir_msb_length = 0
+    dut.jtag.chained_dr_lsb_length.should == nil
+    dut.jtag.chained_dr_msb_length.should == nil
+    dut.jtag.chained_ir_lsb_length.should == nil
+    dut.jtag.chained_ir_msb_length.should == nil
+  end
 end

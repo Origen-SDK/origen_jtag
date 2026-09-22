@@ -1,0 +1,802 @@
+# ***************************************************************************
+# GENERATED:
+#   Time:    17-Sep-2026 15:05PM
+#   By:      Paul DeRouen
+#   Mode:    debug
+#   Command: origen g .\pattern\chained_devices_test.rb -t new_RH4.rb -e v93k.rb
+# ***************************************************************************
+# ENVIRONMENT:
+#   Application
+#     Source:    git@github.com:Origen-SDK/origen_jtag.git
+#     Version:   0.22.3
+#     Branch:    chained_devices(eb77c3b3b7b) (+local edits)
+#   Origen
+#     Source:    https://github.com/Origen-SDK/origen
+#     Version:   0.64.1
+#   Plugins
+#     origen_doc_helpers:       0.8.6
+#     origen_testers:           0.54.0
+# ***************************************************************************
+FORMAT TCLK TDI TDO TMS;
+#                                                   t t t t
+#                                                   c d d m
+#                                                   l i o s
+#                                                   k      
+# ir write - TDI should be <100> 1111_1010 <01> - TDO should be <XXX> LHLH_HLHL <XX>
+# [JTAG] Force transition to Run-Test/Idle...
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    0 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    1 X X 1 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    0 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+R1                       nvmbist                    1 X X 0 # ;
+# [JTAG] Write IR: 0xFA
+# appending 2 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+# appending 3 MSB bits
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+# [JTAG] /Write IR: 0xFA
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# ir read - TDI should be <100> 0000_0001 <01> - TDO should be <XXX> HLHL_LHLH <XX>
+# [JTAG] Transition to Shift-IR...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# [JTAG] Read IR: 0xA5
+# appending 2 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+# appending 3 MSB bits
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+# [JTAG] /Read IR: 0xA5
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# dr write - TDI should be <1_0011> 1111_1111_1111_1111 <1011> - TDO should be <X_XXXX> HLHL_LHLH_HLHL_LHLH <XXXX>
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# [JTAG] Write DR: 0xFFFF
+# appending 4 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    1 1 L 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+# appending 5 MSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+# [JTAG] /Write DR: 0xFFFF
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# dr read - TDI should be <1_0011> 0000_0000_0000_0000 <1011> - TDO should be <X_XXXX> LHLH_HLHL_LHLH_HLHL <XXXX>
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# [JTAG] Read DR: 0x5A5A
+# appending 4 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    1 0 H 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+R1                       nvmbist                    1 0 L 0 # ;
+# appending 5 MSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+# [JTAG] /Read DR: 0x5A5A
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# TDI should be <1_0011> 1111_1111_1111_1111 <1011> - TDO should be <X_XXXX> XXXX_XXXX_HHHH_HHHH <XXXX>
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# [JTAG] Write DR: 0xFFFF
+# appending 4 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    1 1 H 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# appending 5 MSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+# [JTAG] /Write DR: 0xFFFF
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# ######################################################################
+# ## now with overlay and capture
+# ######################################################################
+# TDI should be <1_0011> dddd_dddd_dddd_dddd <1011>
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# [JTAG] Write DR: 0xFFFF
+# appending 4 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+SQPG JSUB dummy_str;
+# appending 5 MSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+# [JTAG] /Write DR: 0xFFFF
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# TDI should be <1_0011> 0000_0000_0000_0000 <1011> - TDO should be <X_XXXX> ssss_ssss_ssss_ssss <XXXX>
+# [JTAG] Transition to Shift-DR...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# [JTAG] Read DR: 0xSSSS
+# appending 4 LSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 C 0 # ;
+# appending 5 MSB bits
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    0 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+R1                       nvmbist                    1 0 X 0 # ;
+# [JTAG] Transition to Run-Test/Idle...
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+# [JTAG] /Read DR: 0xSSSS
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    0 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    1 1 X 1 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    0 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+R1                       nvmbist                    1 1 X 0 # ;
+# ######################################################################
+# ## Pattern complete
+# ######################################################################
+SQPG STOP;
